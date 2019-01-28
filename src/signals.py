@@ -84,13 +84,14 @@ class GpioLinkedPins(SignalList):
         self.output.write(state)
 
 
+
 class ClockingPins(GpioLinkedPins):
     def __init__(self,
                  in_pin_number,
                  out_pin_number,
                  signal_prefix="clock",
                  gpio=None,
-                 cycle=0.005
+                 cycle=0.01
                  ):
         self.half_cycle=cycle/2
         super().__init__(
@@ -101,6 +102,7 @@ class ClockingPins(GpioLinkedPins):
         )
 
     def pulse(self):
+        time.sleep(self.half_cycle)
         self.output.write(1)
         time.sleep(self.half_cycle)
         if not self.read():
@@ -111,7 +113,21 @@ class ClockingPins(GpioLinkedPins):
             raise SignalException("Clock stuck high")
 
 
-class ShiftingPins(GpioLinkedPins):
+
+class LoadingPins(ClockingPins):
+    def __init__(self,
+                 in_pin_number,
+                 out_pin_number,
+                 signal_prefix="load",
+                 gpio=None):
+        super().__init__(
+            signal_prefix=signal_prefix,
+            in_pin_number=in_pin_number,
+            out_pin_number=out_pin_number,
+            gpio=gpio
+        )
+
+class ShiftingPins(ClockingPins):
     def __init__(self,
                  in_pin_number,
                  out_pin_number,
@@ -139,6 +155,9 @@ class DataPins(GpioLinkedPins):
             gpio=gpio
         )
 
+    def check_cleared(self):
+        return self.read()
+
     def start_duration_measurement(self):
         self.duration = None
         self._duration = 0
@@ -155,7 +174,7 @@ class DataPins(GpioLinkedPins):
 
 class SerialDataSystem(SignalList):
     def __init__(self,
-                 clocking,
+                 loading,
                  shifting,
                  data_signals=None,
                  max_test_duration=500,
@@ -163,18 +182,18 @@ class SerialDataSystem(SignalList):
         if data_signals is None:
             data_signals = []
         self.data_signals = data_signals
-        self.clocking = clocking
+        self.loading = loading
         self.shifting = shifting
         self.max_test_duration=max_test_duration
         self.duration = None
         super().__init__(
-            [self.clocking, self.shifting] + data_signals
+            [self.loading, self.shifting] + data_signals
         )
 
     def shift(self, state_list):
         result = self.read_data()
         self.write_data(state_list)
-        self.clocking.pulse()
+        self.shifting.pulse()
         return result
 
     def write_data(self, state_list):
@@ -192,20 +211,28 @@ class SerialDataSystem(SignalList):
         for data_signal in self.data_signals:
             data_signal.start_duration_measurement()
 
+    def check_cleared(self):
+        for data_signal in self.data_signals:
+            if data_signal.check_cleared():
+                print(data_signal.signal_name + ' would not clear')
+
     def check_duration(self):
         for data_signal in self.data_signals:
             data_signal.check_duration()
 
     def determine_durations(self):
         self.set_data_pins(0)
+        time.sleep(0.01)
         for _ in range(self.max_test_duration):
-            self.clocking.pulse()
+            self.shifting.pulse()
+        self.check_cleared()
         self.set_data_pins(1)
         time.sleep(0.01)
         self.start_duration_measurement()
-        for _ in range(self.max_test_duration):
+        # for _ in range(self.max_test_duration):
+        for _ in range(50):
             self.check_duration()
-            self.clocking.pulse()
+            self.shifting.pulse()
         duration = 0
         for data_signal in self.data_signals:
             data_duration = data_signal.duration

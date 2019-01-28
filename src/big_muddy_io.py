@@ -3,17 +3,17 @@ import time
 from RPi import GPIO
 
 from signals import GpioLinkedPins, SignalList, ClockingPins, ShiftingPins, SerialDataSystem, set_modes_and_warnings, \
-    DataPins
+    DataPins, LoadingPins
 
 DATA_A_OUT = 26
 DATA_B_OUT = 24
 SHIFT_OUT = 23
-CLOCK_OUT = 21
+LOAD_OUT = 21
 
 DATA_A_IN = 19
 DATA_B_IN = 15
 SHIFT_IN = 22
-CLOCK_IN = 18
+LOAD_IN = 18
 
 
 class BigMuddyIO(SerialDataSystem):
@@ -34,9 +34,9 @@ class BigMuddyIO(SerialDataSystem):
             gpio=self.gpio
         )
         super().__init__(
-            clocking=ClockingPins(
-                in_pin_number=CLOCK_IN,
-                out_pin_number=CLOCK_OUT,
+            loading=LoadingPins(
+                in_pin_number=LOAD_IN,
+                out_pin_number=LOAD_OUT,
                 gpio=self.gpio
             ),
             shifting=ShiftingPins(
@@ -92,14 +92,45 @@ def duration_testing(big_muddy):
         print(data_signal.signal_name, data_signal.duration)
     print(big_muddy.duration)
 
+def keep_on_loading(big_muddy):
+    print('loading')
+    while True:
+        big_muddy.set_data_pins(0)
+        big_muddy.loading.pulse()
+        big_muddy.set_data_pins(1)
+        big_muddy.loading.pulse()
+
+def keep_on_shifting(big_muddy):
+    print('shifting')
+    while True:
+        big_muddy.set_data_pins(0)
+        big_muddy.shifting.pulse()
+        big_muddy.set_data_pins(0)
+        big_muddy.shifting.pulse()
+        big_muddy.set_data_pins(0)
+        big_muddy.shifting.pulse()
+        big_muddy.set_data_pins(1)
+        big_muddy.shifting.pulse()
+        big_muddy.set_data_pins(1)
+        big_muddy.shifting.pulse()
+
+def keep_on_shift_clocking(big_muddy):
+    print('shift clocking')
+    while True:
+        big_muddy.shifting.pulse()
+
 def main():
     print(GPIO.RPI_INFO)
     big_muddy = BigMuddyIO()
     big_muddy.setup()
+    big_muddy.loading.write(0)
     # clocked_data_probe(big_muddy)
-    clock_probe(big_muddy)
+    # clock_probe(big_muddy)
     # data_probe(big_muddy)
     duration_testing(big_muddy)
+    # keep_on_loading(big_muddy)
+    # keep_on_shifting(big_muddy)
+    # keep_on_shift_clocking(big_muddy)
 
 
 if __name__ == '__main__':

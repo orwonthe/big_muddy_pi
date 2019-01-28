@@ -91,7 +91,7 @@ class ClockingPins(GpioLinkedPins):
                  out_pin_number,
                  signal_prefix="clock",
                  gpio=None,
-                 cycle=0.01
+                 cycle=0.0015
                  ):
         self.half_cycle=cycle/2
         super().__init__(
@@ -102,7 +102,6 @@ class ClockingPins(GpioLinkedPins):
         )
 
     def pulse(self):
-        time.sleep(self.half_cycle)
         self.output.write(1)
         time.sleep(self.half_cycle)
         if not self.read():

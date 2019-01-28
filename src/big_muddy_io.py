@@ -49,6 +49,8 @@ class BigMuddyIO(SerialDataSystem):
                 self.servos
             ]
         )
+        self.shifting.input.inverted = True
+        self.shifting.output.inverted = True
 
     def setup(self):
         set_modes_and_warnings(self.gpio)

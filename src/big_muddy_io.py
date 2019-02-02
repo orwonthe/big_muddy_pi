@@ -59,6 +59,7 @@ class BigMuddyIO(SerialDataSystem):
     def setup(self):
         set_modes_and_warnings(self.gpio)
         super().setup()
+        self.loading.write(0)
 
 
 def clock_probe(big_muddy):
@@ -183,7 +184,6 @@ def main():
     print(GPIO.RPI_INFO)
     big_muddy = BigMuddyIO()
     big_muddy.setup()
-    big_muddy.loading.write(0)
     # clocked_data_probe(big_muddy)
     # clock_probe(big_muddy)
     # data_probe(big_muddy)

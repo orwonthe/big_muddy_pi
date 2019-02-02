@@ -2,7 +2,7 @@ import time
 
 from RPi import GPIO
 
-from signals import GpioLinkedPins, SignalList, ClockingPins, ShiftingPins, SerialDataSystem, set_modes_and_warnings, \
+from signals import ShiftingPins, SerialDataSystem, set_modes_and_warnings, \
     DataPins, LoadingPins
 
 DATA_A_OUT = 26
@@ -51,13 +51,19 @@ class BigMuddyIO(SerialDataSystem):
         )
         self.shifting.input.inverted = True
         self.shifting.output.inverted = True
+        self.consoles.input.inverted = True
+        self.consoles.output.inverted = True
+        self.servos.input.inverted = True
+        self.servos.output.inverted = True
 
     def setup(self):
         set_modes_and_warnings(self.gpio)
         super().setup()
 
+
 def clock_probe(big_muddy):
     big_muddy.clocking.pulse()
+
 
 def data_probe(big_muddy):
     error_count = 0
@@ -72,6 +78,7 @@ def data_probe(big_muddy):
                     error_count += 1
                 print(data_signal.signal_name, index, value, read_value)
     print('errors = ', error_count)
+
 
 def clocked_data_probe(big_muddy):
     error_count = 0
@@ -88,11 +95,13 @@ def clocked_data_probe(big_muddy):
                 print(data_signal.signal_name, index, value, read_value)
     print('errors = ', error_count)
 
+
 def duration_testing(big_muddy):
     big_muddy.determine_durations()
     for data_signal in big_muddy.data_signals:
         print(data_signal.signal_name, data_signal.duration)
     print(big_muddy.duration)
+
 
 def keep_on_loading(big_muddy):
     print('loading')
@@ -101,6 +110,7 @@ def keep_on_loading(big_muddy):
         big_muddy.loading.pulse()
         big_muddy.set_data_pins(1)
         big_muddy.loading.pulse()
+
 
 def keep_on_shifting(big_muddy):
     print('shifting')
@@ -116,10 +126,60 @@ def keep_on_shifting(big_muddy):
         big_muddy.set_data_pins(1)
         big_muddy.shifting.pulse()
 
+
 def keep_on_shift_clocking(big_muddy):
     print('shift clocking')
     while True:
         big_muddy.shifting.pulse()
+
+
+def client_connector_test(big_muddy, sleep_time=0.5):
+    print('pin test')
+    client_signals = [signal << 4 for signal in [1, 3, 5, 7]]
+    cycle_count = 0
+    bits_read = [[0, 0], [0, 0], [0, 0], [0, 0]]
+    bits_expected = [[0, 0], [0, 0], [0, 0], [0, 0]]
+    bits_connected = [[True, True], [True, True], [True, True], [True, True]]
+    client_names = ["D", "C", "B", "A"]
+    bit_names = ["SW0", "SW1"]
+    while True:
+        for shift_index in range(8):
+            time.sleep(sleep_time)
+            for client_index in range(4):
+                for bit_index in range(2):
+                    bits_read[client_index][bit_index] = big_muddy.servos.read()
+                    big_muddy.shifting.pulse()
+            for client_index in range(4):
+                client_signal = client_signals[client_index]
+                bits = client_signal >> shift_index
+                for bit_index in range(4):
+                    send_bit = bits & 1
+                    if bit_index < 2:
+                        bits_expected[client_index][bit_index] = send_bit
+                    big_muddy.set_data_pins(send_bit)
+                    bits = bits >> 1
+                    big_muddy.shifting.pulse()
+            big_muddy.loading.pulse()
+            if cycle_count > 1:
+                for client_index in range(4):
+                    for bit_index in range(2):
+                        matching = bits_expected[client_index][bit_index] == bits_read[client_index][bit_index]
+                        if not matching and bits_connected[client_index][bit_index]:
+                            bits_connected[client_index][bit_index] = False
+            if cycle_count == 20:
+                for client_index in reversed(range(4)):
+                    if bits_connected[client_index][0] and bits_connected[client_index][1]:
+                        print("client " + client_names[client_index] + " appears to be okay")
+                    elif not bits_connected[client_index][0] and not bits_connected[client_index][1]:
+                        print("client " + client_names[client_index] + " is not connected")
+                    else:
+                        for bit_index in range(2):
+                            if not bits_connected[client_index][bit_index]:
+                                print("client " + client_names[client_index] + " is not connected at bit " + bit_names[
+                                    bit_index])
+
+            cycle_count += 1
+
 
 def main():
     print(GPIO.RPI_INFO)
@@ -129,10 +189,11 @@ def main():
     # clocked_data_probe(big_muddy)
     # clock_probe(big_muddy)
     # data_probe(big_muddy)
-    duration_testing(big_muddy)
+    # duration_testing(big_muddy)
     # keep_on_loading(big_muddy)
     # keep_on_shifting(big_muddy)
     # keep_on_shift_clocking(big_muddy)
+    client_connector_test(big_muddy)
 
 
 if __name__ == '__main__':

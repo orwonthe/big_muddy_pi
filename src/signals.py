@@ -5,6 +5,7 @@ try:
 except ModuleNotFoundError:
     import mock_gpio.MOCK_GPIO as GPIO
 
+RAISE_CLOCKING_EXCEPTIONS = True
 
 def set_modes_and_warnings(gpio):
     gpio.setmode(GPIO.BOARD)
@@ -91,7 +92,7 @@ class ClockingPins(GpioLinkedPins):
                  out_pin_number,
                  signal_prefix="clock",
                  gpio=None,
-                 cycle=0.0015
+                 cycle=0.00001
                  ):
         self.half_cycle=cycle/2
         super().__init__(
@@ -104,11 +105,11 @@ class ClockingPins(GpioLinkedPins):
     def pulse(self):
         self.output.write(1)
         time.sleep(self.half_cycle)
-        if not self.read():
+        if not self.read() and RAISE_CLOCKING_EXCEPTIONS:
             raise SignalException("Clock stuck low")
         self.output.write(0)
         time.sleep(self.half_cycle)
-        if self.read():
+        if self.read() and RAISE_CLOCKING_EXCEPTIONS:
             raise SignalException("Clock stuck high")
 
 

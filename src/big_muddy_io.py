@@ -141,7 +141,7 @@ def client_connector_test(big_muddy, sleep_time=0.25):
     bits_read = [[0, 0], [0, 0], [0, 0], [0, 0]]
     bits_expected = [[0, 0], [0, 0], [0, 0], [0, 0]]
     client_names = ["D", "C", "B", "A"]
-    bit_names = ["SW0", "SW1"]
+    bit_names = ["SW1 (Green)", "SW0 (green/white)"]
     while True:
         bits_connected = [[True, True], [True, True], [True, True], [True, True]]
         for cycle_index in range(5):

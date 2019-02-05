@@ -7,12 +7,15 @@ except ModuleNotFoundError:
 
 RAISE_CLOCKING_EXCEPTIONS = True
 
+
 def set_modes_and_warnings(gpio):
     gpio.setmode(GPIO.BOARD)
     gpio.setwarnings(False)
 
+
 class SignalException(Exception):
     pass
+
 
 class SignalList:
     def __init__(self, signals):
@@ -36,7 +39,6 @@ class GpioPin:
 class GpioInputPin(GpioPin):
     def setup(self):
         self.gpio.setup(self.pin_number, self.gpio.IN)
-
 
     def read(self):
         if self.inverted:
@@ -85,7 +87,6 @@ class GpioLinkedPins(SignalList):
         self.output.write(state)
 
 
-
 class ClockingPins(GpioLinkedPins):
     def __init__(self,
                  in_pin_number,
@@ -94,7 +95,7 @@ class ClockingPins(GpioLinkedPins):
                  gpio=None,
                  cycle=0.00001
                  ):
-        self.half_cycle=cycle/2
+        self.half_cycle = cycle / 2
         super().__init__(
             signal_prefix=signal_prefix,
             in_pin_number=in_pin_number,
@@ -113,7 +114,6 @@ class ClockingPins(GpioLinkedPins):
             raise SignalException("Clock stuck high")
 
 
-
 class LoadingPins(ClockingPins):
     def __init__(self,
                  in_pin_number,
@@ -127,6 +127,7 @@ class LoadingPins(ClockingPins):
             gpio=gpio
         )
 
+
 class ShiftingPins(ClockingPins):
     def __init__(self,
                  in_pin_number,
@@ -139,6 +140,7 @@ class ShiftingPins(ClockingPins):
             out_pin_number=out_pin_number,
             gpio=gpio
         )
+
 
 class DataPins(GpioLinkedPins):
     def __init__(self,
@@ -184,7 +186,7 @@ class SerialDataSystem(SignalList):
         self.data_signals = data_signals
         self.loading = loading
         self.shifting = shifting
-        self.max_test_duration=max_test_duration
+        self.max_test_duration = max_test_duration
         self.duration = None
         super().__init__(
             [self.loading, self.shifting] + data_signals
@@ -241,8 +243,3 @@ class SerialDataSystem(SignalList):
             elif data_duration > duration:
                 duration = data_duration
         self.duration = duration
-
-
-
-
-

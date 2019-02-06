@@ -93,9 +93,11 @@ class ClockingPins(GpioLinkedPins):
                  out_pin_number,
                  signal_prefix="clock",
                  gpio=None,
-                 cycle=0.00001
+                 cycle=0.00001,
+                 raise_exceptions=RAISE_CLOCKING_EXCEPTIONS
                  ):
         self.half_cycle = cycle / 2
+        self.raise_exceptions = raise_exceptions
         super().__init__(
             signal_prefix=signal_prefix,
             in_pin_number=in_pin_number,
@@ -106,11 +108,11 @@ class ClockingPins(GpioLinkedPins):
     def pulse(self):
         self.output.write(1)
         time.sleep(self.half_cycle)
-        if not self.read() and RAISE_CLOCKING_EXCEPTIONS:
+        if not self.read() and self.raise_exceptions:
             raise SignalException("Clock stuck low")
         self.output.write(0)
         time.sleep(self.half_cycle)
-        if self.read() and RAISE_CLOCKING_EXCEPTIONS:
+        if self.read() and self.raise_exceptions:
             raise SignalException("Clock stuck high")
 
 
@@ -119,12 +121,14 @@ class LoadingPins(ClockingPins):
                  in_pin_number,
                  out_pin_number,
                  signal_prefix="load",
+                 raise_exceptions=RAISE_CLOCKING_EXCEPTIONS,
                  gpio=None):
         super().__init__(
             signal_prefix=signal_prefix,
             in_pin_number=in_pin_number,
             out_pin_number=out_pin_number,
-            gpio=gpio
+            gpio=gpio,
+            raise_exceptions=raise_exceptions
         )
 
 
@@ -133,12 +137,14 @@ class ShiftingPins(ClockingPins):
                  in_pin_number,
                  out_pin_number,
                  signal_prefix="shift",
+                 raise_exceptions=RAISE_CLOCKING_EXCEPTIONS,
                  gpio=None):
         super().__init__(
             signal_prefix=signal_prefix,
             in_pin_number=in_pin_number,
             out_pin_number=out_pin_number,
-            gpio=gpio
+            gpio=gpio,
+            raise_exceptions=raise_exceptions
         )
 
 
@@ -231,8 +237,7 @@ class SerialDataSystem(SignalList):
         self.set_data_pins(1)
         time.sleep(0.01)
         self.start_duration_measurement()
-        # for _ in range(self.max_test_duration):
-        for _ in range(50):
+        for _ in range(self.max_test_duration):
             self.check_duration()
             self.shifting.pulse()
         duration = 0

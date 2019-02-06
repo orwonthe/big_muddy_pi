@@ -1,5 +1,7 @@
-import time
+from RPi import GPIO
 
+from signals import ShiftingPins, SerialDataSystem, set_modes_and_warnings, \
+    DataPins, LoadingPins
 from RPi import GPIO
 
 from signals import ShiftingPins, SerialDataSystem, set_modes_and_warnings, \
@@ -17,7 +19,7 @@ LOAD_IN = 18
 
 
 class BigMuddyIO(SerialDataSystem):
-    def __init__(self, gpio=None):
+    def __init__(self, gpio=None, raise_clock_loop_exceptions=True):
         if gpio is None:
             gpio = GPIO
         self.gpio = gpio
@@ -37,12 +39,14 @@ class BigMuddyIO(SerialDataSystem):
             loading=LoadingPins(
                 in_pin_number=LOAD_IN,
                 out_pin_number=LOAD_OUT,
-                gpio=self.gpio
+                gpio=self.gpio,
+                raise_exceptions=raise_clock_loop_exceptions
             ),
             shifting=ShiftingPins(
                 in_pin_number=SHIFT_IN,
                 out_pin_number=SHIFT_OUT,
-                gpio=self.gpio
+                gpio=self.gpio,
+                raise_exceptions=raise_clock_loop_exceptions
             ),
             data_signals=[
                 self.consoles,
@@ -62,8 +66,7 @@ class BigMuddyIO(SerialDataSystem):
         self.loading.write(0)
 
     @staticmethod
-    def system():
-        big_muddy = BigMuddyIO()
+    def system(raise_clock_loop_exceptions=True):
+        big_muddy = BigMuddyIO(raise_clock_loop_exceptions=raise_clock_loop_exceptions)
         big_muddy.setup()
         return big_muddy
-

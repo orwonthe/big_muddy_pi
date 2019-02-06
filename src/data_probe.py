@@ -1,12 +1,8 @@
 import time
 
-from big_muddy_io import BigMuddyIO
 
-
-def data_probe(big_muddy=None):
+def data_probe(big_muddy):
     print("data probe: loop servo and console with no leaves")
-    if big_muddy is None:
-        big_muddy = BigMuddyIO.system()
     error_count = 0
     for data_signal in big_muddy.signals:
         for index in range(10):

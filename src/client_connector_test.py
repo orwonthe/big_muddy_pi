@@ -1,12 +1,8 @@
 import time
 
-from big_muddy_io import BigMuddyIO
 
-
-def client_connector_test(big_muddy=None, sleep_time=0.25):
+def client_connector_test(big_muddy, sleep_time=0.25):
     print('Client connector test: Use single leaf on servo loop')
-    if big_muddy is None:
-        big_muddy = BigMuddyIO.system()
     client_signals = [signal << 4 for signal in [1, 3, 5, 7]]
     bits_read = [[0, 0], [0, 0], [0, 0], [0, 0]]
     bits_expected = [[0, 0], [0, 0], [0, 0], [0, 0]]
@@ -49,4 +45,3 @@ def client_connector_test(big_muddy=None, sleep_time=0.25):
                         print("client " + client_names[client_index] + " is not connected at bit " + bit_names[
                             bit_index])
         print()
-

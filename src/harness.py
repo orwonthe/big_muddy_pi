@@ -70,10 +70,12 @@ def shifter(check):
     """Endless shift clocking"""
     shift_clock_testing(BigMuddyIO.system(check))
 
+
 @harness.command()
-def wide():
+@click.option("--connector", default=1, help="specify which connector is hooked to test jig")
+def wide(connector):
     """Test daisy 16 to 8 client connectors"""
-    wide_client_connector_test(BigMuddyIO.system())
+    wide_client_connector_test(BigMuddyIO.system(), connector)
 
 
 if __name__ == '__main__':

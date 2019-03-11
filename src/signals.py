@@ -105,15 +105,16 @@ class ClockingPins(GpioLinkedPins):
             gpio=gpio
         )
 
-    def pulse(self):
-        self.output.write(1)
-        time.sleep(self.half_cycle)
-        if not self.read() and self.raise_exceptions:
-            raise SignalException("Clock stuck low")
-        self.output.write(0)
-        time.sleep(self.half_cycle)
-        if self.read() and self.raise_exceptions:
-            raise SignalException("Clock stuck high")
+    def pulse(self, count=1):
+        for _ in range(count):
+            self.output.write(1)
+            time.sleep(self.half_cycle)
+            if not self.read() and self.raise_exceptions:
+                raise SignalException("Clock stuck low")
+            self.output.write(0)
+            time.sleep(self.half_cycle)
+            if self.read() and self.raise_exceptions:
+                raise SignalException("Clock stuck high")
 
 
 class LoadingPins(ClockingPins):

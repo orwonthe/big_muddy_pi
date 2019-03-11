@@ -1,38 +1,76 @@
-import time
-
-
-def wide_client_connector_test(big_muddy):
-    print('Wide connector test: Use single leaf on console loop')
+class WideClientConnector:
+    # Test jig hooks output bit to clock of binary counter.
+    # Input bits read lowest two bits of counter.
+    # Connection tests that the input bits form a binary sequence ...0,1,2,3,0,1,...
     client_names = ["D8", "D7", "C6", "C5", "B4", "B3", "A2", "A1"]
-    bit_names = ["Z1 (Green)", "Z0 (green/white)"]
-    while True:
-        for client_index in range(8):
-            bits_found = [[False, False], [False,False]]
-            for cycles in range(8):
-                for out_bit_index in range(8):
-                    bit_to_send = 1 if out_bit_index == client_index else 0
-                    big_muddy.set_data_pins(bit_to_send)
-                    big_muddy.shifting.pulse()
-                for out_bit_index in range(16):
-                    big_muddy.shifting.pulse()
-                big_muddy.loading.pulse()
 
-                big_muddy.set_data_pins(0)
-                for out_bit_index in range(24):
-                    big_muddy.shifting.pulse()
-                big_muddy.loading.pulse()
+    def __init__(self, big_muddy):
+        self.big_muddy = big_muddy
+        self.big_muddy.set_data_pins(0)
 
-                for in_client_index in range(8):
-                    for in_bit_index in range(2):
-                        bit_read = big_muddy.consoles.read()
-                        big_muddy.shifting.pulse()
-                        if in_client_index == client_index:
-                            bits_found[in_bit_index][bit_read] = True
-                for out_bit_index in range(8):
-                    big_muddy.shifting.pulse()
+    def check_client(self, connector):
+        self.connector = connector
+        self.gather_bits()
+        self.report_bits()
 
-            for in_bit_index in range(2):
-                have_zeroes, have_ones = bits_found[in_bit_index]
-                if have_ones and have_zeroes:
-                    print(client_names[client_index] + ' has bit ' + str(in_bit_index))
-        print()
+    @property
+    def client_index(self):
+        return 8 - self.connector
+
+    @property
+    def client_name(self):
+        return self.client_names[self.client_index]
+
+    @property
+    def client_description(self):
+        return self.client_name + " on connector " + str(self.connector)
+
+    def gather_bits(self, cycles=8):
+        self.bits = []
+        for cycle in range(cycles):
+            self.bit_cycle()
+
+    def bit_cycle(self):
+        # set only client out bit high
+        for out_bit_index in range(8):
+            bit_to_send = 1 if out_bit_index == self.client_index else 0
+            self.big_muddy.consoles.write(bit_to_send)
+            self.big_muddy.shifting.pulse()
+        self.big_muddy.consoles.write(0)
+        self.big_muddy.shifting.pulse(16)
+
+        # set all client out bits low
+        self.big_muddy.loading.pulse()
+        self.big_muddy.shifting.pulse(24)
+
+        # read result
+        self.big_muddy.loading.pulse()
+        self.big_muddy.shifting.pulse(8)
+        for in_client_index in range(8):
+            number = 0
+            for bit_index in range(2):
+                bit_read = self.big_muddy.consoles.read()
+                number += bit_read << bit_index
+                self.big_muddy.shifting.pulse()
+            if self.client_index == in_client_index:
+                self.bits.append(number)
+
+    def report_bits(self):
+        print(self.client_description, self.bits, self.status)
+
+    @property
+    def status(self):
+        if self.bits_show_count():
+            return "properly connected"
+        else:
+            return "BROKEN"
+
+    def bits_show_count(self):
+        for index in range(1, len(self.bits)):
+            if (self.bits[index - 1] + 1) % 4 != self.bits[index]:
+                return False
+        return True
+
+
+def wide_client_connector_test(big_muddy, connector):
+    return WideClientConnector(big_muddy).check_client(connector)

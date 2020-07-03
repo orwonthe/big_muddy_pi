@@ -2,7 +2,7 @@ class WideClientConnector:
     # Test jig hooks output bit to clock of binary counter.
     # Input bits read lowest two bits of counter.
     # Connection tests that the input bits form a binary sequence ...0,1,2,3,0,1,...
-    client_names = ["D8", "D7", "C6", "C5", "B4", "B3", "A2", "A1"]
+    client_names = ["A1", "A2", "B3", "B4", "C5", "C6", "D7", "D8"]
 
     def __init__(self, big_muddy):
         self.big_muddy = big_muddy
@@ -15,7 +15,7 @@ class WideClientConnector:
 
     @property
     def client_index(self):
-        return 8 - self.connector
+        return self.connector - 1
 
     @property
     def client_name(self):

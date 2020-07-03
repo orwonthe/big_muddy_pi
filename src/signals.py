@@ -186,7 +186,7 @@ class SerialDataSystem(SignalList):
                  loading,
                  shifting,
                  data_signals=None,
-                 max_test_duration=500,
+                 max_test_duration=540,
                  ):
         if data_signals is None:
             data_signals = []

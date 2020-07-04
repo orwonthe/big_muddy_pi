@@ -1,5 +1,7 @@
 import click
 
+""" Testing Harness for hardware modules of Big Muddy Railroad """
+
 from big_muddy_io import BigMuddyIO
 from client_connector_test import client_connector_test
 from data_probe import data_probe

@@ -2,11 +2,8 @@ from RPi import GPIO
 
 from signals import ShiftingPins, SerialDataSystem, set_modes_and_warnings, \
     DataPins, LoadingPins
-from RPi import GPIO
 
-from signals import ShiftingPins, SerialDataSystem, set_modes_and_warnings, \
-    DataPins, LoadingPins
-
+# GPIO data input and output pin numbers.
 DATA_A_OUT = 26
 DATA_B_OUT = 24
 SHIFT_OUT = 23
@@ -17,7 +14,12 @@ DATA_B_IN = 15
 SHIFT_IN = 22
 LOAD_IN = 18
 
+"""
+Serial data system for Big Muddy Railroad.
 
+Contains two daisy chains: one for mechanical servos controlling railroad functions,
+the other for user consoles to operate the railroad.
+"""
 class BigMuddyIO(SerialDataSystem):
     def __init__(self, gpio=None, raise_clock_loop_exceptions=True):
         if gpio is None:
@@ -67,6 +69,7 @@ class BigMuddyIO(SerialDataSystem):
 
     @staticmethod
     def system(raise_clock_loop_exceptions=True):
+        """ Create and setup the BigMuddyIO system """
         big_muddy = BigMuddyIO(raise_clock_loop_exceptions=raise_clock_loop_exceptions)
         big_muddy.setup()
         return big_muddy

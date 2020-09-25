@@ -1,0 +1,32 @@
+{% extends "master.html" %}
+{% block content %}
+<h1>{{ name }} County Console</h1>
+<form action="http://192.168.0.210:5000/burleigh" method="POST">
+    <input type="submit" name="push_value" value="Clear">
+    <input type="submit" name="push_value" value="Set">
+    <h2>Blocks</h2>
+    <ul>
+        {% for cube in county.block_cubes %}
+        <li>{{ cube.index}} {{ cube.full_name }} {{ cube.action }}</li>
+            <input type="submit" name="block_{{ cube.index}}" value="-Yellow">
+            <input type="submit" name="block_{{ cube.index}}" value="-Green">
+            <input type="submit" name="block_{{ cube.index}}" value="-Red">
+            <input type="submit" name="block_{{ cube.index}}" value="Off">
+            <input type="submit" name="block_{{ cube.index}}" value="+Red">
+            <input type="submit" name="block_{{ cube.index}}" value="+Green">
+            <input type="submit" name="block_{{ cube.index}}" value="+Yellow">
+        {% endfor %}
+    </ul>
+    <h2>Turnouts</h2>
+    <ul>
+        {% for cube in county.turnout_cubes %}
+        <li>
+            {{ cube.index}} {{ cube.full_name }} {{ cube.action }}
+            <input type="submit" name="turnout_{{ cube.index}}" value="Main">
+            <input type="submit" name="turnout_{{ cube.index}}" value="Siding">
+        </li>
+        {% endfor %}
+    </ul>
+</form>
+
+{% endblock %}

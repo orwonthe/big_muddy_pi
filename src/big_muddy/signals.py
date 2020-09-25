@@ -3,7 +3,7 @@ import time
 try:
     import RPi.GPIO as GPIO
 except ModuleNotFoundError:
-    import mock_gpio.MOCK_GPIO as GPIO
+    from big_muddy import mock_gpio as GPIO
 
 # Default for whether to raise clocking exceptions.
 # Normally true for actual operations.
@@ -206,6 +206,7 @@ class ShiftingPins(ClockingPins):
 
 class DataPins(GpioLinkedPins):
     """ Pair of gpio pins used for serialized data """
+
     def __init__(self,
                  in_pin_number,
                  out_pin_number,
@@ -264,6 +265,7 @@ class SerialDataSystem(SignalList):
         self.shifting = shifting
         self.max_test_duration = max_test_duration
         self.duration = None
+        self._max_duration = None
         super().__init__(
             [self.loading, self.shifting] + data_signals
         )
@@ -323,6 +325,24 @@ class SerialDataSystem(SignalList):
         for data_signal in self.data_signals:
             data_signal.check_duration()
 
+    def ensure_duration_is_valid(self):
+        for data_signal in self.data_signals:
+            if data_signal.duration is None:
+                self._max_duration = None
+                data_signal.check_duration()
+
+    @property
+    def max_duration(self):
+        self.ensure_duration_is_valid()
+        if self._max_duration is None:
+            duration = 0
+            for data_signal in self.data_signals:
+                signal_duration = data_signal.duration
+                if signal_duration is not None and signal_duration > duration:
+                    duration = signal_duration
+            self._max_duration = duration
+        return self._max_duration
+
     def determine_durations(self):
         """ Calculate and save duration as max of duration for any data signals. """
         self.set_data_pins(0)
@@ -344,3 +364,11 @@ class SerialDataSystem(SignalList):
             elif data_duration > duration:
                 duration = data_duration
         self.duration = duration
+
+    def set_all(self, value):
+        """ Set all bits to the same value """
+        self.set_data_pins(value)
+        for _ in range(self.max_duration):
+            self.shifting.pulse()
+        self.loading.pulse()
+

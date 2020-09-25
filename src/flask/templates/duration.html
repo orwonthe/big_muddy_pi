@@ -1,0 +1,11 @@
+{% extends "master.html" %}
+{% block content %}
+<h1>Durations</h1>
+    <ul id="durations">
+    {% for item in durations %}
+        <li>For {{ item.name }}: bits = {{ item.bits }} daisy units = {{ item.daisy }}</li>
+    {% endfor %}
+    </ul>
+{% endblock %}
+<!doctype html>
+<title>Big Muddy Railroad</title>

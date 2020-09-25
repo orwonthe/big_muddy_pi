@@ -2,14 +2,14 @@ import click
 
 """ Testing Harness for hardware modules of Big Muddy Railroad """
 
-from big_muddy_io import BigMuddyIO
-from client_connector_test import client_connector_test
-from data_probe import data_probe
-from duration_testing import duration_testing
-from flow_testing import flow_testing
-from load_testing import load_testing
-from shift_tester import shift_clock_testing
-from wide_client_connector import wide_client_connector_test
+from big_muddy.big_muddy_io import BigMuddyIO
+from big_muddy.client_connector_test import client_connector_test
+from big_muddy.data_probe import data_probe
+from big_muddy.duration_testing import duration_testing
+from big_muddy.flow_testing import flow_testing
+from big_muddy.load_testing import load_testing
+from big_muddy.shift_tester import shift_clock_testing
+from big_muddy.wide_client_connector import wide_client_connector_test
 
 COMMAND_OPTIONS = [
     click.option(

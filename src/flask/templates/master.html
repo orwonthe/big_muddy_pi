@@ -5,10 +5,16 @@
     <title>Big Muddy Railroad</title>
 </head>
 <body>
-    <div id="content">{% block content %}{% endblock %}</div>
-    <div id="footer">
-        {% block footer %}
-        {% endblock %}
-    </div>
+<h1>Big Muddy Railroad Testing</h1>
+<ul>
+    <li><a href="http://192.168.0.210:5000/duration">Duration Testing</a></li>
+    <li><a href="http://192.168.0.210:5000/burleigh">Burleigh County Console Testing</a></li>
+    <li><a href="http://192.168.0.210:5000/morton">Morton County Console Testing</a></li>
+</ul>
+<div id="content">{% block content %}{% endblock %}</div>
+<div id="footer">
+    {% block footer %}
+    {% endblock %}
+</div>
 </body>
 </html>

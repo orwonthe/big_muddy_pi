@@ -27,8 +27,8 @@ def duration_checking():
     durations = duration_check(big_muddy)
     return render_template('duration.html', durations=durations)
 
-@app.route('/greetings')
-@app.route('/greetings/<username>')
+@app.route('/')
+@app.route('/index')
 def greetins(username=None):
     return render_template('greetings.html', name=username)
 

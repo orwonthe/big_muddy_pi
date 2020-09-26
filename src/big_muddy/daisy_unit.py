@@ -22,6 +22,10 @@ class DaisyUnit:
         self.is_console = is_console
         self.is_block = is_block
 
+    def show_status(self):
+        # print("bits_to_send ", self.bits_to_send)
+        print("bits_received", self.bits_received)
+
     @property
     def description(self):
         return "block" if self.is_block else "turnout"
@@ -50,11 +54,8 @@ class DaisyUnit:
         return self.bits_to_send[index]
 
     def receive_bit(self, index, bit):
+        # print(f'self.bits_received[{index}] = {bit}')
         self.bits_received[index] = bit
-
-    def set_next_bit_received(self, bit):
-        self.input_index = (self.input_index + 1) % 24
-        return self.input_index == 0
 
     def set_to_send(self, index, value):
         """
@@ -63,7 +64,7 @@ class DaisyUnit:
         :param value:  value (0 or 1) to send
         """
         mapping = self.output_map[index]
-        print(f"set to send({index}, {value}) --> {mapping}")
+        # print(f"set to send({index}, {value}) --> {mapping}")
         self.bits_to_send[mapping] = value
 
     def get_to_send(self, index):
@@ -143,3 +144,4 @@ class DaisyUnitDelay:
 
     def receive_bit(self, index, bit):
         pass
+

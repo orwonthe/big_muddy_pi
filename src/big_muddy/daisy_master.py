@@ -29,6 +29,10 @@ class DaisyMaster:
         self.console_loop.receive_bit(index, console_bit)
         self.servo_loop.receive_bit(index, servo_bit)
 
+    def pull_data(self):
+        self.big_muddy.loading.pulse()
+        self.transfer_data()
+
     def transfer_data(self):
         for index in range(self.bit_count):
             console_bit_to_send, servo_bit_to_send = self.bits_to_send(index)
@@ -41,6 +45,9 @@ class DaisyMaster:
             self.big_muddy.shifting.pulse()
         self.big_muddy.loading.pulse()
 
+    def show_status(self):
+        self.console_loop.show_status()
+
 class DaisyLoop:
     def __init__(self):
         self.daisy_units = []
@@ -49,6 +56,10 @@ class DaisyLoop:
         self.delay = None
         self.bit_receiver = []
         self.bit_sender = []
+
+    def show_status(self):
+        for daisy_unit in self.daisy_units:
+            daisy_unit.show_status()
 
     def add_daisy_unit(self, daisy_unit):
         self.daisy_units.append(daisy_unit)

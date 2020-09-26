@@ -145,6 +145,22 @@ class BlockControlCube(ConsoleCube):
         self.daisy_unit.set_to_send(self.output_bit_index + 2, 1)
         self.daisy_unit.set_to_send(self.output_bit_index + 3, 1)
 
+    def get_toggle_state(self):
+        return 1 - self.daisy_unit.get_received(self.input_bit_index + 1), 1 - self.daisy_unit.get_received(
+            self.input_bit_index)
+
+    def reflect(self):
+        contrary, normal = self.get_toggle_state()
+        if normal:
+            self.set_contrary_off()
+            self.set_normal_green()
+        elif contrary:
+            self.set_normal_off()
+            self.set_contrary_green()
+        else:
+            self.set_contrary_off()
+            self.set_normal_off()
+
 
 class TurnoutControlCube(ConsoleCube):
     """
@@ -189,6 +205,17 @@ class TurnoutControlCube(ConsoleCube):
     def set_at_siding(self):
         """ Indicate turnout is set for siding (curve) """
         self.daisy_unit.set_to_send(self.output_bit_index, 1)
+
+    def get_push_button_state(self):
+        return 1 - self.daisy_unit.get_received(self.input_bit_index + 1), 1 - self.daisy_unit.get_received(
+            self.input_bit_index)
+
+    def reflect(self):
+        contrary, normal = self.get_push_button_state()
+        if normal:
+            self.set_at_main()
+        elif contrary:
+            self.set_at_siding()
 
 
 class LeftTurnoutControlCube(TurnoutControlCube):

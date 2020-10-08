@@ -152,14 +152,13 @@ class BlockControlCube(ConsoleCube):
     def reflect(self):
         contrary, normal = self.get_toggle_state()
         if normal:
-            self.set_contrary_off()
             self.set_normal_green()
-        elif contrary:
+        else:
             self.set_normal_off()
+        if contrary:
             self.set_contrary_green()
         else:
             self.set_contrary_off()
-            self.set_normal_off()
 
 
 class TurnoutControlCube(ConsoleCube):

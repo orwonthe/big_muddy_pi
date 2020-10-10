@@ -19,18 +19,11 @@ morton_daisy_master = DaisyMaster(big_muddy, morton_county_console.daisy_units)
 app = Flask(__name__)
 
 @app.route('/')
-def index():
-    return "Index Page"
-
+@app.route('/index')
 @app.route('/duration')
 def duration_checking():
     durations = duration_check(big_muddy)
     return render_template('duration.html', durations=durations)
-
-@app.route('/')
-@app.route('/index')
-def greetins(username=None):
-    return render_template('greetings.html', name=username)
 
 @app.route('/burleigh', methods = ['POST', 'GET'])
 def burleigh_county():

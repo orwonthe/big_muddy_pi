@@ -2,35 +2,39 @@
 {% block content %}
 <h2>{{ county.name }} County Console</h2>
 <form action="http://192.168.0.210:5000/{{ page }}" method="POST">
-    <input type="submit" name="push_value" value="Clear">
-    <input type="submit" name="push_value" value="Set">
-    <input type="submit" name="push_value" value="Grab">
-    <input type="submit" name="push_value" value="Reflect">
-    <h3>Block Control Cubes</h3>
-    <table border = "2">
-        {% for cube in county.block_cubes %}
-        <tr>
-        <td>{{ cube.index}} {{ cube.full_name }} {{ cube.action }}</td>
-            <td><input type="submit" name="block_{{ cube.index}}" value="-Yellow"></td>
-            <td><input type="submit" name="block_{{ cube.index}}" value="-Green"></td>
-            <td><input type="submit" name="block_{{ cube.index}}" value="-Red"></td>
-            <td><input type="submit" name="block_{{ cube.index}}" value="Off"></td>
-            <td><input type="submit" name="block_{{ cube.index}}" value="+Red"></td>
-            <td><input type="submit" name="block_{{ cube.index}}" value="+Green"></td>
-            <td><input type="submit" name="block_{{ cube.index}}" value="+Yellow"></td>
+    <div style="float: left; width: 60%;">
+        <input type="submit" name="push_value" value="Clear">
+        <input type="submit" name="push_value" value="Set">
+        <input type="submit" name="push_value" value="Grab">
+        <input type="submit" name="push_value" value="Reflect">
+        <h3>Block Control Cubes</h3>
+        <table border="2">
+            {% for cube in county.block_cubes %}
+            <tr>
+                <td>{{ cube.index}} {{ cube.full_name }} {{ cube.action }}</td>
+                <td><input type="submit" name="block_{{ cube.index}}" value="-Yellow"></td>
+                <td><input type="submit" name="block_{{ cube.index}}" value="-Green"></td>
+                <td><input type="submit" name="block_{{ cube.index}}" value="-Red"></td>
+                <td><input type="submit" name="block_{{ cube.index}}" value="Off"></td>
+                <td><input type="submit" name="block_{{ cube.index}}" value="+Red"></td>
+                <td><input type="submit" name="block_{{ cube.index}}" value="+Green"></td>
+                <td><input type="submit" name="block_{{ cube.index}}" value="+Yellow"></td>
             </tr>
-        {% endfor %}
-    </table>
-    <h3>Turnout Control Cubes</h3>
-    <table border = "2">
-        {% for cube in county.turnout_cubes %}
-        <tr>
-            <td>{{ cube.index}} {{ cube.full_name }} {{ cube.action }}</td>
-            <td><input type="submit" name="turnout_{{ cube.index}}" value="Main"></td>
-            <td><input type="submit" name="turnout_{{ cube.index}}" value="Siding"></td>
-        </tr>
-        {% endfor %}
-    </table>
+            {% endfor %}
+        </table>
+    </div>
+    <div style="float: right; width: 40%;">
+        <h3>Turnout Control Cubes</h3>
+        <table border="2">
+            {% for cube in county.turnout_cubes %}
+            <tr>
+                <td>{{ cube.index}} {{ cube.full_name }} {{ cube.action }}</td>
+                <td><input type="submit" name="turnout_{{ cube.index}}" value="Main"></td>
+                <td><input type="submit" name="turnout_{{ cube.index}}" value="Siding"></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </form>
 
 {% endblock %}

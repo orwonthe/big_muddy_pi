@@ -1,11 +1,16 @@
+from daisy_master import DaisyMaster
+
 from big_muddy.cubes import BlockControlCube, RightTurnoutControlCube, LeftTurnoutControlCube
 from big_muddy.daisy_unit import BlockConsoleDaisyUnit, TurnoutConsoleDaisyUnit
+
 
 def create_burleigh_console():
     return BurleighCountyConsole()
 
+
 def create_morton_console():
     return MortonCountyConsole()
+
 
 class CountyConsole:
     """
@@ -14,6 +19,7 @@ class CountyConsole:
     The console consists of a 6 row and 9 column panel of cubes.
 
     """
+
     def __init__(self, name, block_cubes, turnout_cubes, daisy_units):
         """
 
@@ -55,6 +61,7 @@ class BurleighCountyConsole(CountyConsole):
             ]
         )
 
+
 class MortonCountyConsole(CountyConsole):
     def __init__(self):
         super().__init__(
@@ -68,8 +75,6 @@ class MortonCountyConsole(CountyConsole):
                 BlockConsoleDaisyUnit(),
             ]
         )
-
-
 
 
 def create_burleigh_county_block_cubes():
@@ -131,6 +136,7 @@ def create_burleigh_county_block_cubes():
             socket_index=2
         ),
     ]
+
 
 def create_morton_county_block_cubes():
     return [
@@ -253,6 +259,7 @@ def create_burleigh_county_turnout_cubes():
         ),
     ]
 
+
 def create_morton_county_turnout_cubes():
     return [
         LeftTurnoutControlCube(
@@ -363,3 +370,17 @@ def create_morton_county_turnout_cubes():
     ]
 
 
+class CountyMaster(DaisyMaster):
+    def __init__(self, big_muddy, county_console):
+        self.county_console = county_console
+        super().__init__(big_muddy, county_console.daisy_units)
+
+
+class BurleighCountyMaster(CountyMaster):
+    def __init__(self, big_muddy):
+        super().__init__(big_muddy, create_burleigh_console())
+
+
+class MortonCountyMaster(CountyMaster):
+    def __init__(self, big_muddy):
+        super().__init__(big_muddy, create_morton_console())

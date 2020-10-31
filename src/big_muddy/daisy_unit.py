@@ -120,6 +120,16 @@ class BlockConsoleDaisyUnit(Daisy8to16Unit):
     def __init__(self):
         super().__init__(True, True)
 
+class BlockServoDaisyUnit(Daisy8to16Unit):
+    """ Daisy unit with 4 sockets for 4 block control console cubes """
+    def __init__(self):
+        super().__init__(False, True)
+
+class TurnoutServoDaisyUnit(Daisy8to16Unit):
+    """ Daisy unit with 4 sockets for 4 block control console cubes """
+    def __init__(self):
+        super().__init__(False, False)
+
 
 class TurnoutConsoleDaisyUnit(Daisy16to8Unit):
     """ Daisy unit with 8 sockets for 8 turnout console cubes """

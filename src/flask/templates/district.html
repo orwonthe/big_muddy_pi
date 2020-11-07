@@ -1,6 +1,6 @@
 {% extends "master.html" %}
 {% block content %}
-<h2>{{ county.name }} County Console</h2>
+<h2>{{ district.name }} District Console</h2>
 <form action="http://192.168.0.210:5000/{{ page }}" method="POST">
     <div style="float: left; width: 60%;">
         <input type="submit" name="push_value" value="Clear">
@@ -9,7 +9,7 @@
         <input type="submit" name="push_value" value="Reflect">
         <h3>Block Control Cubes</h3>
         <table border="2">
-            {% for cube in county.block_cubes %}
+            {% for cube in district.block_cubes %}
             <tr>
                 <td>{{ cube.index}} {{ cube.full_name }} {{ cube.action }}</td>
                 <td><input type="submit" name="block_{{ cube.index}}" value="-Yellow"></td>
@@ -26,7 +26,7 @@
     <div style="float: right; width: 40%;">
         <h3>Turnout Control Cubes</h3>
         <table border="2">
-            {% for cube in county.turnout_cubes %}
+            {% for cube in district.turnout_cubes %}
             <tr>
                 <td>{{ cube.index}} {{ cube.full_name }} {{ cube.action }}</td>
                 <td><input type="submit" name="turnout_{{ cube.index}}" value="Main"></td>
@@ -36,5 +36,5 @@
         </table>
     </div>
 </form>
-<h3>Assumption: One {{ county.name }} Console Cube is in the Console Daisy Chain</h3>
+<h3>Assumption: One {{ district.name }} Console Cube is in the Console Daisy Chain</h3>
 {% endblock %}

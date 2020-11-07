@@ -1,17 +1,19 @@
-class ConsoleCube:
+class SocketClient:
     """
-    A software console cube here is intended as a one to one match for a physical cube in a console.
+    A socket client here is intended as a one to one match for a physical socket on some daisy unit.
 
-    The input/output sense of the console cube is opposite of the matching physical cube.
-    An led on the physical cube is an input of the physical cube but an output of the software cube.
-    An electrical switch on the physical cube is an output of the physical cube but an input of the software cube.
+    The input/output sense of the console cube is opposite of the matching physical socket.
+    An input (Led, control signal, etc) on the physical socket is an input of the physical cube
+     but an output of the software socket.
+    An output on the physical socket (switch, short detector, etc) is an output of the physical cube
+     but an input of the software socket.
 
     """
 
-    def __init__(self, county=None, name=None, color=None, row=None, column=None, socket_index=None, index=None):
+    def __init__(self, district=None, name=None, color=None, row=None, column=None, socket_index=None, index=None):
         """
 
-        :param county: a CountyConsole object represents a physical division of the railroad
+        :param district: a SocketClient object represents a physical division of the railroad
         :param name: the name of the cube for user display
         :param color: the color key(s) for the map of the railroad. Turnouts sometimes have two.
         :param row: The row of the console containing this cube.
@@ -19,7 +21,7 @@ class ConsoleCube:
         :param socket_index: The index specifying which available socket is used to connect this cube.
         :param index: The index of the cube in the console's master list.
         """
-        self.county = county
+        self.district = district
         self.name = name
         self.color = color
         self.row = row
@@ -34,7 +36,7 @@ class ConsoleCube:
     @property
     def full_name(self):
         """ User friendly full name of the cube """
-        return f'{self.county.name} {self.short_name}'
+        return f'{self.district.name} {self.short_name}'
 
     @property
     def short_name(self):
@@ -45,6 +47,10 @@ class ConsoleCube:
     def action(self):
         """ User friendly description of what the cube does """
         return self.purpose
+
+    @property
+    def is_servo(self):
+        return not self.is_console
 
     @property
     def is_block(self):
@@ -58,9 +64,8 @@ class ConsoleCube:
 
     def is_my_kind_of_daisy_unit(self, daisy_unit):
         """ Different kinds of cubes connect to different types of daisy units """
-        return daisy_unit.is_console and (
-            (daisy_unit.is_block and self.is_block) or (daisy_unit.is_turnout and self.is_turnout)
-        )
+        return (((daisy_unit.is_console and self.is_console) or (daisy_unit.is_servo and self.is_servo)) and (
+            (daisy_unit.is_block and self.is_block) or (daisy_unit.is_turnout and self.is_turnout)))
 
     def find_daisy_unit(self, daisy_units):
         """ In the list of daisy units, find the right one and set up read/write access to it """
@@ -76,7 +81,70 @@ class ConsoleCube:
                     remaining_socket_index -= daisy_unit.socket_count
 
 
-class BlockControlCube(ConsoleCube):
+class BlockControlServoSocket(SocketClient):
+    """
+    A block control servo socket controls an electrically isolated set of tracks.
+
+    Each block has, in a somewhat arbitrary manner, been designated with a natural
+    or contrary direction. On the actual railroad this would correspond to east or west bound etc.
+
+    A block servo can direct, via solid state relays, which power controller is connected to a block of track.
+    The servo can choose one of three controllers (X, Y, or Z).
+    The servo also controls the direction, normal or contrary, of the connection.
+
+    The servo receives on feedback bit, normally 1, but goes to zero if a short circuit is detected.
+
+    """
+
+    def __init__(self, district=None, name=None, color=None, row=None, column=None, socket_index=None, index=None):
+        super().__init__(district=district, name=name, color=color, row=row, column=column, socket_index=socket_index,
+                         index=index)
+
+    @property
+    def is_console(self):
+        return False
+
+    @property
+    def purpose(self):
+        """ Indicate that this cube is for block control """
+        return "block"
+
+    def set_selection(self, signal_bits):
+        self.daisy_unit.set_to_send(self.output_bit_index, signal_bits & 1)
+        signal_bits //= 2
+        self.daisy_unit.set_to_send(self.output_bit_index + 1, 0)
+        signal_bits //= 2
+        self.daisy_unit.set_to_send(self.output_bit_index + 2, signal_bits & 1)
+        signal_bits //= 2
+        self.daisy_unit.set_to_send(self.output_bit_index + 3, signal_bits & 1)
+
+
+    def set_off(self):
+        self.set_selection(8)
+
+    def set_x_normal(self):
+        self.set_selection(1)
+
+    def set_x_contrary(self):
+        self.set_selection(6)
+
+    def set_y_normal(self):
+        self.set_selection(2)
+
+    def set_y_contrary(self):
+        self.set_selection(5)
+
+    def set_z_normal(self):
+        self.set_selection(3)
+
+    def set_z_contrary(self):
+        self.set_selection(4)
+
+    def get_is_shorted(self):
+        0 == self.daisy_unit.get_received(self.input_bit_index)
+
+
+class BlockControlCube(SocketClient):
     """
     A block control cube controls an electrically isolated set of tracks.
 
@@ -101,10 +169,13 @@ class BlockControlCube(ConsoleCube):
 
     """
 
-    def __init__(self, county=None, name=None, color=None, row=None, column=None, socket_index=None, index=None):
-        super().__init__(county=county, name=name, color=color, row=row, column=column, socket_index=socket_index,
+    def __init__(self, district=None, name=None, color=None, row=None, column=None, socket_index=None, index=None):
+        super().__init__(district=district, name=name, color=color, row=row, column=column, socket_index=socket_index,
                          index=index)
-        self.state = [0, 0, 0, 0]
+
+    @property
+    def is_console(self):
+        return True
 
     @property
     def purpose(self):
@@ -161,7 +232,7 @@ class BlockControlCube(ConsoleCube):
             self.set_contrary_off()
 
 
-class TurnoutControlCube(ConsoleCube):
+class TurnoutControlCube(SocketClient):
     """
     A turnout control cube controls a railroad turnout.
 
@@ -181,10 +252,13 @@ class TurnoutControlCube(ConsoleCube):
 
     """
 
-    def __init__(self, county=None, name=None, color=None, row=None, column=None, socket_index=None, index=None):
-        super().__init__(county=county, name=name, color=color, row=row, column=column, socket_index=socket_index,
+    def __init__(self, district=None, name=None, color=None, row=None, column=None, socket_index=None, index=None):
+        super().__init__(district=district, name=name, color=color, row=row, column=column, socket_index=socket_index,
                          index=index)
-        self.state = [0, 0, 0, 0]
+
+    @property
+    def is_console(self):
+        return True
 
     @property
     def purpose(self):

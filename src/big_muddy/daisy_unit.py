@@ -21,6 +21,19 @@ class DaisyUnit:
         self.bits_received = [0] * 24  # 24 bit input buffer
         self.is_console = is_console
         self.is_block = is_block
+        self.daisy_sockets = []
+
+    @property
+    def is_complete(self):
+        return len(self.daisy_sockets) == self.socket_count
+
+    def add_daisy_socket(self, daisy_socket):
+        if self.is_complete:
+            return None
+        else:
+            socket_index = len(self.daisy_sockets)
+            self.daisy_sockets.append(daisy_socket)
+            return socket_index
 
     def show_status(self):
         # print("bits_to_send ", self.bits_to_send)
@@ -50,11 +63,16 @@ class DaisyUnit:
     def output_bit_count(self):
         return self.socket_count * self.output_bits_per_socket
 
+    def input_bit_mapping(self, index):
+        return self.input_map[index]
+
+    def output_bit_mapping(self, index):
+        return self.output_map[index]
+
     def bit_to_send(self, index):
         return self.bits_to_send[index]
 
     def receive_bit(self, index, bit):
-        # print(f'self.bits_received[{index}] = {bit}')
         self.bits_received[index] = bit
 
     def set_to_send(self, index, value):
@@ -102,6 +120,7 @@ class Daisy8to16Unit(DaisyUnit):
         self.socket_count = 4
         self.input_bits_per_socket = 2
         self.output_bits_per_socket = 4
+
 
 
 class Daisy16to8Unit(DaisyUnit):

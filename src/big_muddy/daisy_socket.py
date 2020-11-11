@@ -1,4 +1,7 @@
-class DaisySocket:
+from big_muddy.daisy_domain import Domain, BlockMixin, ConsoleMixin, TurnoutMixin
+
+
+class DaisySocket(Domain):
     """ A DaisySocket is a socket on a DaisyUnit """
 
     def __init__(self, daisy_unit=None):
@@ -70,7 +73,7 @@ class DaisySocketOn16to8(DaisySocket):
         self.daisy_unit.bits_to_send[self.index_output_bit0] = value
 
 
-class BlockConsoleDaisySocket(DaisySocketOn8to16):
+class BlockConsoleDaisySocket(DaisySocketOn8to16, BlockMixin, ConsoleMixin):
     @property
     def toggle_state(self):
         return 1 - self.bit1, 1 - self.bit0
@@ -107,7 +110,7 @@ class BlockConsoleDaisySocket(DaisySocketOn8to16):
         self.send2(1)
         self.send3(1)
 
-class TurnoutConsoleDaisySocket(DaisySocketOn16to8):
+class TurnoutConsoleDaisySocket(DaisySocketOn16to8, TurnoutMixin, ConsoleMixin):
     @property
     def push_button_states(self):
         return 1 - self.bit1, 1 - self.bit0

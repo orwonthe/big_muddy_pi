@@ -1,3 +1,4 @@
+from big_muddy.daisy_domain import ConsoleMixin, ServoMixin
 from big_muddy.daisy_unit import DaisyUnitDelay
 
 
@@ -49,3 +50,9 @@ class DaisyLoop:
     def receive_bit(self, index, bit):
         receiver, receive_index = self.bit_receiver[index]
         receiver.receive_bit(receive_index, bit)
+
+class ConsoleDaisyLoop(DaisyLoop, ConsoleMixin):
+    pass
+
+class ServoDaisyLoop(DaisyLoop, ServoMixin):
+    pass

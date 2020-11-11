@@ -1,6 +1,6 @@
 import sys
 
-from big_muddy.districts import request_district
+from big_muddy.district_request import district_request
 from flask import Flask
 from flask import render_template
 
@@ -14,6 +14,7 @@ from big_muddy.counties import BurleighCountyMaster, MortonCountyMaster
 big_muddy = BigMuddyIO.system()
 burleigh_daisy_master = BurleighCountyMaster(big_muddy)
 morton_daisy_master = MortonCountyMaster(big_muddy)
+
 app = Flask(__name__)
 
 
@@ -27,16 +28,14 @@ def duration_checking():
 
 @app.route('/burleigh', methods=['POST', 'GET'])
 def burleigh_county():
-    return request_district(big_muddy, burleigh_daisy_master, "burleigh")
+    return district_request(big_muddy, burleigh_daisy_master, "burleigh")
 
 
 @app.route('/morton', methods=['POST', 'GET'])
 def morton_county():
-    return request_district(big_muddy, morton_daisy_master, "morton")
+    return district_request(big_muddy, morton_daisy_master, "morton")
 
 
 @app.route('/servoblocktesting')
 def servo_block_testing():
     return render_template('servo_block_testing.html')
-
-

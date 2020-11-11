@@ -1,11 +1,11 @@
-from big_muddy.daisy_loop import DaisyLoop
+from big_muddy.daisy_loop import DaisyLoop, ServoDaisyLoop, ConsoleDaisyLoop
 
 
 class DaisyMaster:
     def __init__(self, big_muddy, daisy_units=None):
         self.big_muddy = big_muddy
-        self.servo_loop = DaisyLoop()
-        self.console_loop = DaisyLoop()
+        self.servo_loop = ServoDaisyLoop()
+        self.console_loop = ConsoleDaisyLoop()
         if daisy_units:
             self.add_daisy_units(daisy_units)
 

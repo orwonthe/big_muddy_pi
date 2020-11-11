@@ -4,27 +4,34 @@ from big_muddy.big_muddy_districts import MORTON_COUNTY_BLOCKS
 from big_muddy.cubes import BlockControlCube, RightTurnoutControlCube, LeftTurnoutControlCube
 from big_muddy.daisy_module import DaisyModule
 from big_muddy.daisy_unit import BlockConsoleDaisyUnit, TurnoutConsoleDaisyUnit
-from big_muddy.districts import DistrictMaster
+from big_muddy.districts import DistrictConsoleMaster
 
-
-def create_burleigh_console_module(name="burleigh"):
-    return DaisyModule(name, [
-        [
+class BurleighDaisyModule(DaisyModule):
+    def __init__(self):
+        super().__init__("burleigh", [
             BlockConsoleDaisyUnit(),
             TurnoutConsoleDaisyUnit(),
             BlockConsoleDaisyUnit(),
-        ]
-    ])
+        ])
 
-def create_morton_console_module(name="morton"):
-    return DaisyModule(name, [
-        [
+class MortonDaisyModule(DaisyModule):
+    def __init__(self):
+        super().__init__("morton", [
             BlockConsoleDaisyUnit(),
             TurnoutConsoleDaisyUnit(),
             TurnoutConsoleDaisyUnit(),
             BlockConsoleDaisyUnit(),
-        ]
-    ])
+        ])
+
+class BurleighCountyMaster(DistrictConsoleMaster):
+    def __init__(self, big_muddy):
+        super().__init__(big_muddy, create_burleigh_console())
+
+
+class MortonCountyMaster(DistrictConsoleMaster):
+    def __init__(self, big_muddy):
+        super().__init__(big_muddy, create_morton_console())
+
 
 def create_burleigh_console():
     return BurleighCountyConsole()
@@ -58,7 +65,7 @@ class CountyConsole:
         self.turnout_daisy_units = [daisy_unit for daisy_unit in daisy_units if not daisy_unit.is_block]
         for index, cube in enumerate(self.cubes):
             cube.district = self
-            cube.index = index
+            cube.gui_index = index
             cube.find_daisy_unit(daisy_units)
 
     @property
@@ -99,51 +106,6 @@ class MortonCountyConsole(CountyConsole):
         )
 
 
-def create_burleigh_county_block_cubes(maker=None):
-    if maker is None:
-        maker = BlockControlCube
-    return [
-    ]
-
-
-def create_morton_county_block_cubes(maker=None):
-    if maker is None:
-        maker = BlockControlCube
-    return [
-    ]
-
-
-def create_burleigh_county_turnout_cubes(left_maker=None, right_maker=None):
-    if left_maker is None:
-        left_maker = LeftTurnoutControlCube
-    if right_maker is None:
-        right_maker = RightTurnoutControlCube
-    return [
-    ]
-
-
-MORTON_COUNTY_CONSOLE = [
-
-]
-
-
-def create_morton_county_turnout_cubes(left_maker=None, right_maker=None):
-    if left_maker is None:
-        left_maker = LeftTurnoutControlCube
-    if right_maker is None:
-        right_maker = RightTurnoutControlCube
-    return [
-    ]
-
-
-class BurleighCountyMaster(DistrictMaster):
-    def __init__(self, big_muddy):
-        super().__init__(big_muddy, create_burleigh_console())
-
-
-class MortonCountyMaster(DistrictMaster):
-    def __init__(self, big_muddy):
-        super().__init__(big_muddy, create_morton_console())
 
 if __name__ == '__main__':
     print(MORTON_COUNTY_BLOCKS)

@@ -1,6 +1,9 @@
-class DaisyUnit:
+from big_muddy.daisy_domain import BlockMixin, ConsoleMixin, Domain, ServoMixin, TurnoutMixin
+
+
+class DaisyUnit(Domain):
     """
-    A software DaisyUnit os the software companion to a hardware daisy unit.
+    A software DaisyUnit is the software companion to a hardware daisy unit.
 
     Each unit is embedded in a daisy chain of units that loop from the controlling
     raspberry pi machine, through several chained unit, then back to the pi.
@@ -11,17 +14,13 @@ class DaisyUnit:
     Depending on the unit, each byte may be either input or output.
     """
 
-    def __init__(self, is_console, is_block):
-        """
-
-        :param is_console: console (True) or servo (False)
-        :param is_block: block (True) or turnout (False)
-        """
+    def __init__(self):
         self.bits_to_send = [0] * 24  # 24 bit output buffer
         self.bits_received = [0] * 24  # 24 bit input buffer
-        self.is_console = is_console
-        self.is_block = is_block
         self.daisy_sockets = []
+
+    def add_to_master(self, daisy_master):
+        daisy_master.add_daisy_unit(self)
 
     @property
     def is_complete(self):
@@ -41,19 +40,11 @@ class DaisyUnit:
 
     @property
     def description(self):
-        return "block" if self.is_block else "turnout"
+        return f'{self.purpose} daisy unit'
 
     @property
     def bit_count(self):
         return 24
-
-    @property
-    def is_servo(self):
-        return not self.is_console
-
-    @property
-    def is_turnout(self):
-        return not self.is_block
 
     @property
     def input_bit_count(self):
@@ -113,8 +104,8 @@ class DaisyUnit:
 
 class Daisy8to16Unit(DaisyUnit):
     """ Daisy unit with 8 inputs (switches and sensors) and 16 outputs (LEDs and relays) """
-    def __init__(self, is_console, is_block):
-        super().__init__(is_console, is_block)
+    def __init__(self):
+        super().__init__()
         self.output_map = [8 + index for index in range(16)]
         self.input_map = [index for index in range(8)]
         self.socket_count = 4
@@ -125,8 +116,8 @@ class Daisy8to16Unit(DaisyUnit):
 
 class Daisy16to8Unit(DaisyUnit):
     """ Daisy unit with 16 inputs (switches and sensors) and 8 outputs (LEDs and relays) """
-    def __init__(self, is_console, is_block):
-        super().__init__(is_console, is_block)
+    def __init__(self):
+        super().__init__()
         self.output_map = [index for index in range(8)]
         self.input_map = [8 + index for index in range(16)]
         self.socket_count = 8
@@ -134,26 +125,22 @@ class Daisy16to8Unit(DaisyUnit):
         self.output_bits_per_socket = 1
 
 
-class BlockConsoleDaisyUnit(Daisy8to16Unit):
+class BlockConsoleDaisyUnit(Daisy8to16Unit, BlockMixin, ConsoleMixin):
     """ Daisy unit with 4 sockets for 4 block control console cubes """
-    def __init__(self):
-        super().__init__(True, True)
+    pass
 
-class BlockServoDaisyUnit(Daisy8to16Unit):
+class BlockServoDaisyUnit(Daisy8to16Unit, BlockMixin, ServoMixin):
     """ Daisy unit with 4 sockets for 4 block control console cubes """
-    def __init__(self):
-        super().__init__(False, True)
-
-class TurnoutServoDaisyUnit(Daisy8to16Unit):
-    """ Daisy unit with 4 sockets for 4 block control console cubes """
-    def __init__(self):
-        super().__init__(False, False)
+    pass
 
 
-class TurnoutConsoleDaisyUnit(Daisy16to8Unit):
+class TurnoutConsoleDaisyUnit(Daisy16to8Unit, TurnoutMixin, ConsoleMixin):
     """ Daisy unit with 8 sockets for 8 turnout console cubes """
-    def __init__(self):
-        super().__init__(True, False)
+    pass
+
+class TurnoutServoDaisyUnit(Daisy8to16Unit, TurnoutMixin, ServoMixin):
+    """ Daisy unit with 4 sockets for 4 block control console cubes """
+    pass
 
 class DaisyUnitDelay:
     def __init__(self, delay_count):

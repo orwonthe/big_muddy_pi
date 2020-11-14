@@ -24,6 +24,8 @@ class BigMuddyIO(SerialDataSystem):
     As there are only one set of gpio pins, the architecture should normally use this as a singleton.
     """
 
+    __BigMuddyIO = None
+
     def __init__(self, gpio=None):
         """
         Create the singleton serial data system.
@@ -33,6 +35,9 @@ class BigMuddyIO(SerialDataSystem):
 
         :param gpio: the gpio data system
         """
+
+        if BigMuddyIO.__BigMuddyIO is not None:
+            raise Exception("This class is a singleton! Create using BigMuddyIO.system()")
         if gpio is None:
             gpio = GPIO
         self.gpio = gpio
@@ -85,7 +90,8 @@ class BigMuddyIO(SerialDataSystem):
 
     @staticmethod
     def system():
-        """ Create and setup the BigMuddyIO system """
-        big_muddy = BigMuddyIO()
-        big_muddy.setup()
-        return big_muddy
+        """ Create and setup the BigMuddyIO system singleton """
+        if BigMuddyIO.__BigMuddyIO is None:
+            BigMuddyIO.__BigMuddyIO = BigMuddyIO()
+            BigMuddyIO.__BigMuddyIO.setup()
+        return BigMuddyIO.__BigMuddyIO

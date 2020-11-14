@@ -21,7 +21,7 @@ class BigMuddyIO(SerialDataSystem):
 
     Contains two daisy chains: one for mechanical servos controlling railroad functions,
     the other for user consoles to operate the railroad.
-    As there are only one set of gpio pins, the architecture should normally use this as a singleton.
+    As there are only one set of gpio pins, the architecture forces use of this as a singleton.
     """
 
     __BigMuddyIO = None
@@ -81,7 +81,9 @@ class BigMuddyIO(SerialDataSystem):
         self.servos.input.inverted = True
         self.servos.output.inverted = True
 
-    def setup(self):
+    def __setup(self):
+        if BigMuddyIO.__BigMuddyIO is not None:
+            raise Exception("__setup called externally")
         set_modes_and_warnings(self.gpio)
         super().setup()
         self.loading.write(0)
@@ -92,6 +94,7 @@ class BigMuddyIO(SerialDataSystem):
     def system():
         """ Create and setup the BigMuddyIO system singleton """
         if BigMuddyIO.__BigMuddyIO is None:
-            BigMuddyIO.__BigMuddyIO = BigMuddyIO()
-            BigMuddyIO.__BigMuddyIO.setup()
+            big_muddy_io = BigMuddyIO()
+            big_muddy_io.__setup() # The one and only legal call
+            BigMuddyIO.__BigMuddyIO = big_muddy_io
         return BigMuddyIO.__BigMuddyIO

@@ -15,13 +15,12 @@ def big_muddy_set_all():
 
 
 def district_request(district_master, page):
-    big_muddy_io = BigMuddyIO.system()
     district_console = district_master.district_console
     if request.method == 'POST':
         if request.form.get('push_value') == "Clear":
-            big_muddy_clear_all(big_muddy_io)
+            big_muddy_clear_all()
         elif request.form.get('push_value') == "Set":
-            big_muddy_set_all(big_muddy_io)
+            big_muddy_set_all()
         elif request.form.get('push_value') == "Grab":
             district_master.pull_data()
             district_master.show_status()

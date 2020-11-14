@@ -1,4 +1,4 @@
-from big_muddy.big_muddy_io import BigMuddyIO
+from big_muddy_io import BigMuddyIO
 
 
 def duration_testing(big_muddy_io):

@@ -1,5 +1,5 @@
-from big_muddy.daisy_domain import ConsoleMixin, ServoMixin
-from big_muddy.daisy_unit import DaisyUnitDelay
+from daisy_domain import ConsoleMixin, ServoMixin
+from daisy_unit import DaisyUnitDelay
 
 
 class DaisyLoop:

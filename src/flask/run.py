@@ -1,14 +1,15 @@
 import sys
 
-from big_muddy.district_request import district_request
+from district_request import district_request
+
 from flask import Flask
 from flask import render_template
 
 # insert at 1, 0 is the script path (or '' in REPL)
 sys.path.insert(1, '..')
 
-from big_muddy.duration_testing import duration_check
-from big_muddy.counties import BurleighCountyMaster, MortonCountyMaster
+from duration_testing import duration_check
+from counties import BurleighCountyMaster, MortonCountyMaster
 
 burleigh_daisy_master = BurleighCountyMaster()
 morton_daisy_master = MortonCountyMaster()

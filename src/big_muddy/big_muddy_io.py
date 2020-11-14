@@ -1,6 +1,6 @@
 from RPi import GPIO
 
-from big_muddy.signals import ShiftingPins, SerialDataSystem, set_modes_and_warnings, \
+from signals import ShiftingPins, SerialDataSystem, set_modes_and_warnings, \
     DataPins, LoadingPins
 
 # GPIO data input and output pin numbers.

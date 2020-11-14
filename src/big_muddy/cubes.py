@@ -1,5 +1,5 @@
-from big_muddy.console import ConsoleCube
-from big_muddy.daisy_domain import BlockMixin, TurnoutMixin
+from console import ConsoleCube
+from daisy_domain import BlockMixin, TurnoutMixin
 
 
 def find_description_and_create_cube(district, descriptions):

@@ -1,7 +1,7 @@
 import time
 
-from big_muddy.clocking_checker import ClockingChecker
-from big_muddy.signal_exception import SignalException
+from clocking_checker import ClockingChecker
+from signal_exception import SignalException
 
 try:
     import RPi.GPIO as GPIO

@@ -1,6 +1,6 @@
 import time
 
-from big_muddy.big_muddy_io import BigMuddyIO
+from big_muddy_io import BigMuddyIO
 
 
 def client_connector_test(sleep_time=0.25):

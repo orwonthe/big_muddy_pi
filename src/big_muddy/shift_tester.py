@@ -1,4 +1,4 @@
-from big_muddy.big_muddy_io import BigMuddyIO
+from big_muddy_io import BigMuddyIO
 
 
 def shift_clock_testing():

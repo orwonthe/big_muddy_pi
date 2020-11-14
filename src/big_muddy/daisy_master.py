@@ -1,5 +1,5 @@
-from big_muddy.big_muddy_io import BigMuddyIO
-from big_muddy.daisy_loop import ServoDaisyLoop, ConsoleDaisyLoop
+from big_muddy_io import BigMuddyIO
+from daisy_loop import ServoDaisyLoop, ConsoleDaisyLoop
 
 
 class DaisyMaster:

@@ -1,5 +1,5 @@
-from big_muddy.daisy_domain import ConsoleMixin
-from big_muddy.socket_client import SocketClient
+from daisy_domain import ConsoleMixin
+from socket_client import SocketClient
 
 
 class ConsoleCube(SocketClient, ConsoleMixin):

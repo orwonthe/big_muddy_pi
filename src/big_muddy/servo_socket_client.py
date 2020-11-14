@@ -1,5 +1,5 @@
-from big_muddy.daisy_domain import ServoMixin
-from big_muddy.socket_client import SocketClient
+from daisy_domain import ServoMixin
+from socket_client import SocketClient
 
 
 class ServoSocketClient(SocketClient, ServoMixin):

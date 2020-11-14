@@ -1,4 +1,4 @@
-from big_muddy.daisy_domain import Domain
+from daisy_domain import Domain
 
 
 class SocketClient(Domain):

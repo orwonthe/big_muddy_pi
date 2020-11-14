@@ -1,4 +1,4 @@
-from big_muddy.districts import normalize
+from districts import normalize
 
 MORTON_COUNTY_TURNOUTS = normalize("morton", "turnout", [
     {

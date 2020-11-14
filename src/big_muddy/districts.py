@@ -1,4 +1,4 @@
-from big_muddy.daisy_master import DaisyMaster
+from daisy_master import DaisyMaster
 
 
 def normalize(district, purpose, cube_dictionary_list):

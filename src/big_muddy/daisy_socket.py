@@ -1,4 +1,4 @@
-from big_muddy.daisy_domain import Domain, BlockMixin, ConsoleMixin, TurnoutMixin
+from daisy_domain import Domain, BlockMixin, ConsoleMixin, TurnoutMixin
 
 
 class DaisySocket(Domain):

@@ -1,4 +1,4 @@
-from big_muddy.daisy_domain import DomainLists
+from daisy_domain import DomainLists
 
 
 class DaisyModule(DomainLists):

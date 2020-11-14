@@ -1,4 +1,4 @@
-from big_muddy.daisy_domain import BlockMixin, ConsoleMixin, Domain, ServoMixin, TurnoutMixin
+from daisy_domain import BlockMixin, ConsoleMixin, Domain, ServoMixin, TurnoutMixin
 
 
 class DaisyUnit(Domain):

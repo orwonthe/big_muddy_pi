@@ -1,6 +1,6 @@
 import time
 
-from big_muddy.big_muddy_io import BigMuddyIO
+from big_muddy_io import BigMuddyIO
 
 
 def data_probe():

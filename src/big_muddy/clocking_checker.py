@@ -1,4 +1,4 @@
-from big_muddy.signal_exception import SignalException
+from signal_exception import SignalException
 
 
 class ClockingChecker:

@@ -1,7 +1,10 @@
 import time
 
+from big_muddy.big_muddy_io import BigMuddyIO
 
-def client_connector_test(big_muddy, sleep_time=0.25):
+
+def client_connector_test(sleep_time=0.25):
+    big_muddy_io = BigMuddyIO.system()
     print('Client connector test: Use single leaf on servo loop')
     client_signals = [signal << 4 for signal in [1, 3, 5, 7]]
     bits_read = [[0, 0], [0, 0], [0, 0], [0, 0]]
@@ -15,8 +18,8 @@ def client_connector_test(big_muddy, sleep_time=0.25):
                 time.sleep(sleep_time)
                 for client_index in range(4):
                     for bit_index in range(2):
-                        bits_read[client_index][bit_index] = big_muddy.servos.read()
-                        big_muddy.shifting.pulse()
+                        bits_read[client_index][bit_index] = big_muddy_io.servos.read()
+                        big_muddy_io.shifting.pulse()
                 for client_index in range(4):
                     client_signal = client_signals[client_index]
                     bits = client_signal >> shift_index
@@ -24,10 +27,10 @@ def client_connector_test(big_muddy, sleep_time=0.25):
                         send_bit = bits & 1
                         if bit_index < 2:
                             bits_expected[client_index][bit_index] = send_bit
-                        big_muddy.set_data_pins(send_bit)
+                        big_muddy_io.set_data_pins(send_bit)
                         bits = bits >> 1
-                        big_muddy.shifting.pulse()
-                big_muddy.loading.pulse()
+                        big_muddy_io.shifting.pulse()
+                big_muddy_io.loading.pulse()
                 if cycle_index > 1:
                     for client_index in range(4):
                         for bit_index in range(2):

@@ -1,5 +1,6 @@
 from big_muddy.daisy_domain import Domain
 
+
 class SocketClient(Domain):
     """
     A socket client here is intended as a one to one match for a physical socket on some daisy unit.
@@ -57,4 +58,3 @@ class SocketClient(Domain):
     #             else:
     #                 remaining_socket_index -= daisy_unit.socket_count
     #
-

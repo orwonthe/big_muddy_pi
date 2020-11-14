@@ -7,13 +7,11 @@ from flask import render_template
 # insert at 1, 0 is the script path (or '' in REPL)
 sys.path.insert(1, '..')
 
-from big_muddy.big_muddy_io import BigMuddyIO
 from big_muddy.duration_testing import duration_check
 from big_muddy.counties import BurleighCountyMaster, MortonCountyMaster
 
-big_muddy = BigMuddyIO.system()
-burleigh_daisy_master = BurleighCountyMaster(big_muddy)
-morton_daisy_master = MortonCountyMaster(big_muddy)
+burleigh_daisy_master = BurleighCountyMaster()
+morton_daisy_master = MortonCountyMaster()
 
 app = Flask(__name__)
 
@@ -22,18 +20,18 @@ app = Flask(__name__)
 @app.route('/index')
 @app.route('/duration')
 def duration_checking():
-    durations = duration_check(big_muddy)
+    durations = duration_check()
     return render_template('duration.html', durations=durations)
 
 
 @app.route('/burleigh', methods=['POST', 'GET'])
 def burleigh_county():
-    return district_request(big_muddy, burleigh_daisy_master, "burleigh")
+    return district_request(burleigh_daisy_master, "burleigh")
 
 
 @app.route('/morton', methods=['POST', 'GET'])
 def morton_county():
-    return district_request(big_muddy, morton_daisy_master, "morton")
+    return district_request(morton_daisy_master, "morton")
 
 
 @app.route('/servoblocktesting')

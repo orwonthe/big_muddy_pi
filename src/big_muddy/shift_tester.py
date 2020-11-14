@@ -1,4 +1,8 @@
-def shift_clock_testing(big_muddy):
+from big_muddy.big_muddy_io import BigMuddyIO
+
+
+def shift_clock_testing():
+    big_muddy_io = BigMuddyIO.system()
     print('Shift clock testing: endless shift clocking')
     while True:
-        big_muddy.shifting.pulse()
+        big_muddy_io.shifting.pulse()

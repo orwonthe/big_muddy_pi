@@ -1,12 +1,16 @@
+from big_muddy.big_muddy_io import BigMuddyIO
+
+
 class WideClientConnector:
     # Test jig hooks output bit to clock of binary counter.
     # Input bits read lowest two bits of counter.
     # Connection tests that the input bits form a binary sequence ...0,1,2,3,0,1,...
     client_names = ["A1", "A2", "B3", "B4", "C5", "C6", "D7", "D8"]
 
-    def __init__(self, big_muddy):
-        self.big_muddy = big_muddy
-        self.big_muddy.set_data_pins(0)
+    def __init__(self):
+        big_muddy_io = BigMuddyIO.system()
+        self.big_muddy_io = big_muddy_io
+        self.big_muddy_io.set_data_pins(0)
 
     def check_client(self, connector):
         self.connector = connector
@@ -34,24 +38,24 @@ class WideClientConnector:
         # set only client out bit high
         for out_bit_index in range(8):
             bit_to_send = 1 if out_bit_index == self.client_index else 0
-            self.big_muddy.consoles.write(bit_to_send)
-            self.big_muddy.shifting.pulse()
-        self.big_muddy.consoles.write(0)
-        self.big_muddy.shifting.pulse(16)
+            self.big_muddy_io.consoles.write(bit_to_send)
+            self.big_muddy_io.shifting.pulse()
+        self.big_muddy_io.consoles.write(0)
+        self.big_muddy_io.shifting.pulse(16)
 
         # set all client out bits low
-        self.big_muddy.loading.pulse()
-        self.big_muddy.shifting.pulse(24)
+        self.big_muddy_io.loading.pulse()
+        self.big_muddy_io.shifting.pulse(24)
 
         # read result
-        self.big_muddy.loading.pulse()
-        self.big_muddy.shifting.pulse(8)
+        self.big_muddy_io.loading.pulse()
+        self.big_muddy_io.shifting.pulse(8)
         for in_client_index in range(8):
             number = 0
             for bit_index in range(2):
-                bit_read = self.big_muddy.consoles.read()
+                bit_read = self.big_muddy_io.consoles.read()
                 number += bit_read << bit_index
-                self.big_muddy.shifting.pulse()
+                self.big_muddy_io.shifting.pulse()
             if self.client_index == in_client_index:
                 self.bits.append(number)
 
@@ -72,5 +76,5 @@ class WideClientConnector:
         return True
 
 
-def wide_client_connector_test(big_muddy, connector):
-    return WideClientConnector(big_muddy).check_client(connector)
+def wide_client_connector_test(connector):
+    return WideClientConnector().check_client(connector)

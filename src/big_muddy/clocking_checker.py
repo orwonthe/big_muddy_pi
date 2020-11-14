@@ -1,5 +1,6 @@
 from big_muddy.signal_exception import SignalException
 
+
 class ClockingChecker:
     # Default for whether to raise clocking exceptions.
     # Normally true for actual operations.

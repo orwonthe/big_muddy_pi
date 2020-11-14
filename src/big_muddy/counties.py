@@ -1,10 +1,8 @@
-from daisy_master import DaisyMaster
-
 from big_muddy.big_muddy_districts import MORTON_COUNTY_BLOCKS
-from big_muddy.cubes import BlockControlCube, RightTurnoutControlCube, LeftTurnoutControlCube
 from big_muddy.daisy_module import DaisyModule
 from big_muddy.daisy_unit import BlockConsoleDaisyUnit, TurnoutConsoleDaisyUnit
 from big_muddy.districts import DistrictConsoleMaster
+
 
 class BurleighDaisyModule(DaisyModule):
     def __init__(self):
@@ -13,6 +11,7 @@ class BurleighDaisyModule(DaisyModule):
             TurnoutConsoleDaisyUnit(),
             BlockConsoleDaisyUnit(),
         ])
+
 
 class MortonDaisyModule(DaisyModule):
     def __init__(self):
@@ -23,14 +22,15 @@ class MortonDaisyModule(DaisyModule):
             BlockConsoleDaisyUnit(),
         ])
 
+
 class BurleighCountyMaster(DistrictConsoleMaster):
-    def __init__(self, big_muddy):
-        super().__init__(big_muddy, create_burleigh_console())
+    def __init__(self):
+        super().__init__(create_burleigh_console())
 
 
 class MortonCountyMaster(DistrictConsoleMaster):
     def __init__(self, big_muddy):
-        super().__init__(big_muddy, create_morton_console())
+        super().__init__(create_morton_console())
 
 
 def create_burleigh_console():
@@ -104,7 +104,6 @@ class MortonCountyConsole(CountyConsole):
                 BlockConsoleDaisyUnit(),
             ]
         )
-
 
 
 if __name__ == '__main__':

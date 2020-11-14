@@ -5,10 +5,12 @@ from big_muddy.daisy_domain import BlockMixin, TurnoutMixin
 def find_description_and_create_cube(district, descriptions):
     yield from create_cubes(find_district_descriptions(district, descriptions))
 
+
 def find_district_descriptions(district, descriptions):
     for description in descriptions:
         if description["district"] == district:
             yield description
+
 
 def create_cubes(descriptions):
     for description in descriptions:

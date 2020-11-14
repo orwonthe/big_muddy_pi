@@ -1,22 +1,26 @@
+from big_muddy.big_muddy_io import BigMuddyIO
 from flask import render_template
 from flask import request
 
-def big_muddy_clear_all(big_muddy):
+def big_muddy_clear_all():
+    big_muddy_io = BigMuddyIO.system()
     print("clearing console")
-    big_muddy.set_all(0)
+    big_muddy_io.set_all(0)
 
-def big_muddy_set_all(big_muddy):
+def big_muddy_set_all():
+    big_muddy_io = BigMuddyIO.system()
     print("setting console")
-    big_muddy.set_all(1)
+    big_muddy_io.set_all(1)
 
 
-def district_request(big_muddy, district_master, page):
+def district_request(district_master, page):
+    big_muddy_io = BigMuddyIO.system()
     district_console = district_master.district_console
     if request.method == 'POST':
         if request.form.get('push_value') == "Clear":
-            big_muddy_clear_all(big_muddy)
+            big_muddy_clear_all(big_muddy_io)
         elif request.form.get('push_value') == "Set":
-            big_muddy_set_all(big_muddy)
+            big_muddy_set_all(big_muddy_io)
         elif request.form.get('push_value') == "Grab":
             district_master.pull_data()
             district_master.show_status()

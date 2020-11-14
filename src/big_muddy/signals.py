@@ -21,7 +21,6 @@ def set_modes_and_warnings(gpio):
     gpio.setwarnings(False)
 
 
-
 class SignalList:
     """ Base class implements setup method for signal list """
 
@@ -154,6 +153,7 @@ class ClockingPins(GpioLinkedPins):
             self.output.write(0)
             time.sleep(self.half_cycle)
             ClockingChecker.expect_false(self.read())
+
 
 class LoadingPins(ClockingPins):
     """
@@ -356,4 +356,3 @@ class SerialDataSystem(SignalList):
         for _ in range(self.max_duration):
             self.shifting.pulse()
         self.loading.pulse()
-

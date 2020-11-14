@@ -1,39 +1,29 @@
-def duration_testing(big_muddy):
+from big_muddy.big_muddy_io import BigMuddyIO
+
+
+def duration_testing(big_muddy_io):
     print("Duration testing")
-    big_muddy.determine_durations()
-    for data_signal in big_muddy.data_signals:
+    big_muddy_io.determine_durations()
+    for data_signal in big_muddy_io.data_signals:
         print(data_signal.signal_name, data_signal.duration, " / 24 = ", data_signal.duration / 24)
-    print(big_muddy.duration)
+    print(big_muddy_io.duration)
 
 
-def duration_check(big_muddy=None):
-    if big_muddy is None:
-        durations = [
-            {
-                'name': 'this',
-                'bits': 48,
-                'daisy': 2
-            },
-            {
-                'name': 'that',
-                'bits': 72,
-                'daisy': 3
-            },
-        ]
-    else:
-        big_muddy.determine_durations()
-        durations = [
-            {
-                'name':data_signal.signal_name,
-                'bits': data_signal.duration,
-                'daisy': data_signal.duration // 24
-            }
-            for data_signal in big_muddy.data_signals
-        ] + [
-            {
-                'name': "Max",
-                'bits': big_muddy.max_duration,
-                'daisy': big_muddy.max_duration // 24
-            }
-        ]
+def duration_check():
+    big_muddy_io = BigMuddyIO.system()
+    big_muddy_io.determine_durations()
+    durations = [
+                    {
+                        'name': data_signal.signal_name,
+                        'bits': data_signal.duration,
+                        'daisy': data_signal.duration // 24
+                    }
+                    for data_signal in big_muddy_io.data_signals
+                ] + [
+                    {
+                        'name': "Max",
+                        'bits': big_muddy_io.max_duration,
+                        'daisy': big_muddy_io.max_duration // 24
+                    }
+                ]
     return durations

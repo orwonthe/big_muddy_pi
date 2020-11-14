@@ -39,19 +39,19 @@ def harness():
 @harness.command()
 def client():
     """Test daisy 8 to 16 client connectors"""
-    client_connector_test(BigMuddyIO.system())
+    client_connector_test()
 
 
 @harness.command()
 def data():
     """Test daisy root data connections"""
-    data_probe(BigMuddyIO.system())
+    data_probe()
 
 
 @harness.command()
 def duration():
     """Measure bit length of all daisy chains"""
-    duration_testing(BigMuddyIO.system())
+    duration_testing()
 
 
 @harness.command()
@@ -59,7 +59,7 @@ def duration():
 def flow(check):
     """Endless data shift of 0001100011..."""
     ClockingChecker.set_raise_clock_exceptions(check)
-    flow_testing(BigMuddyIO.system())
+    flow_testing()
 
 
 @harness.command()
@@ -75,14 +75,14 @@ def load(check):
 def shifter(check):
     """Endless shift clocking"""
     ClockingChecker.set_raise_clock_exceptions(check)
-    shift_clock_testing(BigMuddyIO.system())
+    shift_clock_testing()
 
 
 @harness.command()
 @click.option("--connector", default=1, help="specify which connector is hooked to test jig")
 def wide(connector):
     """Test daisy 16 to 8 client connectors"""
-    wide_client_connector_test(BigMuddyIO.system(), connector)
+    wide_client_connector_test(connector)
 
 
 if __name__ == '__main__':

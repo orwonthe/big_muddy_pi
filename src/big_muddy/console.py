@@ -18,4 +18,3 @@ class ConsoleCube(SocketClient, ConsoleMixin):
         self.color = color
         self.row = row
         self.column = column
-

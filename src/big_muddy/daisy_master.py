@@ -1,9 +1,10 @@
-from big_muddy.daisy_loop import DaisyLoop, ServoDaisyLoop, ConsoleDaisyLoop
+from big_muddy.big_muddy_io import BigMuddyIO
+from big_muddy.daisy_loop import ServoDaisyLoop, ConsoleDaisyLoop
 
 
 class DaisyMaster:
-    def __init__(self, big_muddy, daisy_units=None):
-        self.big_muddy = big_muddy
+    def __init__(self, daisy_units=None):
+        self.big_muddy_io = BigMuddyIO.system()
         self.servo_loop = ServoDaisyLoop()
         self.console_loop = ConsoleDaisyLoop()
         if daisy_units:
@@ -37,23 +38,21 @@ class DaisyMaster:
         self.servo_loop.receive_bit(index, servo_bit)
 
     def pull_data(self):
-        self.big_muddy.loading.pulse()
+        self.big_muddy_io.loading.pulse()
         self.transfer_data()
 
     def transfer_data(self):
         for index in range(self.bit_count):
             console_bit_to_send, servo_bit_to_send = self.bits_to_send(index)
-            data = self.big_muddy.read_data()
+            data = self.big_muddy_io.read_data()
             console_bit_received = data[0]
             servo_bit_received = data[1]
             # print(f'index={index} sending {console_bit_to_send} {servo_bit_to_send}')
             self.receive_bits(index, console_bit_received, servo_bit_received)
-            self.big_muddy.write_data([console_bit_to_send, servo_bit_to_send])
-            self.big_muddy.shifting.pulse()
-        self.big_muddy.loading.pulse()
+            self.big_muddy_io.write_data([console_bit_to_send, servo_bit_to_send])
+            self.big_muddy_io.shifting.pulse()
+        self.big_muddy_io.loading.pulse()
 
     def show_status(self):
         self.console_loop.show_status()
         self.servo_loop.show_status()
-
-

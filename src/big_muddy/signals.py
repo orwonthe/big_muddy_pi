@@ -1,14 +1,12 @@
 import time
 
+from big_muddy.clocking_checker import ClockingChecker
+from big_muddy.signal_exception import SignalException
+
 try:
     import RPi.GPIO as GPIO
 except ModuleNotFoundError:
     from big_muddy import mock_gpio as GPIO
-
-# Default for whether to raise clocking exceptions.
-# Normally true for actual operations.
-# Sometimes handy to set to false when debugging hardware.
-RAISE_CLOCKING_EXCEPTIONS = True
 
 # Inverse of clocking frequency, default value.
 DEFAULT_CLOCKING_CYCLE = 0.00001
@@ -22,10 +20,6 @@ def set_modes_and_warnings(gpio):
     gpio.setmode(GPIO.BOARD)
     gpio.setwarnings(False)
 
-
-class SignalException(Exception):
-    """  Used when some hardware enforced constraint fails. """
-    pass
 
 
 class SignalList:
@@ -131,7 +125,6 @@ class ClockingPins(GpioLinkedPins):
                  signal_prefix="clock",
                  gpio=None,
                  cycle=DEFAULT_CLOCKING_CYCLE,
-                 raise_exceptions=RAISE_CLOCKING_EXCEPTIONS
                  ):
         """
         :param in_pin_number: pin number for returning clock signal
@@ -142,7 +135,6 @@ class ClockingPins(GpioLinkedPins):
         :param raise_exceptions:
         """
         self.half_cycle = cycle / 2
-        self.raise_exceptions = raise_exceptions
         super().__init__(
             signal_prefix=signal_prefix,
             in_pin_number=in_pin_number,
@@ -158,13 +150,10 @@ class ClockingPins(GpioLinkedPins):
         for _ in range(count):
             self.output.write(1)
             time.sleep(self.half_cycle)
-            if not self.read() and self.raise_exceptions:
-                raise SignalException("Clock stuck low")
+            ClockingChecker.expect_true(self.read())
             self.output.write(0)
             time.sleep(self.half_cycle)
-            if self.read() and self.raise_exceptions:
-                raise SignalException("Clock stuck high")
-
+            ClockingChecker.expect_false(self.read())
 
 class LoadingPins(ClockingPins):
     """
@@ -175,14 +164,12 @@ class LoadingPins(ClockingPins):
                  in_pin_number,
                  out_pin_number,
                  signal_prefix="load",
-                 raise_exceptions=RAISE_CLOCKING_EXCEPTIONS,
                  gpio=None):
         super().__init__(
             signal_prefix=signal_prefix,
             in_pin_number=in_pin_number,
             out_pin_number=out_pin_number,
             gpio=gpio,
-            raise_exceptions=raise_exceptions
         )
 
 
@@ -193,14 +180,12 @@ class ShiftingPins(ClockingPins):
                  in_pin_number,
                  out_pin_number,
                  signal_prefix="shift",
-                 raise_exceptions=RAISE_CLOCKING_EXCEPTIONS,
                  gpio=None):
         super().__init__(
             signal_prefix=signal_prefix,
             in_pin_number=in_pin_number,
             out_pin_number=out_pin_number,
             gpio=gpio,
-            raise_exceptions=raise_exceptions
         )
 
 

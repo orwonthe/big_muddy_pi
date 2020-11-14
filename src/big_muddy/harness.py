@@ -1,5 +1,7 @@
 import click
 
+from big_muddy.clocking_checker import ClockingChecker
+
 """ Testing Harness for hardware modules of Big Muddy Railroad """
 
 from big_muddy.big_muddy_io import BigMuddyIO
@@ -56,21 +58,24 @@ def duration():
 @add_click_options(COMMAND_OPTIONS)
 def flow(check):
     """Endless data shift of 0001100011..."""
-    flow_testing(BigMuddyIO.system(check))
+    ClockingChecker.set_raise_clock_exceptions(check)
+    flow_testing(BigMuddyIO.system())
 
 
 @harness.command()
 @add_click_options(COMMAND_OPTIONS)
 def load(check):
     """Endless data loading"""
-    load_testing(BigMuddyIO.system(check))
+    ClockingChecker.set_raise_clock_exceptions(check)
+    load_testing(BigMuddyIO.system())
 
 
 @harness.command()
 @add_click_options(COMMAND_OPTIONS)
 def shifter(check):
     """Endless shift clocking"""
-    shift_clock_testing(BigMuddyIO.system(check))
+    ClockingChecker.set_raise_clock_exceptions(check)
+    shift_clock_testing(BigMuddyIO.system())
 
 
 @harness.command()

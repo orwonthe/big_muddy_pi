@@ -14,6 +14,7 @@ DATA_B_IN = 15
 SHIFT_IN = 22
 LOAD_IN = 18
 
+
 class BigMuddyIO(SerialDataSystem):
     """
     Serial data system for Big Muddy Railroad.
@@ -23,7 +24,7 @@ class BigMuddyIO(SerialDataSystem):
     As there are only one set of gpio pins, the architecture should normally use this as a singleton.
     """
 
-    def __init__(self, gpio=None, raise_clock_loop_exceptions=True):
+    def __init__(self, gpio=None):
         """
         Create the singleton serial data system.
         The data and clock bits of the serial system normally return back.
@@ -31,7 +32,6 @@ class BigMuddyIO(SerialDataSystem):
         the loop is broken. Normally this will throw an exception.
 
         :param gpio: the gpio data system
-        :param raise_clock_loop_exceptions: set to false when probing broken hardware.
         """
         if gpio is None:
             gpio = GPIO
@@ -54,19 +54,17 @@ class BigMuddyIO(SerialDataSystem):
                 in_pin_number=LOAD_IN,
                 out_pin_number=LOAD_OUT,
                 gpio=self.gpio,
-                raise_exceptions=raise_clock_loop_exceptions
             ),
             # The serial shift clock line, and its return echo.
             shifting=ShiftingPins(
                 in_pin_number=SHIFT_IN,
                 out_pin_number=SHIFT_OUT,
                 gpio=self.gpio,
-                raise_exceptions=raise_clock_loop_exceptions
             ),
             # The list of serial data lines, which share clocking
             data_signals=[
-                self.consoles, # user consoles for user input and response.
-                self.servos # servos and sensors that control and observe the railroad proper.
+                self.consoles,  # user consoles for user input and response.
+                self.servos  # servos and sensors that control and observe the railroad proper.
             ]
         )
         # Whether the semantics of a signal are inverted in the hardware logic.
@@ -86,9 +84,8 @@ class BigMuddyIO(SerialDataSystem):
         print("Big Muddy IO Setup")
 
     @staticmethod
-    def system(raise_clock_loop_exceptions=True):
+    def system():
         """ Create and setup the BigMuddyIO system """
-        big_muddy = BigMuddyIO(raise_clock_loop_exceptions=raise_clock_loop_exceptions)
+        big_muddy = BigMuddyIO()
         big_muddy.setup()
         return big_muddy
-

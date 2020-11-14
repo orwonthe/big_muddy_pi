@@ -13,7 +13,7 @@ class ClockingChecker:
     @staticmethod
     def expect_false(value):
         if value and ClockingChecker.__raise_exception:
-            raise SignalException("Clock stuck high")    \
+            raise SignalException("Clock stuck high")
 
     @staticmethod
     def expect_true(value):

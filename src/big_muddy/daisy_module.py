@@ -15,14 +15,6 @@ class DaisyModule(DomainLists):
         if daisy_units:
             self.add_daisy_units(daisy_units)
 
-    @property
-    def is_complete(self):
-        """ Whether every socket has a client. May never be true since sometimes sockets are not used """
-        for daisy_unit in self.daisy_units:
-            if not daisy_unit.is_complete:
-                return False
-        return True
-
     def add_to_master(self, daisy_master):
         """ One time call to add module to the daisy master. """
         if self._added_to_master:
@@ -41,6 +33,11 @@ class DaisyModule(DomainLists):
         self.daisy_units.append(daisy_unit)
 
     def find_daisy_unit_and_index(self, socket, index_to_find=None):
+        """
+        Find the correct socket index and daisy unit for the socket
+
+        returns index, daisy_unit
+        """
         if index_to_find is None:
             index_to_find = socket.socket_index
         daisy_units = self.domain_list(socket)
@@ -61,5 +58,6 @@ class DaisyModule(DomainLists):
         return daisy_unit
 
     def reflect(self):
+        """ Reflect all the sockets. """
         for socket in self.sockets:
             socket.reflect()

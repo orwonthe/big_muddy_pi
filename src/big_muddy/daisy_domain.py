@@ -74,7 +74,8 @@ class ServoMixin:
 
 
 class DomainLists:
-    """ A DomainLists keep four lists of Domain objects and can find the correct list """
+    """ A DomainLists keeps four lists of Domain objects and can find the correct list """
+
     def __init__(self):
         self.block_servos = []
         self.turnout_servos = []
@@ -82,11 +83,13 @@ class DomainLists:
         self.turnout_consoles = []
 
     def append(self, item, domain=None):
+        """ Add item to domain specific list """
         if domain is None:
             domain = item
         self.domain_list(domain).append(item)
 
     def domain_list(self, domain):
+        """ Find the list that matches the domain """
         if domain.is_servo:
             if domain.is_block:
                 return self.block_servos

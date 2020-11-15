@@ -1,22 +1,26 @@
 from daisy_socket import TurnoutConsoleDaisySocket, BlockConsoleDaisySocket
 
 
-def find_descriptions_and_create_cubes(district, descriptions):
-    yield from create_cubes(find_district_descriptions(district, descriptions))
+def generate_cubes_from_descriptions(district, descriptions):
+    """ Generate cubes from descriptions matching requested district. """
+    yield from generate_cubes(find_district_descriptions(district, descriptions))
 
 
 def find_district_descriptions(district, descriptions):
+    """ Generate the descriptions that match the district """
     for description in descriptions:
         if description["district"] == district:
             yield description
 
 
-def create_cubes(descriptions):
+def generate_cubes(descriptions):
+    """ Use descriptions to generate cubes"""
     for description in descriptions:
         yield create_cube_from_description(description)
 
 
 def create_cube_from_description(description):
+    """ Use description to create a matching cube """
     if description["purpose"] == "block":
         return BlockConsoleDaisySocket(
             district=description["district"],

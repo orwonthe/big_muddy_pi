@@ -58,7 +58,6 @@ class DaisyLoop:
         """ Create an order list of tuples for daisy unit and bit index within the unit """
         for daisy_unit in daisy_units:
             for index in range(daisy_unit.bit_count):
-                # print(f'dz={daisy_unit.description} {index}')
                 yield daisy_unit, index
 
     def bit_to_send(self, index):

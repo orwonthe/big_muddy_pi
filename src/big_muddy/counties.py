@@ -1,5 +1,5 @@
-from big_muddy_districts import MORTON_COUNTY_BLOCKS, BURLEIGH_COUNTY_CUBE_RECIPES, MORTON_COUNTY_CUBE_RECIPES
-from cubes import find_descriptions_and_create_cubes
+from big_muddy_districts import BURLEIGH_COUNTY_CUBE_RECIPES, MORTON_COUNTY_CUBE_RECIPES
+from cubes import generate_cubes_from_descriptions
 from daisy_module import DaisyModule
 from daisy_socket import DaisySocketCollection
 from daisy_unit import BlockConsoleDaisyUnit, TurnoutConsoleDaisyUnit
@@ -8,16 +8,17 @@ from districts import DistrictConsoleMaster
 
 class BurleighSocketCollection(DaisySocketCollection):
     """ Collection of cubes for Burleigh County console """
+
     def __init__(self):
-        cubes = list(find_descriptions_and_create_cubes("Burleigh", BURLEIGH_COUNTY_CUBE_RECIPES))
-        print(f'Burleigh cube count = {len(cubes)}')
+        cubes = list(generate_cubes_from_descriptions("Burleigh", BURLEIGH_COUNTY_CUBE_RECIPES))
         super().__init__(cubes)
 
 
 class MortonSocketCollection(DaisySocketCollection):
+    """ Collection of cubes for Morton County console """
+
     def __init__(self):
-        cubes = list(find_descriptions_and_create_cubes("Morton", MORTON_COUNTY_CUBE_RECIPES))
-        print(f'Morton cube count = {len(cubes)}')
+        cubes = list(generate_cubes_from_descriptions("Morton", MORTON_COUNTY_CUBE_RECIPES))
         super().__init__(cubes)
 
 
@@ -45,6 +46,8 @@ class MortonDaisyModule(DaisyModule):
 
 
 class BurleighCountyMaster(DistrictConsoleMaster):
+    """ DaisyMaster for Burleigh County """
+
     def __init__(self):
         district_console = BurleighDaisyModule()
         daisy_socket_collection = BurleighSocketCollection()
@@ -52,11 +55,9 @@ class BurleighCountyMaster(DistrictConsoleMaster):
 
 
 class MortonCountyMaster(DistrictConsoleMaster):
+    """ DaisyMaster for Morton County """
+
     def __init__(self):
         district_console = MortonDaisyModule()
         daisy_socket_collection = MortonSocketCollection()
         super().__init__(district_console, daisy_socket_collection)
-
-
-if __name__ == '__main__':
-    print(MORTON_COUNTY_BLOCKS)

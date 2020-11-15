@@ -4,6 +4,14 @@ from big_muddy_io import BigMuddyIO
 
 
 def client_connector_test(sleep_time=0.25):
+    """
+    Infinite loop hardware debugging test.
+
+    Infinite loop used to debug daisy units with single leaf on the servo loop.
+    Tester uses feedback jig and moves it from one client socket to the next.
+
+    :param sleep_time:
+    """
     big_muddy_io = BigMuddyIO.system()
     print('Client connector test: Use single leaf on servo loop')
     client_signals = [signal << 4 for signal in [1, 3, 5, 7]]

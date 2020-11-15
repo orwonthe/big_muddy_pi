@@ -1,5 +1,5 @@
 class Domain:
-    """ A Domain is an object that knows wehter it is a block vs turnout aad console vs serve """
+    """ A Domain is an object that knows whether it is a block vs turnout and whether console vs serve """
 
     @property
     def purpose(self):
@@ -90,10 +90,16 @@ class DomainLists:
         if domain.is_servo:
             if domain.is_block:
                 return self.block_servos
-            else:
+            elif domain.is_turnout:
                 return self.turnout_servos
-        else:
+            else:
+                raise Exception("servo domain must be either block or turnout")
+        elif domain.is_console:
             if domain.is_block:
                 return self.block_consoles
+            elif domain.is_turnout:
+                return self.turnout_consoles
             else:
-                return self.turnout_servos
+                raise Exception("console domain must be either block or turnout")
+        else:
+            raise Exception("domain must be either servo or console")

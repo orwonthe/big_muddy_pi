@@ -1,6 +1,6 @@
 {% extends "master.html" %}
 {% block content %}
-<h2>{{ district.name }} District Console</h2>
+<h2>{{ console.name }} District Console</h2>
 <form action="http://192.168.0.210:5000/{{ page }}" method="POST">
     <div style="float: left; width: 60%;">
         <input type="submit" name="push_value" value="Clear">
@@ -9,16 +9,16 @@
         <input type="submit" name="push_value" value="Reflect">
         <h3>Block Control Cubes</h3>
         <table border="2">
-            {% for cube in district.block_cubes %}
+            {% for cube in block_cubes %}
             <tr>
-                <td>{{ cube.index}} {{ cube.full_name }} {{ cube.action }}</td>
-                <td><input type="submit" name="block_{{ cube.index}}" value="-Yellow"></td>
-                <td><input type="submit" name="block_{{ cube.index}}" value="-Green"></td>
-                <td><input type="submit" name="block_{{ cube.index}}" value="-Red"></td>
-                <td><input type="submit" name="block_{{ cube.index}}" value="Off"></td>
-                <td><input type="submit" name="block_{{ cube.index}}" value="+Red"></td>
-                <td><input type="submit" name="block_{{ cube.index}}" value="+Green"></td>
-                <td><input type="submit" name="block_{{ cube.index}}" value="+Yellow"></td>
+                <td>{{ cube.moniker }}</td>
+                <td><input type="submit" name="block_{{ cube.gui_index}}" value="-Yellow"></td>
+                <td><input type="submit" name="block_{{ cube.gui_index}}" value="-Green"></td>
+                <td><input type="submit" name="block_{{ cube.gui_index}}" value="-Red"></td>
+                <td><input type="submit" name="block_{{ cube.gui_index}}" value="Off"></td>
+                <td><input type="submit" name="block_{{ cube.gui_index}}" value="+Red"></td>
+                <td><input type="submit" name="block_{{ cube.gui_index}}" value="+Green"></td>
+                <td><input type="submit" name="block_{{ cube.gui_index}}" value="+Yellow"></td>
             </tr>
             {% endfor %}
         </table>
@@ -26,15 +26,15 @@
     <div style="float: right; width: 40%;">
         <h3>Turnout Control Cubes</h3>
         <table border="2">
-            {% for cube in district.turnout_cubes %}
+            {% for cube in turnout_cubes %}
             <tr>
-                <td>{{ cube.index}} {{ cube.full_name }} {{ cube.action }}</td>
-                <td><input type="submit" name="turnout_{{ cube.index}}" value="Main"></td>
-                <td><input type="submit" name="turnout_{{ cube.index}}" value="Siding"></td>
+                <td>{{ cube.moniker }}</td>
+                <td><input type="submit" name="turnout_{{ cube.gui_index}}" value="Main"></td>
+                <td><input type="submit" name="turnout_{{ cube.gui_index}}" value="Siding"></td>
             </tr>
             {% endfor %}
         </table>
     </div>
 </form>
-<h3>Assumption: One {{ district.name }} Console Cube is in the Console Daisy Chain</h3>
+<h3>Assumption: One {{ console.name }} Console Cube is in the Console Daisy Chain</h3>
 {% endblock %}

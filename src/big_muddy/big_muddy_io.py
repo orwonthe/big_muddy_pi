@@ -82,6 +82,9 @@ class BigMuddyIO(SerialDataSystem):
         self.servos.output.inverted = True
 
     def __setup(self):
+        """
+        One time setup of hardware interface.
+        """
         if BigMuddyIO.__BigMuddyIO is not None:
             raise Exception("__setup called externally")
         set_modes_and_warnings(self.gpio)
@@ -95,6 +98,6 @@ class BigMuddyIO(SerialDataSystem):
         """ Create and setup the BigMuddyIO system singleton """
         if BigMuddyIO.__BigMuddyIO is None:
             big_muddy_io = BigMuddyIO()
-            big_muddy_io.__setup() # The one and only legal call
+            big_muddy_io.__setup()  # The one and only legal call
             BigMuddyIO.__BigMuddyIO = big_muddy_io
         return BigMuddyIO.__BigMuddyIO

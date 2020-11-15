@@ -26,13 +26,12 @@ class DaisyUnit(Domain):
     def is_complete(self):
         return len(self.daisy_sockets) == self.socket_count
 
-    def add_daisy_socket(self, daisy_socket):
+    def add_daisy_socket(self, daisy_socket, daisy_unit_socket_index):
         if self.is_complete:
             return None
         else:
-            socket_index = len(self.daisy_sockets)
             self.daisy_sockets.append(daisy_socket)
-            return socket_index
+            return daisy_unit_socket_index
 
     def show_status(self):
         # print("bits_to_send ", self.bits_to_send)
@@ -104,6 +103,7 @@ class DaisyUnit(Domain):
 
 class Daisy8to16Unit(DaisyUnit):
     """ Daisy unit with 8 inputs (switches and sensors) and 16 outputs (LEDs and relays) """
+
     def __init__(self):
         super().__init__()
         self.output_map = [8 + index for index in range(16)]
@@ -113,9 +113,9 @@ class Daisy8to16Unit(DaisyUnit):
         self.output_bits_per_socket = 4
 
 
-
 class Daisy16to8Unit(DaisyUnit):
     """ Daisy unit with 16 inputs (switches and sensors) and 8 outputs (LEDs and relays) """
+
     def __init__(self):
         super().__init__()
         self.output_map = [index for index in range(8)]
@@ -129,6 +129,7 @@ class BlockConsoleDaisyUnit(Daisy8to16Unit, BlockMixin, ConsoleMixin):
     """ Daisy unit with 4 sockets for 4 block control console cubes """
     pass
 
+
 class BlockServoDaisyUnit(Daisy8to16Unit, BlockMixin, ServoMixin):
     """ Daisy unit with 4 sockets for 4 block control console cubes """
     pass
@@ -138,9 +139,11 @@ class TurnoutConsoleDaisyUnit(Daisy16to8Unit, TurnoutMixin, ConsoleMixin):
     """ Daisy unit with 8 sockets for 8 turnout console cubes """
     pass
 
+
 class TurnoutServoDaisyUnit(Daisy8to16Unit, TurnoutMixin, ServoMixin):
     """ Daisy unit with 4 sockets for 4 block control console cubes """
     pass
+
 
 class DaisyUnitDelay:
     def __init__(self, delay_count):
@@ -160,4 +163,3 @@ class DaisyUnitDelay:
 
     def receive_bit(self, index, bit):
         pass
-

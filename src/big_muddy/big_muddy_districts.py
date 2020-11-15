@@ -4,7 +4,7 @@ from districts import normalize
 Describe the console blocks for the two counties
 """
 
-MORTON_COUNTY_TURNOUTS = normalize("morton", "turnout", [
+MORTON_COUNTY_TURNOUTS = normalize("Morton", "turnout", [
     {
         "direction": "left",
         "name": "rejoin yard",
@@ -126,7 +126,7 @@ MORTON_COUNTY_TURNOUTS = normalize("morton", "turnout", [
         "socket": 9
     },
 ])
-BURLEIGH_COUNTY_TURNOUTS = normalize("burleigh", "turnout", [
+BURLEIGH_COUNTY_TURNOUTS = normalize("Burleigh", "turnout", [
     {
         "direction": "right",
         "name": "rejoin main",
@@ -193,7 +193,7 @@ BURLEIGH_COUNTY_TURNOUTS = normalize("burleigh", "turnout", [
     },
 ])
 
-MORTON_COUNTY_BLOCKS = normalize("morton", "block", [
+MORTON_COUNTY_BLOCKS = normalize("Morton", "block", [
     {
         "name": "rejoin",
         "color": "purple",
@@ -251,7 +251,7 @@ MORTON_COUNTY_BLOCKS = normalize("morton", "block", [
         "socket": 1
     },
 ])
-BURLEIGH_COUNTY_BLOCKS = normalize("burleigh", "block", [
+BURLEIGH_COUNTY_BLOCKS = normalize("Burleigh", "block", [
     {
         "name": "bridge",
         "color": "brown",

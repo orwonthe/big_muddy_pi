@@ -6,19 +6,18 @@ from daisy_unit import BlockConsoleDaisyUnit, TurnoutConsoleDaisyUnit
 from districts import DistrictConsoleMaster
 
 
-# TODO: finish this
-
 class BurleighSocketCollection(DaisySocketCollection):
+    """ Collection of cubes for Burleigh County console """
     def __init__(self):
-        cubes = list(find_descriptions_and_create_cubes("burleigh", BURLEIGH_COUNTY_CUBE_RECIPES))
-        print(f'burleigh cube count = {len(cubes)}')
+        cubes = list(find_descriptions_and_create_cubes("Burleigh", BURLEIGH_COUNTY_CUBE_RECIPES))
+        print(f'Burleigh cube count = {len(cubes)}')
         super().__init__(cubes)
 
 
 class MortonSocketCollection(DaisySocketCollection):
     def __init__(self):
-        cubes = list(find_descriptions_and_create_cubes("morton", MORTON_COUNTY_CUBE_RECIPES))
-        print(f'morton cube count = {len(cubes)}')
+        cubes = list(find_descriptions_and_create_cubes("Morton", MORTON_COUNTY_CUBE_RECIPES))
+        print(f'Morton cube count = {len(cubes)}')
         super().__init__(cubes)
 
 
@@ -26,7 +25,7 @@ class BurleighDaisyModule(DaisyModule):
     """ A daisy module representing a Burleigh County district console """
 
     def __init__(self):
-        super().__init__("burleigh", [
+        super().__init__("Burleigh", [
             BlockConsoleDaisyUnit(),
             TurnoutConsoleDaisyUnit(),
             BlockConsoleDaisyUnit(),
@@ -37,7 +36,7 @@ class MortonDaisyModule(DaisyModule):
     """ A daisy module representing a Morton County district console """
 
     def __init__(self):
-        super().__init__("morton", [
+        super().__init__("Morton", [
             BlockConsoleDaisyUnit(),
             TurnoutConsoleDaisyUnit(),
             TurnoutConsoleDaisyUnit(),

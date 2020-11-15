@@ -49,6 +49,10 @@ class DaisyModule(DomainLists):
                 index_to_find -= sockets_in_unit
         return index_to_find, None
 
+    def add_sockets(self, sockets):
+        for socket in sockets:
+            self.add_socket(socket)
+
     def add_socket(self, socket):
         """ Find the proper socket location of the proper domain and add the socket there. """
         daisy_socket_index, daisy_unit = self.find_daisy_unit_and_index(socket)

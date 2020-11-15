@@ -23,8 +23,7 @@ class DistrictConsoleMaster(DaisyMaster):
         self.daisy_socket_collection = daisy_socket_collection
         super().__init__(district_console.daisy_units)
         self.set_for_action()
-        for cube in daisy_socket_collection.cubes:
-            self.district_console.add_socket(cube)
+        self.add_sockets(daisy_socket_collection.cubes)
 
     @property
     def block_cubes(self):

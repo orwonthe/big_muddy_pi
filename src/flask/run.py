@@ -1,5 +1,6 @@
 import sys
 
+from block_servo_tester import BlockServoTester
 from district_request import district_request
 
 from flask import Flask
@@ -13,6 +14,7 @@ from counties import BurleighCountyMaster, MortonCountyMaster
 
 burleigh_daisy_master = BurleighCountyMaster()
 morton_daisy_master = MortonCountyMaster()
+block_servo_tester = BlockServoTester(False)
 
 app = Flask(__name__)
 
@@ -22,19 +24,21 @@ app = Flask(__name__)
 @app.route('/duration')
 def duration_checking():
     durations = duration_check()
-    return render_template('duration.html', durations=durations)
+    return render_template('duration.html', durations=durations, subtitle="Durations")
 
 
 @app.route('/burleigh', methods=['POST', 'GET'])
+@app.route('/Burleigh', methods=['POST', 'GET'])
 def burleigh_county():
-    return district_request(burleigh_daisy_master, "burleigh")
+    return district_request(burleigh_daisy_master, "Burleigh")
 
 
 @app.route('/morton', methods=['POST', 'GET'])
+@app.route('/Morton', methods=['POST', 'GET'])
 def morton_county():
-    return district_request(morton_daisy_master, "morton")
+    return district_request(morton_daisy_master, "Morton")
 
 
 @app.route('/servoblocktesting')
 def servo_block_testing():
-    return render_template('servo_block_testing.html')
+    return render_template('servo_block_testing.html', tester=block_servo_tester, subtitle="Block Servo")

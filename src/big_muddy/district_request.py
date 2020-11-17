@@ -66,4 +66,4 @@ def district_request(district_master, page):
             district_master.transfer_data()
 
     return render_template('district.html', console=district_console, block_cubes=block_cubes,
-                           turnout_cubes=turnout_cubes, page=page)
+                           turnout_cubes=turnout_cubes, page=page, subtitle=district_console.name)

@@ -48,27 +48,27 @@ class BlockServoTester(DaisyModule):
 
     @property
     def is_x_normal(self):
-        return self.servo_sockets[1].bit0
+        return self.test_sockets[1].bit0
 
     @property
     def is_y_normal(self):
-        return self.servo_sockets[1].bit1
+        return self.test_sockets[1].bit1
 
     @property
     def is_z_normal(self):
-        return self.servo_sockets[2].bit0
+        return self.test_sockets[2].bit0
 
     @property
     def is_x_contrary(self):
-        return self.servo_sockets[3].bit1
+        return self.test_sockets[3].bit1
 
     @property
     def is_y_contrary(self):
-        return self.servo_sockets[3].bit0
+        return self.test_sockets[3].bit0
 
     @property
     def is_z_contrary(self):
-        return self.servo_sockets[2].bit1
+        return self.test_sockets[2].bit1
 
     def _status(self, normal, contrary):
         if normal:

@@ -7,6 +7,8 @@ from flask import Flask
 from flask import render_template
 
 # insert at 1, 0 is the script path (or '' in REPL)
+from servo_block_testing_request import servo_block_testing_request
+
 sys.path.insert(1, '..')
 
 from duration_testing import duration_check
@@ -14,7 +16,7 @@ from counties import BurleighCountyMaster, MortonCountyMaster
 
 burleigh_daisy_master = BurleighCountyMaster()
 morton_daisy_master = MortonCountyMaster()
-block_servo_tester = BlockServoTester(False)
+block_servo_tester = BlockServoTester(True)
 
 app = Flask(__name__)
 
@@ -39,6 +41,7 @@ def morton_county():
     return district_request(morton_daisy_master, "Morton")
 
 
-@app.route('/servoblocktesting')
+@app.route('/servoblocktesting', methods=['POST', 'GET'])
 def servo_block_testing():
-    return render_template('servo_block_testing.html', tester=block_servo_tester, subtitle="Block Servo")
+    return servo_block_testing_request(block_servo_tester)
+

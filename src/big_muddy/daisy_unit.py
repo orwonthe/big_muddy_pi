@@ -103,7 +103,11 @@ class DaisyUnit(Domain):
 
 class Daisy8to16Unit(DaisyUnit):
     """ Daisy unit with 8 inputs (switches and sensors) and 16 outputs (LEDs and relays) """
-
+    SOCKET_A = 3
+    SOCKET_B = 2
+    SOCKET_C = 1
+    SOCKET_D = 0
+    SOCKETS_ABCD = [SOCKET_A, SOCKET_B, SOCKET_C, SOCKET_D]
     def __init__(self):
         super().__init__()
         self.output_map = [8 + index for index in range(16)]

@@ -19,38 +19,41 @@ class BlockServoDaisySocket(DaisySocketOn8to16, BlockMixin, ServoMixin):
         return f'{self.socket_index} {self.color} {self.name}'
 
     def set_selection(self, signal_bits):
-        self.send0(signal_bits & 1)
-        signal_bits //= 2
-        self.send1(0)
+        self.send3(signal_bits & 1)
         signal_bits //= 2
         self.send2(signal_bits & 1)
         signal_bits //= 2
-        self.send3(signal_bits & 1)
+        self.send1(signal_bits & 1)
+        signal_bits //= 2
+        self.send0(signal_bits & 1)
 
     def set_off(self):
         self.set_selection(8)
+
+    def set_flash(self):
+        self.set_selection(0)
 
     def set_x_normal(self):
         self.set_selection(1)
 
     def set_x_contrary(self):
-        self.set_selection(6)
+        self.set_selection(7)
 
     def set_y_normal(self):
         self.set_selection(2)
 
     def set_y_contrary(self):
-        self.set_selection(5)
+        self.set_selection(6)
 
     def set_z_normal(self):
         self.set_selection(3)
 
     def set_z_contrary(self):
-        self.set_selection(4)
+        self.set_selection(5)
 
     @property
     def is_shorted(self):
-        0 == self.bit0
+        1 == self.bit0
 
 
 class TurnoutServoDaisySocket(DaisySocketOn8to16, TurnoutMixin, ServoMixin):

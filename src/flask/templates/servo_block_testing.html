@@ -1,17 +1,33 @@
 {% extends "master.html" %}
 {% block content %}
 <h2>Servo Block Control Testing</h2>
+<h2>Status</h2>
+<p>{{ tester.status_report}}</p>
 <form action="http://192.168.0.210:5000/servoblocktesting" method="POST">
-    <div style="float: left; width: 60%;">
-        <input type="submit" name="push_value" value="Clear">
-        <input type="submit" name="push_value" value="Set">
-        <input type="submit" name="push_value" value="Grab">
-        <input type="submit" name="push_value" value="Reflect">
-    </div>
+    <table border="2">
+        <tr>
+            <td><input type="submit" name="action" value="Shorted"></td>
+            <td><input type="submit" name="action" value="Not_shorted"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" name="action" value="XYZ Off"></td>
+            <td><input type="submit" name="action" value="Flash"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" name="action" value="X_normal"></td>
+            <td><input type="submit" name="action" value="X_contrary"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" name="action" value="Y_normal"></td>
+            <td><input type="submit" name="action" value="Y_contrary"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" name="action" value="Z_normal"></td>
+            <td><input type="submit" name="action" value="Z_contrary"></td>
+        </tr>
+    </table>
 </form>
 <h3>Assumption: Servo loop has one block servo control under test.</h3>
 <h3>Assumption: Console loop has one block servo control harnessed via ribbon cable to test board.</h3>
-<h2>Status</h2>
-<p>{{ tester.status_report}}</p>
 {% endblock %}
 <!doctype html>

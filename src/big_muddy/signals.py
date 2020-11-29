@@ -9,7 +9,7 @@ except ModuleNotFoundError:
     from big_muddy import mock_gpio as GPIO
 
 # Inverse of clocking frequency, default value.
-DEFAULT_CLOCKING_CYCLE = 0.00001
+DEFAULT_CLOCKING_CYCLE = 0.00002
 
 
 def set_modes_and_warnings(gpio):

@@ -1,6 +1,6 @@
 from big_muddy_io import BigMuddyIO
 from daisy_loop import ServoDaisyLoop, ConsoleDaisyLoop
-
+import logging
 
 class DaisyMaster:
     """ DaisyMaster has two DaisyLoop and is in charger of communicating with the hardware. """
@@ -55,7 +55,8 @@ class DaisyMaster:
 
     def transfer_data(self):
         """ Transfer data to the actual hardware. """
-        self._transfer_data();
+        self.big_muddy_io.loading.pulse()
+        self._transfer_data()
         self.big_muddy_io.loading.pulse()
 
     def _transfer_data(self):
@@ -67,7 +68,8 @@ class DaisyMaster:
             data = self.big_muddy_io.read_data()
             console_bit_received = data[0]
             servo_bit_received = data[1]
-            # print(f'index={index} sending {console_bit_to_send} {servo_bit_to_send}')
+            logging.debug('index=%2d sending %d %d', index, console_bit_to_send, servo_bit_to_send)
+            logging.debug('index=%2d getting %d %d', index, console_bit_received, servo_bit_received)
             self.receive_bits(index, console_bit_received, servo_bit_received)
             self.big_muddy_io.write_data([console_bit_to_send, servo_bit_to_send])
             self.big_muddy_io.shifting.pulse()

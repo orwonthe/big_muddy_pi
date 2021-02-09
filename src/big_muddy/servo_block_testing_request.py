@@ -26,5 +26,4 @@ def servo_block_testing_request(block_servo_tester):
         elif request.form.get('action') == "Not_shorted":
             block_servo_tester.set_is_shorted(False)
         block_servo_tester.transfer_data()
-        block_servo_tester.transfer_data()
     return render_template('servo_block_testing.html', tester=block_servo_tester, subtitle="Block Servo")

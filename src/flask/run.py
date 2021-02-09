@@ -1,3 +1,4 @@
+import logging
 import sys
 
 from block_servo_tester import BlockServoTester
@@ -9,6 +10,7 @@ from flask import render_template
 # insert at 1, 0 is the script path (or '' in REPL)
 from servo_block_testing_request import servo_block_testing_request
 
+logging.basicConfig(level=logging.DEBUG)
 sys.path.insert(1, '..')
 
 from duration_testing import duration_check

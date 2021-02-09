@@ -53,7 +53,7 @@ class BlockServoDaisySocket(DaisySocketOn8to16, BlockMixin, ServoMixin):
 
     @property
     def is_shorted(self):
-        1 == self.bit0
+        0 == self.bit0
 
 
 class TurnoutServoDaisySocket(DaisySocketOn8to16, TurnoutMixin, ServoMixin):

@@ -53,30 +53,21 @@ class BlockServoDaisySocket(DaisySocketOn8to16, BlockMixin, ServoMixin):
 
     @property
     def is_shorted(self):
-        0 == self.bit0
+        return 0 == self.bit0
 
 
 class TurnoutServoDaisySocket(DaisySocketOn8to16, TurnoutMixin, ServoMixin):
-    def __init__(self, district=None, name=None, socket_index=None, gui_index=None):
-        """
+    def __init__(self, district=None, name=None, socket_index=None, gui_index=None, color=None, row=None,
+                 column=None):
+        super().__init__()
+        self.district = district
+        self.name = name
+        self.socket_index = socket_index
+        self.gui_index = gui_index
+        self.color = color
+        self.row = row
+        self.column = column
 
-        :param district: a SocketClient object represents a physical division of the railroad
-        :param name: the name of the cube for user display
-        :param socket_index: The index specifying which available socket is used to connect this cube.
-        :param gui_index: The index of the cube in the console's master list.
-        """
-
-        def __init__(self, district=None, name=None, socket_index=None, gui_index=None, color=None, row=None,
-                     column=None):
-            super().__init__()
-            self.district = district
-            self.name = name
-            self.socket_index = socket_index
-            self.gui_index = gui_index
-            self.color = color
-            self.row = row
-            self.column = column
-
-        @property
-        def moniker(self):
-            return f'{self.socket_index} {self.color} {self.name}'
+    @property
+    def moniker(self):
+        return f'{self.socket_index} {self.color} {self.name}'

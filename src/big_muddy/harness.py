@@ -51,7 +51,7 @@ def data():
 @harness.command()
 def duration():
     """Measure bit length of all daisy chains"""
-    duration_testing()
+    duration_testing(BigMuddyIO.system())
 
 
 @harness.command()
@@ -67,7 +67,7 @@ def flow(check):
 def load(check):
     """Endless data loading"""
     ClockingChecker.set_raise_clock_exceptions(check)
-    load_testing(BigMuddyIO.system())
+    load_testing()
 
 
 @harness.command()

@@ -9,7 +9,7 @@ class DaisyUnit(Domain):
     raspberry pi machine, through several chained unit, then back to the pi.
     There are two loops.
     A console loop connects all the consoles.
-    The servo loop connects all the servocs.
+    The servo loop connects all the servos.
     Each daisy unit consists of 24 bits (3 bytes) of data that is looped in a serial fashion.
     Depending on the unit, each byte may be either input or output.
     """

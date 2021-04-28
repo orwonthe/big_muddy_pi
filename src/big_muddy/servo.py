@@ -64,4 +64,4 @@ class BlockControlServoSocket(ServoSocketClient):
         self.set_selection(4)
 
     def get_is_shorted(self):
-        0 == self.daisy_unit.get_received(self.input_bit_index)
+        return 0 == self.daisy_unit.get_received(self.input_bit_index)

@@ -45,7 +45,7 @@ class BlockServoTester(DaisyModule):
     def kick_start(self):
         self.daisy_master.kick_start()
 
-    def kick_start(self):
+    def push_data(self):
         self.daisy_master.push_data()
 
     def set_is_shorted(self, value):

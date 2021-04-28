@@ -145,7 +145,7 @@ class ClockingPins(GpioLinkedPins):
 
     def pulse(self, count=1):
         """
-        Trasnmit clock pulses
+        Transmit clock pulses
         :param count: how many (default is just one)
         """
         for _ in range(count):

@@ -74,8 +74,10 @@ class BigMuddyIO(SerialDataSystem):
         )
         # Whether the semantics of a signal are inverted in the hardware logic.
         # True here means active low signals.
-        self.shifting.input.inverted = True
-        self.shifting.output.inverted = True
+        self.loading.input.inverted = False # Inverted on the boards but not in the daisy chain.
+        self.loading.output.inverted = False
+        self.shifting.input.inverted = False
+        self.shifting.output.inverted = False
         self.consoles.input.inverted = True
         self.consoles.output.inverted = True
         self.servos.input.inverted = True

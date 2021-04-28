@@ -42,8 +42,11 @@ class BlockServoTester(DaisyModule):
         self.client_socket = self.servo_sockets[client_socket_index]
         self.non_client_socket = self.servo_sockets[non_client_socket_index]
 
-    def transfer_data(self):
-        self.daisy_master.transfer_data()
+    def kick_start(self):
+        self.daisy_master.kick_start()
+
+    def kick_start(self):
+        self.daisy_master.push_data()
 
     def set_is_shorted(self, value):
         self.test_sockets[0].send3(0 if value else 1)

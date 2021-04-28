@@ -53,9 +53,12 @@ class DaisyMaster:
         self.big_muddy_io.loading.pulse()
         self._transfer_data()
 
-    def transfer_data(self):
-        """ Transfer data to the actual hardware. """
+    def kick_start(self):
+        """ Redundant load pulse ensures valid data read when not in continuous cycle """
         self.big_muddy_io.loading.pulse()
+
+    def push_data(self):
+        """ Transfer data to the actual hardware. """
         self._transfer_data()
         self.big_muddy_io.loading.pulse()
 

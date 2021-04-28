@@ -8,8 +8,11 @@ try:
 except ModuleNotFoundError:
     from big_muddy import mock_gpio as GPIO
 
+JUST_TESTING = True
 # Inverse of clocking frequency, default value.
-DEFAULT_CLOCKING_CYCLE = 0.002
+GOOD_TEST_FREQUENCY = 500.0  # hz
+GOOD_LIVE_FREQUENCY = 50 * 1000.0  # hz
+DEFAULT_CLOCKING_CYCLE_SECONDS = (1.0 / GOOD_TEST_FREQUENCY) if JUST_TESTING else (1.0 / GOOD_LIVE_FREQUENCY)
 
 
 def set_modes_and_warnings(gpio):
@@ -123,7 +126,7 @@ class ClockingPins(GpioLinkedPins):
                  out_pin_number,
                  signal_prefix="clock",
                  gpio=None,
-                 cycle=DEFAULT_CLOCKING_CYCLE,
+                 cycle=DEFAULT_CLOCKING_CYCLE_SECONDS,
                  ):
         """
         :param in_pin_number: pin number for returning clock signal
@@ -131,7 +134,6 @@ class ClockingPins(GpioLinkedPins):
         :param signal_prefix: name of clock signal ("shift", "load" etc.)
         :param gpio: real or mocked GPIO system
         :param cycle: clock period (reciprocal of frequency)
-        :param raise_exceptions:
         """
         self.half_cycle = cycle / 2
         super().__init__(

@@ -11,6 +11,8 @@ def servo_cycle_request(servo_cycler):
             servo_cycler.cycle(2)
         elif request.form.get('action') == "Ten":
             servo_cycler.cycle(10)
+        elif request.form.get('action') == "Hex":
+            servo_cycler.cycle(16)
         elif request.form.get('action') == "Hundred":
             servo_cycler.cycle(100)
         elif request.form.get('action') == "Endless":

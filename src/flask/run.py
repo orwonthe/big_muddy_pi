@@ -20,7 +20,7 @@ from counties import BurleighCountyMaster, MortonCountyMaster
 
 burleigh_daisy_master = BurleighCountyMaster()
 morton_daisy_master = MortonCountyMaster()
-block_servo_tester = BlockServoTester(True)
+block_servo_tester = BlockServoTester()
 servo_cycler = ServoCycler()
 
 app = Flask(__name__)

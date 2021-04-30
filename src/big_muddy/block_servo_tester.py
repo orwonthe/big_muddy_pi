@@ -22,28 +22,33 @@ class BlockServoTestingSocket(DaisySocketOn8to16, BlockMixin, ConsoleMixin):
 class BlockServoTester(DaisyModule):
     """ The main test fixture for testing bloc servo boards """
 
-    def __init__(self, using_upper_half):
-        self.using_upper_half = using_upper_half
+    SERVO_SOCKET_INDEX_BY_LETTER = {
+        "A": 0,
+        "B": 1,
+        "C": 2,
+        "D": 3,
+    }
+
+    def __init__(self):
         self.servo_unit = BlockServoDaisyUnit()
         self.test_unit = BlockServoTesterDaisyUnit()
         super().__init__("Daisy Servo Module", [self.servo_unit, self.test_unit])
         self.daisy_master = BlockServoTesterMaster(self.daisy_units)
         self.servo_sockets = [BlockServoDaisySocket(socket_index=index)
-                              for index in [Daisy8to16Unit.SOCKET_A, Daisy8to16Unit.SOCKET_B]]
+                              for index in Daisy8to16Unit.SOCKETS_ABCD]
         self.test_sockets = [BlockServoTestingSocket(socket_index=index) for index in Daisy8to16Unit.SOCKETS_ABCD]
         self.add_sockets(self.servo_sockets)
         self.add_sockets(self.test_sockets)
-        self.choose_client_socket(self.using_upper_half)
         self.daisy_master.set_for_action()
 
-    def choose_client_socket(self, using_upper_half):
-        client_socket_index = 1 if using_upper_half else 0
-        non_client_socket_index = 0 if using_upper_half else 1
-        self.client_socket = self.servo_sockets[client_socket_index]
-        self.non_client_socket = self.servo_sockets[non_client_socket_index]
+    def _servo_socket(self, letter):
+        return self.servo_sockets[self.SERVO_SOCKET_INDEX_BY_LETTER[letter]]
 
     def kick_start(self):
         self.daisy_master.kick_start()
+
+    def pull_data(self):
+        self.daisy_master.pull_data()
 
     def push_data(self):
         self.daisy_master.push_data()
@@ -125,37 +130,50 @@ class BlockServoTester(DaisyModule):
             f'z {self.z_status}',
         ]
 
-    def set_off(self):
-        self.client_socket.set_off()
-        self.non_client_socket.set_off()
+    def _set_others_off(self, selected_socket):
+        for socket in self.servo_sockets:
+            if socket != selected_socket:
+                socket.set_off()
 
-    def set_flash(self):
-        self.client_socket.set_flash()
-        self.non_client_socket.set_off()
+    def set_off(self, socket_letter):
+        selected_socket = self._servo_socket(socket_letter)
+        selected_socket.set_off()
+        self._set_others_off(selected_socket)
 
-    def set_x_normal(self):
-        self.client_socket.set_x_normal()
-        self.non_client_socket.set_off()
+    def set_flash(self, socket_letter):
+        selected_socket = self._servo_socket(socket_letter)
+        selected_socket.set_flash()
+        self._set_others_off(selected_socket)
 
-    def set_x_contrary(self):
-        self.client_socket.set_x_contrary()
-        self.non_client_socket.set_off()
+    def set_x_normal(self, socket_letter):
+        selected_socket = self._servo_socket(socket_letter)
+        selected_socket.set_x_normal()
+        self._set_others_off(selected_socket)
 
-    def set_y_normal(self):
-        self.client_socket.set_y_normal()
-        self.non_client_socket.set_off()
+    def set_x_contrary(self, socket_letter):
+        selected_socket = self._servo_socket(socket_letter)
+        selected_socket.set_x_contrary()
+        self._set_others_off(selected_socket)
 
-    def set_y_contrary(self):
-        self.client_socket.set_y_contrary()
-        self.non_client_socket.set_off()
+    def set_y_normal(self, socket_letter):
+        selected_socket = self._servo_socket(socket_letter)
+        selected_socket.set_y_normal()
+        self._set_others_off(selected_socket)
 
-    def set_z_normal(self):
-        self.client_socket.set_z_normal()
-        self.non_client_socket.set_off()
+    def set_y_contrary(self, socket_letter):
+        selected_socket = self._servo_socket(socket_letter)
+        selected_socket.set_y_contrary()
+        self._set_others_off(selected_socket)
 
-    def set_z_contrary(self):
-        self.client_socket.set_z_contrary()
-        self.non_client_socket.set_off()
+    def set_z_normal(self, socket_letter):
+        selected_socket = self._servo_socket(socket_letter)
+        selected_socket.set_z_normal()
+        self._set_others_off(selected_socket)
+
+    def set_z_contrary(self, socket_letter):
+        selected_socket = self._servo_socket(socket_letter)
+        selected_socket.set_z_contrary()
+        self._set_others_off(selected_socket)
 
 
 class BlockServoTesterMaster(DaisyMaster):

@@ -43,7 +43,7 @@ class BlockControlServoSocket(ServoSocketClient):
         self.daisy_unit.set_to_send(self.output_bit_index + 3, signal_bits & 1)
 
     def set_off(self):
-        self.set_selection(8)
+        self.set_selection(0)
 
     def set_x_normal(self):
         self.set_selection(1)

@@ -28,10 +28,10 @@ class BlockServoDaisySocket(DaisySocketOn8to16, BlockMixin, ServoMixin):
         self.send0(signal_bits & 1)
 
     def set_off(self):
-        self.set_selection(8)
+        self.set_selection(0)
 
     def set_flash(self):
-        self.set_selection(0)
+        self.set_selection(8)
 
     def set_x_normal(self):
         self.set_selection(1)

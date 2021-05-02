@@ -2,7 +2,9 @@
 {% block content %}
 <h2>Servo Block Control Testing</h2>
 <h2>Status</h2>
-<p>{{ tester.status_report}}</p>
+<p>{{ daisy_shorts }}</p>
+<p>{{ daisy_nulls }}</p>
+<p>Test Status {{ status_report }}</p>
 <form action="http://192.168.0.210:5000/servoblocktesting" method="POST">
     <table border="2">
         <tr>

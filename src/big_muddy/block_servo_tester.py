@@ -57,10 +57,6 @@ class BlockServoTester(DaisyModule):
         self.test_sockets[0].send3(0 if value else 1)
 
     @property
-    def is_shorted(self):
-        return self.client_socket.is_shorted
-
-    @property
     def is_stop(self):
         return not self.test_sockets[0].bit1
 
@@ -93,16 +89,16 @@ class BlockServoTester(DaisyModule):
             if contrary:
                 return "BROKEN"
             else:
-                return "normal"
+                return "Normal"
         else:
             if contrary:
-                return "contrary"
+                return "Contrary"
             else:
                 return "off"
 
     @property
-    def on_status(self):
-        return "Stop" if self.is_stop else "Go"
+    def go_status(self):
+        return "STOP" if self.is_stop else "Go"
 
     @property
     def x_status(self):
@@ -117,18 +113,21 @@ class BlockServoTester(DaisyModule):
         return self._status(self.is_z_normal, self.is_z_contrary)
 
     @property
-    def short_status(self):
-        return "SHORTED" if self.is_shorted else "no short"
-
-    @property
     def status_report(self):
         return [
-            self.on_status,
-            self.short_status,
+            self.go_status,
             f'x {self.x_status}',
             f'y {self.y_status}',
             f'z {self.z_status}',
         ]
+
+    @property
+    def daisy_shorts(self):
+        return ["Bang" if socket.bit1 else "Okay" for socket in self.servo_sockets]
+
+    @property
+    def daisy_nulls(self):
+        return ["High" if socket.bit0 else "Low" for socket in self.servo_sockets]
 
     def _set_others_off(self, selected_socket):
         for socket in self.servo_sockets:

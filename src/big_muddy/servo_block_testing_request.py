@@ -33,7 +33,12 @@ def servo_block_testing_request(block_servo_tester):
         block_servo_tester.push_data()  # push out the commands
         block_servo_tester.pull_data()  # pull back the resulting status
 
+    daisy_nulls = block_servo_tester.daisy_nulls
+    daisy_shorts = block_servo_tester.daisy_shorts
+    status_report = block_servo_tester.status_report
     return render_template('servo_block_testing.html',
-                           tester=block_servo_tester,
+                           daisy_shorts=daisy_shorts,
+                           daisy_nulls=daisy_nulls,
+                           status_report=status_report,
                            subtitle=("Block Servo")
                            )

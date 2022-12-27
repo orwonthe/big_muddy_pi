@@ -1,6 +1,7 @@
 import time
 
 from big_muddy_io import BigMuddyIO
+from big_muddy_util import set_and_shift_single
 
 
 def client_connector_test(sleep_time=0.25):
@@ -35,9 +36,8 @@ def client_connector_test(sleep_time=0.25):
                         send_bit = bits & 1
                         if bit_index < 2:
                             bits_expected[client_index][bit_index] = send_bit
-                        big_muddy_io.set_data_pins(send_bit)
                         bits = bits >> 1
-                        big_muddy_io.shifting.pulse()
+                        set_and_shift_single(big_muddy_io, send_bit)
                 big_muddy_io.loading.pulse()
                 if cycle_index > 1:
                     for client_index in range(4):

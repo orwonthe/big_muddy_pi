@@ -17,7 +17,7 @@ Using raspberry pi for control logic on a DC block control railroad.
 1. Connect Console Out to In.
 1. Confirm middle power led is on.
 1. Run **python harness.py shifter --check** .
-1. If no errors stop harness program.
+1. If no errors then stop harness program.
 1. Run **python harness.py duration** and confirm zero durations.
 
 ### Testing Setup Daisy 8 to 16
@@ -44,7 +44,7 @@ Using raspberry pi for control logic on a DC block control railroad.
 ### Clocking Test
 1. Install 74HC14 in U4 (alternate is 74HC04).
 1. Run **python harness.py shifter --check** .
-1. If test fails track clock signal with oscilloscope using **python harness.py shifter --check** . 
+1. If test fails then track clock signal with oscilloscope using **python harness.py shifter --check** . 
 1. Stop test.
 
 ### Duration Test

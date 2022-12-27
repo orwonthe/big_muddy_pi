@@ -1,0 +1,27 @@
+{% extends "master.html" %}
+{% block content %}
+<h2>Servo Cycling</h2>
+<h2>Status</h2>
+<p>{{ tester.status_report}}</p>
+<form action="http://192.168.0.210:5000/servocycle" method="POST">
+    <table border="2">
+        <tr>
+            <td><input type="submit" name="action" value="Once"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" name="action" value="Twice"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" name="action" value="Ten"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" name="action" value="Hundred"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" name="action" value="Endless"></td>
+        </tr>
+    </table>
+</form>
+<h3>Assumption: Servo loop has one block servo control under test.</h3>
+{% endblock %}
+<!doctype html>

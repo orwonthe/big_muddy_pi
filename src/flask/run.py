@@ -1,3 +1,4 @@
+import logging
 import sys
 
 from block_servo_tester import BlockServoTester
@@ -8,7 +9,10 @@ from flask import render_template
 
 # insert at 1, 0 is the script path (or '' in REPL)
 from servo_block_testing_request import servo_block_testing_request
+from servo_cycle_request import servo_cycle_request
+from servo_cycler import ServoCycler
 
+logging.basicConfig(level=logging.DEBUG)
 sys.path.insert(1, '..')
 
 from duration_testing import duration_check
@@ -17,6 +21,7 @@ from counties import BurleighCountyMaster, MortonCountyMaster
 burleigh_daisy_master = BurleighCountyMaster()
 morton_daisy_master = MortonCountyMaster()
 block_servo_tester = BlockServoTester(True)
+servo_cycler = ServoCycler()
 
 app = Flask(__name__)
 
@@ -44,4 +49,8 @@ def morton_county():
 @app.route('/servoblocktesting', methods=['POST', 'GET'])
 def servo_block_testing():
     return servo_block_testing_request(block_servo_tester)
+
+@app.route('/servocycle', methods=['POST', 'GET'])
+def servo_cycling():
+    return servo_cycle_request(servo_cycler)
 

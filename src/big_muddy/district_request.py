@@ -31,9 +31,10 @@ def district_request(district_master, page):
         elif request.form.get('push_value') == "Reflect":
             district_master.pull_data()
             district_console.reflect()
-            district_master.transfer_data()
+            district_master.push_data()
             district_master.show_status()
         else:
+            district_master.kick_start()
             for cube in turnout_cubes:
                 index = cube.gui_index
                 form_key = f'turnout_{index}'
@@ -63,7 +64,7 @@ def district_request(district_master, page):
                     cube.set_normal_green()
                 elif form_value == "+Yellow":
                     cube.set_normal_yellow()
-            district_master.transfer_data()
+            district_master.push_data()
 
     return render_template('district.html', console=district_console, block_cubes=block_cubes,
                            turnout_cubes=turnout_cubes, page=page, subtitle=district_console.name)

@@ -34,7 +34,7 @@ class DaisyLoop:
         """
         if self.delay is not None:
             raise Exception("Can only set delay once.")
-        if (delay > 0):
+        if delay > 0:
             self.delay = delay
             self.bit_count += delay
             self.delay_unit = DaisyUnitDelay(delay)

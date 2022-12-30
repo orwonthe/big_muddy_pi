@@ -4,6 +4,7 @@ from signals import ShiftingPins, SerialDataSystem, set_modes_and_warnings, \
     DataPins, LoadingPins
 
 # GPIO data input and output pin numbers.
+# The daisy chain hardware is connected to these physical pins.
 DATA_A_OUT = 26
 DATA_B_OUT = 24
 SHIFT_OUT = 23
@@ -29,7 +30,7 @@ class BigMuddyIO(SerialDataSystem):
     def __init__(self, gpio=None):
         """
         Create the singleton serial data system.
-        The data and clock bits of the serial system normally return back.
+        The data and clock bits of the serial system normally loop back.
         So if a clock line is changed, and its return line does not change,
         the loop is broken. Normally this will throw an exception.
 
@@ -37,7 +38,7 @@ class BigMuddyIO(SerialDataSystem):
         """
 
         if BigMuddyIO.__BigMuddyIO is not None:
-            raise Exception("This class is a singleton! Create using BigMuddyIO.system()")
+            raise Exception("ERROR: This class is a singleton! Create using BigMuddyIO.system()")
         if gpio is None:
             gpio = GPIO
         self.gpio = gpio
@@ -88,7 +89,7 @@ class BigMuddyIO(SerialDataSystem):
         One time setup of hardware interface.
         """
         if BigMuddyIO.__BigMuddyIO is not None:
-            raise Exception("__setup called externally")
+            raise Exception("ERROR: __setup called externally")
         set_modes_and_warnings(self.gpio)
         super().setup()
         self.loading.write(0)
@@ -97,7 +98,7 @@ class BigMuddyIO(SerialDataSystem):
 
     @staticmethod
     def system():
-        """ Create and setup the BigMuddyIO system singleton """
+        """ Create and set up the BigMuddyIO system singleton """
         if BigMuddyIO.__BigMuddyIO is None:
             big_muddy_io = BigMuddyIO()
             big_muddy_io.__setup()  # The one and only legal call

@@ -52,7 +52,7 @@ def create_cube_from_description(description):
             gui_index=description["gui_index"]
         )
     else:
-        raise Exception("Cannot understand cube from description")
+        raise Exception("ERROR: Cannot understand cube from description")
 
 
 class LeftTurnoutControlCube(TurnoutConsoleDaisySocket):

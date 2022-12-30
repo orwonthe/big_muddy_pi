@@ -35,12 +35,12 @@ class ClockingChecker:
         """ Raise exception if value is not False """
         """ Throw an exception if expectation is False and exception is on """
         if value and ClockingChecker.__raise_exception:
-            raise SignalException("Clock stuck high")
+            raise SignalException("ERROR: Clock stuck high")
         return not value
 
     @staticmethod
     def expect_true(value):
         """ Raise exception if value is not True """
         if not value and ClockingChecker.__raise_exception:
-            raise SignalException("Clock stuck low")
+            raise SignalException("ERROR: Clock stuck low")
         return value

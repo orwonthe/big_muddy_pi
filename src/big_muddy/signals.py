@@ -119,7 +119,7 @@ class GpioLinkedPins(SignalList):
 
 
 class ClockingPins(GpioLinkedPins):
-    """ Pair of gpio pins used for daisy chained clocking signal. """
+    """ Pair of gpio pins used for daisy-chained clocking signal. """
 
     def __init__(self,
                  in_pin_number,
@@ -225,7 +225,7 @@ class DataPins(GpioLinkedPins):
             else:
                 self._duration += 1
         elif not self.read():
-            raise SignalException("broken data chain at " + self.signal_name)
+            raise SignalException("ERROR: broken data chain at " + self.signal_name)
 
 
 class SerialDataSystem(SignalList):
@@ -290,7 +290,7 @@ class SerialDataSystem(SignalList):
 
     def set_data_pins(self, value):
         """
-        push the value to all of the data signal input pins.
+        push the value to all the data signal input pins.
         No clock cycle.
 
         :param value:
@@ -306,7 +306,7 @@ class SerialDataSystem(SignalList):
     def check_cleared(self):
         for data_signal in self.data_signals:
             if data_signal.check_cleared():
-                print(data_signal.signal_name + ' would not clear')
+                print('Warning: ' + data_signal.signal_name + ' would not clear')
 
     def check_duration(self):
         for data_signal in self.data_signals:
@@ -347,7 +347,7 @@ class SerialDataSystem(SignalList):
         for data_signal in self.data_signals:
             data_duration = data_signal.duration
             if data_duration is None:
-                raise SignalException("Unable to determine duration for " + data_signal.signal_name)
+                raise SignalException("Error: Unable to determine duration for " + data_signal.signal_name)
             elif data_duration > duration:
                 duration = data_duration
         self.duration = duration

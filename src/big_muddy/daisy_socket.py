@@ -22,9 +22,9 @@ class DaisySocket(Domain):
     def add_to_daisy_unit(self, daisy_unit, daisy_unit_socket_index):
         """ Add self to the given daisy unit """
         if self.daisy_unit is not None:
-            raise Exception("DaisySocket can only be added once to a daisy unit.")
+            raise Exception("ERROR: DaisySocket can only be added once to a daisy unit.")
         if not self.is_same_domain(daisy_unit):
-            raise Exception("DaisySocket can only be added to daisy unit with matching domain.")
+            raise Exception("ERROR: DaisySocket can only be added to daisy unit with matching domain.")
         self.daisy_unit = daisy_unit
         self.on_add_to_daisy_unit(daisy_unit_socket_index)
 

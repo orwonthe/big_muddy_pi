@@ -22,7 +22,7 @@ class DaisyLoop:
     def add_daisy_unit(self, daisy_unit):
         """ Add another daisy unit """
         if self.delay is not None:
-            raise Exception("Cannot add units once delay is fixed.")
+            raise Exception("ERROR: Cannot add units once delay is fixed.")
         self.daisy_units.append(daisy_unit)
         self.bit_count += daisy_unit.bit_count
 
@@ -33,7 +33,7 @@ class DaisyLoop:
         :param delay: positive if this loop is too short, negative if this loop is longer and needs no delay
         """
         if self.delay is not None:
-            raise Exception("Can only set delay once.")
+            raise Exception("ERROR: Can only set delay once.")
         if delay > 0:
             self.delay = delay
             self.bit_count += delay
@@ -44,7 +44,7 @@ class DaisyLoop:
     def set_for_action(self):
         """ Once all the units are added and delay is known, organize for the task of sending and receiving data bits"""
         if self.delay is None:
-            raise Exception("Can only set for action once delay is known.")
+            raise Exception("ERROR: Can only set for action once delay is known.")
         if self.delay_unit:
             send_list = [self.delay_unit] + self.daisy_units
             receive_list = self.daisy_units + [self.delay_unit]

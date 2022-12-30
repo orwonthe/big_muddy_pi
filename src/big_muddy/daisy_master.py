@@ -16,7 +16,7 @@ class DaisyMaster:
     def set_for_action(self):
         """ Do the one time setup of locating all the bits and balancing the delays (call exactly once). """
         if self.__set_for_action:
-            raise Exception("Can only set daisy master for action once.")
+            raise Exception("ERROR: Can only set daisy master for action once.")
         initial_console_bits = self.console_loop.bit_count
         initial_servo_bits = self.servo_loop.bit_count
         self.bit_count = max(initial_console_bits, initial_servo_bits)
@@ -65,7 +65,7 @@ class DaisyMaster:
     def _transfer_data(self):
         """ Do the serial data shifting sans load pulse. """
         if not self.__set_for_action:
-            raise Exception("No data transfer allowed before DaisyMaster is set for action.")
+            raise Exception("ERROR: No data transfer allowed before DaisyMaster is set for action.")
         for index in range(self.bit_count):
             console_bit_to_send, servo_bit_to_send = self.bits_to_send(index)
             data = self.big_muddy_io.read_data()

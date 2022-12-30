@@ -96,13 +96,13 @@ class DomainLists:
             elif domain.is_turnout:
                 return self.turnout_servos
             else:
-                raise Exception("servo domain must be either block or turnout")
+                raise Exception("ERROR: servo domain must be either block or turnout")
         elif domain.is_console:
             if domain.is_block:
                 return self.block_consoles
             elif domain.is_turnout:
                 return self.turnout_consoles
             else:
-                raise Exception("console domain must be either block or turnout")
+                raise Exception("ERROR: console domain must be either block or turnout")
         else:
-            raise Exception("domain must be either servo or console")
+            raise Exception("ERROR: domain must be either servo or console")

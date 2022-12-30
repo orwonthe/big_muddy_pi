@@ -18,7 +18,7 @@ class DaisyModule(DomainLists):
     def add_to_master(self, daisy_master):
         """ One time call to add module to the daisy master. """
         if self._added_to_master:
-            raise Exception("Can only add once to daisy master. ")
+            raise Exception("ERROR: Can only add once to daisy master. ")
         daisy_master.add_daisy_units(self.daisy_units)
         self._added_to_master = True
 

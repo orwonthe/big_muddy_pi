@@ -6,7 +6,7 @@ class DaisyUnit(Domain):
     A software DaisyUnit is the software companion to a hardware daisy unit.
 
     Each unit is embedded in a daisy chain of units that loop from the controlling
-    raspberry pi machine, through several chained unit, then back to the pi.
+    raspberry pi machine, through several chained units, then back to the pi.
     There are two loops.
     A console loop connects all the consoles.
     The servo loop connects all the servos.

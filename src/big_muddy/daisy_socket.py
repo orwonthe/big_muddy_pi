@@ -16,7 +16,7 @@ class DaisySocket(Domain):
 
     @property
     def action(self):
-        """ User friendly description of what the daisy socket does """
+        """ User-friendly description of what the daisy socket does """
         return self.purpose
 
     def add_to_daisy_unit(self, daisy_unit, daisy_unit_socket_index):

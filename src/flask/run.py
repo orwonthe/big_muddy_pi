@@ -35,7 +35,7 @@ def duration_checking():
     burleigh = None
     morton = None
     for duration in durations:
-        if duration['name'] == 'console':
+        if duration['name'] == 'consoles':
             burleigh, morton = county_deducer(duration['daisy'])
     return render_template('duration.html', durations=durations, subtitle="Durations", morton=morton, burleigh=burleigh)
 

@@ -1,12 +1,26 @@
 {% extends "master.html" %}
 {% block content %}
-<h2>Duration Test Results</h2>
-    <table border = "2" cellpadding = "6" >
-        <tr><th>Loop</th><th>Bits</th><th>Daisy Units</th></tr>
+  <h2>Duration Test Results</h2>
+  <table border="2" cellpadding="6">
+    <tr>
+      <th>Loop</th>
+      <th>Bits</th>
+      <th>Daisy Units</th>
+    </tr>
     {% for item in durations %}
-        <tr><td>{{ item.name }}</td><td>{{ item.bits }}</td><td>{{ item.daisy }}</td></tr>
+      <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.bits }}</td>
+        <td>{{ item.daisy }}</td>
+      </tr>
     {% endfor %}
-    </table>
+  </table>
+  {% if burleigh %}
+    <h4>{{ burleigh }} Burleigh Consoles</h4>
+  {% endif %}
+  {% if morton %}
+    <h4>{{ morton }} Morton Consoles</h4>
+  {% endif %}
 {% endblock %}
 <!doctype html>
 <title>Big Muddy Railroad</title>

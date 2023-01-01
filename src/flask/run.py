@@ -2,6 +2,7 @@ import logging
 import sys
 
 from block_servo_tester import BlockServoTester
+from county_deducer import county_deducer
 from district_request import district_request
 
 from flask import Flask
@@ -31,7 +32,12 @@ app = Flask(__name__)
 @app.route('/duration')
 def duration_checking():
     durations = duration_check()
-    return render_template('duration.html', durations=durations, subtitle="Durations")
+    burleigh = None
+    morton = None
+    for duration in durations:
+        if duration['name'] == 'console':
+            burleigh, morton = county_deducer(duration['daisy'])
+    return render_template('duration.html', durations=durations, subtitle="Durations", morton=morton, burleigh=burleigh)
 
 
 @app.route('/burleigh', methods=['POST', 'GET'])

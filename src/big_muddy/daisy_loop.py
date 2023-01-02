@@ -14,7 +14,7 @@ class DaisyLoop:
         self.bit_sender = []
 
     def show_status(self):
-        """ Show the status of all of the contained daisy units """
+        """ Show the status of all the contained daisy units """
         print(f'{self.second_term} loop:')
         for daisy_unit in self.daisy_units:
             daisy_unit.show_status()
@@ -37,6 +37,7 @@ class DaisyLoop:
         if delay > 0:
             self.delay = delay
             self.bit_count += delay
+            # Delay unit handles the fact that there are more bits in a cycle than physical shift registers.
             self.delay_unit = DaisyUnitDelay(delay)
         else:
             self.delay = 0

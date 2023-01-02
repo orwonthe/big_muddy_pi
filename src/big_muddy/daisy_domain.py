@@ -8,6 +8,10 @@ class Domain:
     def is_same_domain(self, other):
         return (self.is_console == other.is_console) and (self.is_block == other.is_block)
 
+    @property
+    def category(self):
+        return f'{self.district}-{self.name}'
+
 
 class BlockMixin:
     """ A block and not a turnout """

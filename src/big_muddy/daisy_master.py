@@ -17,12 +17,18 @@ class DaisyMaster:
         """ Do the one time setup of locating all the bits and balancing the delays (call exactly once). """
         if self.__set_for_action:
             raise Exception("ERROR: Can only set daisy master for action once.")
+
+        # Determine the length of the serial bit string.
         initial_console_bits = self.console_loop.bit_count
         initial_servo_bits = self.servo_loop.bit_count
         self.bit_count = max(initial_console_bits, initial_servo_bits)
         print(f"bit count={self.bit_count} console={initial_console_bits} servo={initial_servo_bits}")
+
+        # Add some delay to which ever loop might be shorter. (Negative delays are ignored.)
         self.console_loop.add_delay(initial_servo_bits - initial_console_bits)
         self.servo_loop.add_delay(initial_console_bits - initial_servo_bits)
+
+        # Set up each loop for action.
         self.console_loop.set_for_action()
         self.servo_loop.set_for_action()
         self.__set_for_action = True

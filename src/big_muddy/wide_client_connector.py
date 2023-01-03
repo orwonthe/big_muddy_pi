@@ -39,23 +39,23 @@ class WideClientConnector:
         for out_bit_index in range(8):
             bit_to_send = 1 if out_bit_index == self.client_index else 0
             self.big_muddy_io.consoles.write(bit_to_send)
-            self.big_muddy_io.shifting.pulse()
+            self.big_muddy_io.shifting.timed_pulse()
         self.big_muddy_io.consoles.write(0)
-        self.big_muddy_io.shifting.pulse(16)
+        self.big_muddy_io.shifting.timed_pulse(16)
 
         # set all client out bits low
-        self.big_muddy_io.loading.pulse()
-        self.big_muddy_io.shifting.pulse(24)
+        self.big_muddy_io.loading.timed_pulse()
+        self.big_muddy_io.shifting.timed_pulse(24)
 
         # read result
-        self.big_muddy_io.loading.pulse()
-        self.big_muddy_io.shifting.pulse(8)
+        self.big_muddy_io.loading.timed_pulse()
+        self.big_muddy_io.shifting.timed_pulse(8)
         for in_client_index in range(8):
             number = 0
             for bit_index in range(2):
                 bit_read = self.big_muddy_io.consoles.read()
                 number += bit_read << bit_index
-                self.big_muddy_io.shifting.pulse()
+                self.big_muddy_io.shifting.timed_pulse()
             if self.client_index == in_client_index:
                 self.bits.append(number)
 

@@ -143,7 +143,20 @@ class ClockingPins(GpioLinkedPins):
             gpio=gpio
         )
 
-    def pulse(self, count=1):
+    def pulse(self):
+        """
+        Transmit clock pulses
+        """
+        self.output.write(1)
+        while True:
+            if self.read():
+                break
+        self.output.write(0)
+        while True:
+            if not self.read():
+                break
+
+    def timed_pulse(self, count=1):
         """
         Transmit clock pulses
         :param count: how many (default is just one)

@@ -8,7 +8,7 @@ try:
 except ModuleNotFoundError:
     from big_muddy import mock_gpio as GPIO
 
-JUST_TESTING = False
+JUST_TESTING = True
 # Inverse of clocking frequency, default value.
 GOOD_TEST_FREQUENCY = 500.0  # hz
 GOOD_LIVE_FREQUENCY = 50 * 1000.0  # hz

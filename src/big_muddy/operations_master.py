@@ -205,8 +205,10 @@ class OperationsMaster(DaisyMaster):
         print('Cleared.')
 
     def cycle(self):
+        # print('O')
         for operator in self.operator_list:
             operator.cycle()
+        # print('p')
         self.push_data()
 
 

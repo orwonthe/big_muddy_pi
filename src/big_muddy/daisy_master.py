@@ -77,8 +77,8 @@ class DaisyMaster:
             data = self.big_muddy_io.read_data()
             console_bit_received = data[0]
             servo_bit_received = data[1]
-            logging.debug('index=%2d sending %d %d', index, console_bit_to_send, servo_bit_to_send)
-            logging.debug('index=%2d getting %d %d', index, console_bit_received, servo_bit_received)
+            # logging.debug('index=%2d sending %d %d', index, console_bit_to_send, servo_bit_to_send)
+            # logging.debug('index=%2d getting %d %d', index, console_bit_received, servo_bit_received)
             self.receive_bits(index, console_bit_received, servo_bit_received)
             self.big_muddy_io.write_data([console_bit_to_send, servo_bit_to_send])
             self.big_muddy_io.shifting.pulse()

@@ -5,7 +5,7 @@ from daisy_master import DaisyMaster
 # Console recipe is the sequence of consoles in their order of appearance in the daisy chain.
 # 'M' Means a Morton County Console.
 # 'B' Means a Burleigh County Console.
-DEFAULT_CONSOLE_RECIPE = "MBMBMB"
+DEFAULT_CONSOLE_RECIPE = "BMBMBM"
 
 
 class Operator:
@@ -57,17 +57,19 @@ class TurnoutOperator(Operator):
         self.invoke_next_state()
 
     def determine_next_state(self):
-        contrary_requested = False
-        normal_requested = False
+        contrary_requested = 0
+        normal_requested = 0
+        bit_weight = 1
         for cube in self.cubes:
             contrary, normal = cube.push_button_state
-            contrary_requested = contrary_requested or contrary
-            normal_requested = normal_requested or normal
+            contrary_requested += bit_weight * contrary
+            normal_requested += bit_weight * normal
+            bit_weight *= 2
         if contrary_requested and not normal_requested:
-            print(f'{self.status} siding')
+            print(f'{self.status} siding {contrary_requested}')
             self.contrary = True
         elif normal_requested and not contrary_requested:
-            print(f'{self.status} main')
+            print(f'{self.status} main {normal_requested}')
             self.contrary = False
 
     def invoke_next_state(self):

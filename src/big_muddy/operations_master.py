@@ -23,7 +23,60 @@ class Operator:
 
     @property
     def status(self):
-        return f'{self.category}:{len(self.cubes)}'
+        return f' {self.function} at {self.category}:{len(self.cubes)}'
+
+
+class BlockOperator(Operator):
+    @property
+    def function(self):
+        return "Block Control"
+
+    def clear(self):
+        for cube in self.cubes:
+            cube.set_normal_off()
+
+    def cycle(self):
+        self.clear()
+
+
+class TurnoutOperator(Operator):
+    def __init__(self):
+        super(TurnoutOperator, self).__init__()
+        self.contrary = False
+
+    @property
+    def function(self):
+        return "Turnout Control"
+
+    def clear(self):
+        for cube in self.cubes:
+            cube.set_at_main()
+
+    def cycle(self):
+        self.determine_next_state()
+        self.invoke_next_state()
+
+    def determine_next_state(self):
+        contrary_requested = False
+        normal_requested = False
+        for cube in self.cubes:
+            contrary, normal = cube.push_button_state
+            contrary_requested = contrary_requested or contrary
+            normal_requested = normal_requested or normal
+        if contrary_requested and not normal_requested:
+            print(f'{self.status} siding')
+            self.contrary = True
+        elif normal_requested and not contrary_requested:
+            print(f'{self.status} main')
+            self.contrary = False
+
+    def invoke_next_state(self):
+        if self.contrary:
+            for cube in self.cubes:
+                cube.set_at_siding()
+        else:
+            for cube in self.cubes:
+                cube.set_at_main()
 
 
 class OperationsMaster(DaisyMaster):
@@ -58,18 +111,12 @@ class OperationsMaster(DaisyMaster):
         self.modules.append(daisy_module)
         self.socket_collections.append(socket_collection)
         self.consoles.append((daisy_module, socket_collection))
+        for daisy_unit in daisy_module.daisy_units:
+            self.add_daisy_unit(daisy_unit)
 
     def add_sockets_to_consoles(self):
         for module, sockets in self.consoles:
             module.add_sockets(sockets.cubes)
-
-    def cycle(self):
-        self.push_data()
-
-    def print_status(self):
-        print('Hello from Big Muddy RR. All aboard!')
-        for operator in self.operator_list:
-            print(operator.status)
 
     def add_operators(self):
         for socket_collection in self.socket_collections:
@@ -81,12 +128,33 @@ class OperationsMaster(DaisyMaster):
         category = cube.category
         operator = self.operator_dict.get(category)
         if operator is None:
-            operator = Operator()
+            if cube.first_term == "block":
+                operator = BlockOperator()
+            else:
+                operator = TurnoutOperator()
             self.operator_dict[category] = operator
             self.operator_list.append(operator)
         return operator
+
+    def print_status(self):
+        print('Hello from Big Muddy RR. All aboard!')
+        for operator in self.operator_list:
+            print(operator.status)
+
+    def clear(self):
+        for operator in self.operator_list:
+            operator.clear()
+        print('Cleared.')
+
+    def cycle(self):
+        for operator in self.operator_list:
+            operator.cycle()
+        self.push_data()
 
 
 if __name__ == '__main__':
     master = OperationsMaster()
     master.print_status()
+    master.clear()
+    while True:
+        master.cycle()

@@ -1,7 +1,9 @@
 # Copyright 2022 WillyMillsLLC
-from counties import BurleighConsoleDaisyModule, BurleighConsoleSocketCollection, MortonConsoleDaisyModule, \
-    MortonConsoleSocketCollection, BurleighTurnoutServoDaisyModule, BurleighTurnoutServoSocketCollection, \
-    BurleighTurnoutServoClientCollection
+from counties import BurleighConsoleDaisyModule, MortonConsoleDaisyModule, \
+    MortonConsoleSocketCollection, BurleighTurnoutServoDaisyModule
+from burleigh_console_socket_collection import BurleighConsoleSocketCollection
+from burleigh_turnout_servo_client_collection import BurleighTurnoutServoClientCollection
+from burleigh_turnout_servo_socket_collection import BurleighTurnoutServoSocketCollection
 from daisy_master import DaisyMaster
 
 # Console recipe is the sequence of consoles in their order of appearance in the daisy chain.

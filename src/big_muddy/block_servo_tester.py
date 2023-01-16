@@ -1,22 +1,9 @@
-from daisy_domain import BlockMixin, ConsoleMixin
-from daisy_master import DaisyMaster
+from block_servo_tester_daisy_unit import BlockServoTesterDaisyUnit
+from block_servo_tester_master import BlockServoTesterMaster
+from block_servo_testing_socket import BlockServoTestingSocket
 from daisy_module import DaisyModule
-from daisy_socket import DaisySocketOn8to16
-from daisy_unit import BlockServoDaisyUnit, BlockConsoleDaisyUnit, Daisy8to16Unit
+from daisy_unit import BlockServoDaisyUnit, Daisy8to16Unit
 from servo_socket_client import BlockServoDaisySocket
-
-
-class BlockServoTesterDaisyUnit(BlockConsoleDaisyUnit):
-    """ Tester uses any 8to16 unit but should be hooked up on console loop """
-    pass
-
-
-class BlockServoTestingSocket(DaisySocketOn8to16, BlockMixin, ConsoleMixin):
-    """ Test fixture uses 4 of these sockets """
-
-    def __init__(self, socket_index):
-        self.socket_index = socket_index
-        super().__init__()
 
 
 class BlockServoTester(DaisyModule):
@@ -175,8 +162,3 @@ class BlockServoTester(DaisyModule):
         self._set_others_off(selected_socket)
 
 
-class BlockServoTesterMaster(DaisyMaster):
-    """ Defines setup for testing block servo controller board """
-
-    def __init__(self, daisy_units):
-        super().__init__(daisy_units)

@@ -1,13 +1,9 @@
 from clocking_checker import ClockingChecker
-from daisy_master import DaisyMaster
 from daisy_module import DaisyModule
 from daisy_unit import BlockServoDaisyUnit, Daisy8to16Unit
-from servo_socket_client import BlockServoDaisySocket
+from servo_cycler_master import ServoCycleMaster
+from block_servo_daisy_socket import BlockServoDaisySocket
 import logging
-
-
-class ServoCyclerDaisyUnit(BlockServoDaisyUnit):
-    pass
 
 
 class ServoCycler(DaisyModule):
@@ -38,8 +34,3 @@ class ServoCycler(DaisyModule):
             self.daisy_master.push_data()
 
 
-class ServoCycleMaster(DaisyMaster):
-    """ Defines setup for testing block servo controller board """
-
-    def __init__(self, daisy_units):
-        super().__init__(daisy_units)

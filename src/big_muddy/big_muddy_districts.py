@@ -1,10 +1,10 @@
-from districts import normalize
+from districts import normalize_cube_dictionary_list
 
 """
 Describe the console blocks for the two counties
 """
 
-MORTON_COUNTY_TURNOUTS = normalize("Morton", "turnout", [
+MORTON_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Morton", "turnout", [
     {
         "direction": "left",
         "name": "rejoin yard",
@@ -141,7 +141,7 @@ MORTON_COUNTY_TURNOUTS = normalize("Morton", "turnout", [
         "servo_socket": 9,
     },
 ])
-BURLEIGH_COUNTY_TURNOUTS = normalize("Burleigh", "turnout", [
+BURLEIGH_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Burleigh", "turnout", [
     {
         "direction": "right",
         "name": "rejoin main",
@@ -224,7 +224,7 @@ BURLEIGH_COUNTY_TURNOUTS = normalize("Burleigh", "turnout", [
     },
 ])
 
-MORTON_COUNTY_BLOCKS = normalize("Morton", "block", [
+MORTON_COUNTY_BLOCKS = normalize_cube_dictionary_list("Morton", "block", [
     {
         "name": "rejoin",
         "color": "purple",
@@ -290,7 +290,7 @@ MORTON_COUNTY_BLOCKS = normalize("Morton", "block", [
         "servo_socket": 1,
     },
 ])
-BURLEIGH_COUNTY_BLOCKS = normalize("Burleigh", "block", [
+BURLEIGH_COUNTY_BLOCKS = normalize_cube_dictionary_list("Burleigh", "block", [
     {
         "name": "bridge",
         "color": "brown",

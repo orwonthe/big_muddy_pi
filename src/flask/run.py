@@ -16,8 +16,9 @@ from servo_cycler import ServoCycler
 logging.basicConfig(level=logging.DEBUG)
 sys.path.insert(1, '..')
 
-from duration_testing import duration_check
-from counties import BurleighCountyMaster, MortonCountyMaster
+from duration_check import duration_check
+from morton_county_master import MortonCountyMaster
+from burleigh_county_master import BurleighCountyMaster
 
 burleigh_daisy_master = BurleighCountyMaster()
 morton_daisy_master = MortonCountyMaster()

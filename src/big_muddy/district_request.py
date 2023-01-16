@@ -1,19 +1,5 @@
 from big_muddy_io import BigMuddyIO
-
-from flask import render_template
-from flask import request
-
-
-def big_muddy_clear_all():
-    big_muddy_io = BigMuddyIO.system()
-    print("clearing console")
-    big_muddy_io.set_all(0)
-
-
-def big_muddy_set_all():
-    big_muddy_io = BigMuddyIO.system()
-    print("setting console")
-    big_muddy_io.set_all(1)
+from flask import render_template, request
 
 
 def district_request(district_master, page):
@@ -68,3 +54,15 @@ def district_request(district_master, page):
 
     return render_template('district.html', console=district_console, block_cubes=block_cubes,
                            turnout_cubes=turnout_cubes, page=page, subtitle=district_console.name)
+
+
+def big_muddy_clear_all():
+    big_muddy_io = BigMuddyIO.system()
+    print("clearing console")
+    big_muddy_io.set_all(0)
+
+
+def big_muddy_set_all():
+    big_muddy_io = BigMuddyIO.system()
+    print("setting console")
+    big_muddy_io.set_all(1)

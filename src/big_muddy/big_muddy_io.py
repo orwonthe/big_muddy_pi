@@ -1,7 +1,10 @@
 from RPi import GPIO
 
-from signals import ShiftingPins, SerialDataSystem, set_modes_and_warnings, \
-    DataPins, LoadingPins
+from serial_data_system import SerialDataSystem
+from data_pins import DataPins
+from shifting_pins import ShiftingPins
+from loading_pins import LoadingPins
+from set_modes_and_warnings import set_modes_and_warnings
 
 # GPIO data input and output pin numbers.
 # The daisy chain hardware is connected to these physical pins.

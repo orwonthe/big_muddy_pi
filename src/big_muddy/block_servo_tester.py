@@ -3,7 +3,7 @@ from block_servo_tester_master import BlockServoTesterMaster
 from block_servo_testing_socket import BlockServoTestingSocket
 from daisy_module import DaisyModule
 from daisy_unit import BlockServoDaisyUnit, Daisy8to16Unit
-from servo_socket_client import BlockServoDaisySocket
+from block_servo_daisy_socket import BlockServoDaisySocket
 
 
 class BlockServoTester(DaisyModule):

@@ -10,7 +10,7 @@ from data_probe import data_probe
 from duration_testing import duration_testing
 from flow_testing import flow_testing
 from load_testing import load_testing
-from shift_tester import shift_clock_testing
+from shift_clock_testing import shift_clock_testing
 from wide_client_connector import wide_client_connector_test
 
 COMMAND_OPTIONS = [

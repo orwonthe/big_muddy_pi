@@ -1,6 +1,6 @@
 # Copyright 2022 WillyMillsLLC
 from big_muddy_districts import BURLEIGH_COUNTY_TURNOUTS
-from cubes import generate_servos_from_descriptions
+from servos import generate_servos_from_descriptions
 from daisy_socket import DaisySocketCollection
 
 

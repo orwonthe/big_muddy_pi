@@ -11,7 +11,8 @@ MORTON_COUNTY_TURNOUTS = normalize("Morton", "turnout", [
         "color": "purple",
         "row": 0,
         "column": 7,
-        "socket": 4
+        "console_socket": 4,
+        "servo_socket": 4
     },
     {
         "direction": "left",
@@ -19,7 +20,8 @@ MORTON_COUNTY_TURNOUTS = normalize("Morton", "turnout", [
         "color": "purple+green",
         "row": 0,
         "column": 5,
-        "socket": 13
+        "console_socket": 13,
+        "servo_socket": 13,
     },
     {
         "direction": "left",
@@ -27,7 +29,8 @@ MORTON_COUNTY_TURNOUTS = normalize("Morton", "turnout", [
         "color": "gray+black",
         "row": 0,
         "column": 0,
-        "socket": 8
+        "console_socket": 8,
+        "servo_socket": 8,
     },
     {
         "direction": "left",
@@ -35,7 +38,8 @@ MORTON_COUNTY_TURNOUTS = normalize("Morton", "turnout", [
         "color": "orange+green",
         "row": 5,
         "column": 2,
-        "socket": 14
+        "console_socket": 14,
+        "servo_socket": 14,
     },
     {
         "direction": "left",
@@ -43,7 +47,8 @@ MORTON_COUNTY_TURNOUTS = normalize("Morton", "turnout", [
         "color": "pink+yellow",
         "row": 5,
         "column": 3,
-        "socket": 15
+        "console_socket": 15,
+        "servo_socket": 15,
     },
     {
         "direction": "right",
@@ -51,7 +56,8 @@ MORTON_COUNTY_TURNOUTS = normalize("Morton", "turnout", [
         "color": "yellow",
         "row": 3,
         "column": 3,
-        "socket": 12
+        "console_socket": 12,
+        "servo_socket": 12,
     },
     {
         "direction": "left",
@@ -59,7 +65,8 @@ MORTON_COUNTY_TURNOUTS = normalize("Morton", "turnout", [
         "color": "purple+yellow",
         "row": 2,
         "column": 4,
-        "socket": 10
+        "console_socket": 10,
+        "servo_socket": 10,
     },
     {
         "direction": "left",
@@ -67,7 +74,8 @@ MORTON_COUNTY_TURNOUTS = normalize("Morton", "turnout", [
         "color": "purple+pink",
         "row": 2,
         "column": 5,
-        "socket": 6
+        "console_socket": 6,
+        "servo_socket": 6,
     },
     {
         "direction": "left",
@@ -75,7 +83,8 @@ MORTON_COUNTY_TURNOUTS = normalize("Morton", "turnout", [
         "color": "purple+pink",
         "row": 2,
         "column": 6,
-        "socket": 2
+        "console_socket": 2,
+        "servo_socket": 2,
     },
     {
         "direction": "right",
@@ -83,7 +92,8 @@ MORTON_COUNTY_TURNOUTS = normalize("Morton", "turnout", [
         "color": "pink+purple",
         "row": 2,
         "column": 7,
-        "socket": 5
+        "console_socket": 5,
+        "servo_socket": 5,
     },
     {
         "direction": "left",
@@ -91,7 +101,8 @@ MORTON_COUNTY_TURNOUTS = normalize("Morton", "turnout", [
         "color": "pink",
         "row": 5,
         "column": 5,
-        "socket": 1
+        "console_socket": 1,
+        "servo_socket": 1,
     },
     {
         "direction": "left",
@@ -99,7 +110,8 @@ MORTON_COUNTY_TURNOUTS = normalize("Morton", "turnout", [
         "color": "pink",
         "row": 5,
         "column": 6,
-        "socket": 3
+        "console_socket": 3,
+        "servo_socket": 3,
     },
     {
         "direction": "left",
@@ -107,7 +119,8 @@ MORTON_COUNTY_TURNOUTS = normalize("Morton", "turnout", [
         "color": "pink",
         "row": 5,
         "column": 7,
-        "socket": 0
+        "console_socket": 0,
+        "servo_socket": 0,
     },
     {
         "direction": "left",
@@ -115,7 +128,8 @@ MORTON_COUNTY_TURNOUTS = normalize("Morton", "turnout", [
         "color": "blue+green",
         "row": 1,
         "column": 3,
-        "socket": 11
+        "console_socket": 11,
+        "servo_socket": 11,
     },
     {
         "direction": "left",
@@ -123,7 +137,8 @@ MORTON_COUNTY_TURNOUTS = normalize("Morton", "turnout", [
         "color": "blue",
         "row": 1,
         "column": 1,
-        "socket": 9
+        "console_socket": 9,
+        "servo_socket": 9,
     },
 ])
 BURLEIGH_COUNTY_TURNOUTS = normalize("Burleigh", "turnout", [
@@ -133,7 +148,9 @@ BURLEIGH_COUNTY_TURNOUTS = normalize("Burleigh", "turnout", [
         "color": "purple",
         "row": 0,
         "column": 2,
-        "socket": 0
+        "console_socket": 0,
+        "servo_socket": 0,
+        "servo_half": 0,
     },
     {
         "direction": "right",
@@ -141,7 +158,9 @@ BURLEIGH_COUNTY_TURNOUTS = normalize("Burleigh", "turnout", [
         "color": "green+orange",
         "row": 0,
         "column": 3,
-        "socket": 1
+        "console_socket": 1,
+        "servo_socket": 0,
+        "servo_half": 1,
     },
     {
         "direction": "left",
@@ -149,7 +168,9 @@ BURLEIGH_COUNTY_TURNOUTS = normalize("Burleigh", "turnout", [
         "color": "green+orange",
         "row": 0,
         "column": 6,
-        "socket": 2
+        "console_socket": 2,
+        "servo_socket": 1,
+        "servo_half": 0,
     },
     {
         "direction": "right",
@@ -157,7 +178,9 @@ BURLEIGH_COUNTY_TURNOUTS = normalize("Burleigh", "turnout", [
         "color": "orange",
         "row": 1,
         "column": 4,
-        "socket": 3
+        "console_socket": 3,
+        "servo_socket": 1,
+        "servo_half": 1,
     },
     {
         "direction": "right",
@@ -165,7 +188,9 @@ BURLEIGH_COUNTY_TURNOUTS = normalize("Burleigh", "turnout", [
         "color": "orange+yellow",
         "row": 2,
         "column": 5,
-        "socket": 4
+        "console_socket": 4,
+        "servo_socket": 2,
+        "servo_half": 0,
     },
     {
         "direction": "right",
@@ -173,7 +198,9 @@ BURLEIGH_COUNTY_TURNOUTS = normalize("Burleigh", "turnout", [
         "color": "orange",
         "row": 2,
         "column": 6,
-        "socket": 5
+        "console_socket": 5,
+        "servo_socket": 2,
+        "servo_half": 1,
     },
     {
         "direction": "right",
@@ -181,7 +208,9 @@ BURLEIGH_COUNTY_TURNOUTS = normalize("Burleigh", "turnout", [
         "color": "yellow",
         "row": 4,
         "column": 6,
-        "socket": 6
+        "console_socket": 6,
+        "servo_socket": 3,
+        "servo_half": 0,
     },
     {
         "direction": "right",
@@ -189,7 +218,9 @@ BURLEIGH_COUNTY_TURNOUTS = normalize("Burleigh", "turnout", [
         "color": "blue+gray",
         "row": 5,
         "column": 5,
-        "socket": 7
+        "console_socket": 7,
+        "servo_socket": 3,
+        "servo_half": 1,
     },
 ])
 
@@ -199,56 +230,64 @@ MORTON_COUNTY_BLOCKS = normalize("Morton", "block", [
         "color": "purple",
         "row": 0,
         "column": 6,
-        "socket": 3
+        "console_socket": 3,
+        "servo_socket": 3,
     },
     {
         "name": "main",
         "color": "gray",
         "row": 0,
         "column": 3,
-        "socket": 5
+        "console_socket": 5,
+        "servo_socket": 5,
     },
     {
         "name": "loop",
         "color": "black",
         "row": 3,
         "column": 0,
-        "socket": 4
+        "console_socket": 4,
+        "servo_socket": 4,
     },
     {
         "name": "fore",
         "color": "orange",
         "row": 5,
         "column": 1,
-        "socket": 7
+        "console_socket": 7,
+        "servo_socket": 7,
     },
     {
         "name": "through",
         "color": "green",
         "row": 1,
         "column": 4,
-        "socket": 2
+        "console_socket": 2,
+        "servo_socket": 2,
     },
     {
         "name": "refinery",
         "color": "blue",
         "row": 1,
         "column": 2,
-        "socket": 6
+        "console_socket": 6,
+        "servo_socket": 6,
     },
     {
         "name": "depot",
         "color": "yellow",
         "row": 4,
         "column": 3,
-        "socket": 0
+        "console_socket": 0,
+        "servo_socket": 0,
     },
     {
         "name": "yard",
         "color": "pink",
         "row": 5,
         "column": 4,
-        "socket": 1
+        "console_socket": 1,
+        "servo_socket": 1,
     },
 ])
 BURLEIGH_COUNTY_BLOCKS = normalize("Burleigh", "block", [
@@ -257,56 +296,64 @@ BURLEIGH_COUNTY_BLOCKS = normalize("Burleigh", "block", [
         "color": "brown",
         "row": 4,
         "column": 0,
-        "socket": 1
+        "console_socket": 1,
+        "servo_socket": 1,
     },
     {
         "name": "rejoin",
         "color": "purple",
         "row": 0,
         "column": 1,
-        "socket": 7
+        "console_socket": 7,
+        "servo_socket": 7,
     },
     {
         "name": "main",
         "color": "green",
         "row": 0,
         "column": 7,
-        "socket": 6
+        "console_socket": 6,
+        "servo_socket": 6,
     },
     {
         "name": "loop",
         "color": "black",
         "row": 3,
         "column": 8,
-        "socket": 4
+        "console_socket": 4,
+        "servo_socket": 4,
     },
     {
         "name": "flats",
         "color": "blue",
         "row": 5,
         "column": 4,
-        "socket": 0
+        "console_socket": 0,
+        "servo_socket": 0,
     },
     {
         "name": "crossing",
         "color": "gray",
         "row": 4,
         "column": 5,
-        "socket": 3
+        "console_socket": 3,
+        "servo_socket": 3,
     },
     {
         "name": "depot",
         "color": "orange",
         "row": 1,
         "column": 5,
-        "socket": 5
+        "console_socket": 5,
+        "servo_socket": 5,
     },
     {
         "name": "commerce",
         "color": "yellow",
         "row": 1,
         "column": 5,
-        "socket": 2
+        "console_socket": 2,
+        "servo_socket": 2,
     },
 ])
 

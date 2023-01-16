@@ -12,7 +12,7 @@ def normalize(district, purpose, cube_dictionary_list):
         cube_dictionary["district"] = district
         cube_dictionary["purpose"] = purpose
         cube_dictionary["gui_index"] = gui_index  # Dictionary is given in a natural gui display order. Remember it.
-    return sorted(cube_dictionary_list, key=lambda item: item["socket"])
+    return sorted(cube_dictionary_list, key=lambda item: item["console_socket"])
 
 
 class DistrictConsoleMaster(DaisyMaster):

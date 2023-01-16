@@ -11,8 +11,6 @@ GOOD_LIVE_FREQUENCY = 50 * 1000.0  # hz
 DEFAULT_CLOCKING_CYCLE_SECONDS = (1.0 / GOOD_TEST_FREQUENCY) if JUST_TESTING else (1.0 / GOOD_LIVE_FREQUENCY)
 
 
-
-
 class GpioPin:
     """ base class for Named and numbered GPIO pin """
 
@@ -23,5 +21,3 @@ class GpioPin:
         self.signal_name = signal_name
         self.pin_number = pin_number
         self.inverted = False
-
-

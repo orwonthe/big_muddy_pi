@@ -21,14 +21,22 @@ class TurnoutServoDaisySocket(DaisySocketOn8to16, TurnoutMixin, ServoMixin):
 
     @property
     def name(self):
-        return f'{self.lower_name} {self.upper_name}'
+        return f'{self.lower_name}+{self.upper_name}'
+
+    @property
+    def lower_category(self):
+        return f'{self.district}-{self.upper_name}'
+
+    @property
+    def upper_category(self):
+        return f'{self.district}-{self.upper_name}'
 
     @property
     def moniker(self):
         return f'{self.socket_index} {self.name}'
 
     def add_client(self, client):
-        if client.socket_half:
+        if client.servo_half:
             if self.upper_turnout is None:
                 self.upper_turnout = client
             else:

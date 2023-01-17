@@ -1,4 +1,7 @@
-from RPi import GPIO
+try:
+    import RPi.GPIO as GPIO
+except ModuleNotFoundError:
+    from big_muddy import mock_gpio as GPIO
 
 from serial_data_system import SerialDataSystem
 from data_pins import DataPins

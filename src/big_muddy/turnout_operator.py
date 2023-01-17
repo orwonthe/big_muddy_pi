@@ -38,11 +38,11 @@ class TurnoutOperator(Operator):
         elif normal_requested and not contrary_requested:
             print(f'{self.status} main {normal_requested}')
             should_push_normal = True
-        if self.servo:
-            self.direction = self.servo.direction
-            if should_push_normal and self.direction:
+        if self.servo_client:
+            self.direction = self.servo_client.direction
+            if should_push_normal: # and self.direction:
                 self.push_normal = True
-            elif should_push_contrary and not self.direction:
+            elif should_push_contrary: # and not self.direction:
                 self.push_contrary = True
         else:
             # If there is no servo yet, pretend wishes can come true.
@@ -58,5 +58,5 @@ class TurnoutOperator(Operator):
         else:
             for cube in self.cubes:
                 cube.set_at_main()
-        if self.servo:
-            self.servo.set_push(self.push_normal, self.push_contrary)
+        if self.servo_client:
+            self.servo_client.set_push(self.push_normal, self.push_contrary)

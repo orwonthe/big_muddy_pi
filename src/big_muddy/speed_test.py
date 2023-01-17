@@ -1,7 +1,9 @@
 import datetime
 
-import RPi.GPIO as GPIO
-
+try:
+    import RPi.GPIO as GPIO
+except ModuleNotFoundError:
+    from big_muddy import mock_gpio as GPIO
 
 def speed_test():
     start = datetime.datetime.now()

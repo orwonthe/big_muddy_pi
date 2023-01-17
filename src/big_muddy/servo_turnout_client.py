@@ -1,4 +1,7 @@
 # Copyright 2022 WillyMillsLLC
+from daisy_domain import Domain
+
+
 def create_servo_turnout_client(description):
     if description['servo_half']:
         return UpperServoTurnoutClient(description)
@@ -6,16 +9,39 @@ def create_servo_turnout_client(description):
         return LowerServoTurnoutClient(description)
 
 
-class ServoTurnoutClient:
+class ServoTurnoutClient(Domain):
     def __init__(self, description):
         self.description = description
         self.servo_socket = None
         self.socket_index = description['servo_socket']
+        self.servo_half = description['servo_half']
+        self.inverted = 1 if description.get('inverted') else 0
+
+    @property
+    def name(self):
+        return self.description.get('name')
+
+    @property
+    def district(self):
+        return self.description.get('district')
 
 
 class LowerServoTurnoutClient(ServoTurnoutClient):
-    pass
+    @property
+    def direction(self):
+        return self.servo_socket.bit0 ^ self.inverted
+
+    def set_push(self, normal, contrary):
+        self.servo_socket.send0(normal)
+        self.servo_socket.send1(contrary)
 
 
 class UpperServoTurnoutClient(ServoTurnoutClient):
-    pass
+    @property
+    def direction(self):
+        return self.servo_socket.bit1 ^ self.inverted
+
+    def set_push(self, normal, contrary):
+        self.servo_socket.send2(normal)
+        self.servo_socket.send3(contrary)
+

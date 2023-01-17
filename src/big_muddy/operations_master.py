@@ -1,13 +1,9 @@
 # Copyright 2022 WillyMillsLLC
 from block_operator import BlockOperator
-from morton_console_daisy_module import MortonConsoleDaisyModule
-from burleigh_console_daisy_module import BurleighConsoleDaisyModule
-from burleigh_turnout_servo_daisy_module import BurleighTurnoutServoDaisyModule
-from morton_console_socket_collection import MortonConsoleSocketCollection
-from burleigh_console_socket_collection import BurleighConsoleSocketCollection
-from burleigh_turnout_servo_client_collection import BurleighTurnoutServoClientCollection
-from burleigh_turnout_servo_socket_collection import BurleighTurnoutServoSocketCollection
+from burleigh_console import BurleighConsole
+from burleigh_turnout_servo import BurleighTurnoutServo
 from daisy_master import DaisyMaster
+from morton_console import MortonConsole
 from turnout_operator import TurnoutOperator
 
 # Console recipe is the sequence of consoles in their order of appearance in the daisy chain.
@@ -30,6 +26,7 @@ class OperationsMaster(DaisyMaster):
         self.consoles = []
         self.servos = []
         self.clients = []
+        self.servos_cubes = []
         self.operator_list = []
         self.operator_dict = {}
         self.apply_console_recipe(console_recipe)
@@ -43,69 +40,78 @@ class OperationsMaster(DaisyMaster):
         for letter in console_recipe:
             if letter == 'B':
                 print("adding console B")
-                self.add_console(
-                    BurleighConsoleDaisyModule(),
-                    BurleighConsoleSocketCollection()
-                )
+                self.add_console(BurleighConsole())
             elif letter == 'M':
                 print("adding console M")
-                self.add_console(
-                    MortonConsoleDaisyModule(),
-                    MortonConsoleSocketCollection()
-                )
+                self.add_console(MortonConsole())
 
     def apply_servo_recipe(self, servo_recipe):
         for letter in servo_recipe:
             if letter == 'b':
                 print("adding servo b")
-                self.add_servo(
-                    BurleighTurnoutServoDaisyModule(),
-                    BurleighTurnoutServoSocketCollection(),
-                    BurleighTurnoutServoClientCollection()
-                )
+                self.add_servo(BurleighTurnoutServo())
 
-    def add_console(self, daisy_module, socket_collection):
-        self.modules.append(daisy_module)
-        self.socket_collections.append(socket_collection)
-        self.consoles.append((daisy_module, socket_collection))
-        for daisy_unit in daisy_module.daisy_units:
+    def add_console(self, console):
+        self.modules.append(console.daisy_module)
+        self.socket_collections.append(console.socket_collection)
+        self.consoles.append(console)
+        for daisy_unit in console.daisy_module.daisy_units:
             self.add_daisy_unit(daisy_unit)
 
-    def add_servo(self, daisy_module, socket_collection, client_collection):
-        self.modules.append(daisy_module)
-        self.socket_collections.append(socket_collection)
-        self.clients.append(client_collection)
-        self.servos.append((daisy_module, socket_collection, client_collection))
-        for daisy_unit in daisy_module.daisy_units:
+    def add_servo(self, servo):
+        self.modules.append(servo.daisy_module)
+        self.socket_collections.append(servo.socket_collection)
+        self.clients.append(servo.client_collection)
+        self.servos.append(servo)
+        for daisy_unit in servo.daisy_module.daisy_units:
             self.add_daisy_unit(daisy_unit)
 
     def add_sockets_to_consoles(self):
-        for module, sockets in self.consoles:
-            module.add_sockets(sockets.cubes)
+        for console in self.consoles:
+            console.daisy_module.add_sockets(console.socket_collection.cubes)
 
     def add_sockets_to_servos(self):
-        for module, socket_collection, client_collection in self.servos:
-            module.add_sockets(socket_collection.cubes)
-            for client in client_collection:
-                client_socket = client.servo_socket
-                for socket in socket_collection.cubes:
+        for servo in self.servos:
+            servo.daisy_module.add_sockets(servo.socket_collection.cubes)
+            for client in servo.client_collection.clients:
+                client_socket = client.socket_index
+                add_count = 0
+                for socket in servo.socket_collection.cubes:
                     if socket.socket_index == client_socket:
                         socket.add_client(client)
-
+                        add_count += 1
+                    # else:
+                    #     print(f'{client.name}: {socket.socket_index} != {client_socket}')
+                if add_count == 0:
+                    print(f'lost client {client.name}')
+                elif add_count > 1:
+                    print(f'duplicated client {client.name}')
 
     def add_operators(self):
         for socket_collection in self.socket_collections:
-            for cube in socket_collection.cubes:
-                operator = self.find_or_create_operator(cube)
-                operator.add_cube(cube)
+            for cube_or_servo in socket_collection.cubes:
+                if cube_or_servo.is_console:
+                    operator = self.find_or_create_operator(cube_or_servo)
+                    operator.add_cube(cube_or_servo)
+                else:
+                    self.servos_cubes.append(cube_or_servo)
+        for servo_cube in self.servos_cubes:
+            lower_operator = self.operator_dict.get(servo_cube.lower_category)
+            if lower_operator:
+                lower_operator.servo_client = servo_cube.lower_turnout
+            upper_operator = self.operator_dict.get(servo_cube.upper_category)
+            if upper_operator:
+                upper_operator.servo_client = servo_cube.upper_turnout
 
     def find_or_create_operator(self, cube):
         category = cube.category
         operator = self.operator_dict.get(category)
         if operator is None:
             if cube.first_term == "block":
+                print(f' adding block operator for {category}')
                 operator = BlockOperator()
             else:
+                print(f' adding turnout operator for {category}')
                 operator = TurnoutOperator()
             self.operator_dict[category] = operator
             self.operator_list.append(operator)

@@ -109,6 +109,10 @@ class SerialDataSystem(SignalList):
 
     def determine_durations(self):
         """ Calculate and save duration as max of duration for any data signals. """
+        if not self.loading.validate_pulsing():
+            raise SignalException("Error: Invalid loading clock.")
+        if not self.shifting.validate_pulsing():
+            raise SignalException("Error: Invalid shifting clock.")
         self.set_data_pins(0)
         time.sleep(0.01)
         for _ in range(self.max_test_duration):
@@ -134,4 +138,4 @@ class SerialDataSystem(SignalList):
         self.set_data_pins(value)
         for _ in range(self.max_duration):
             self.shifting.pulse()
-        self.loading.pulse()
+        self.validate_pulsing.pulse()

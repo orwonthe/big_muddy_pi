@@ -75,13 +75,21 @@ class ClockingPins(GpioLinkedPins):
         Transmit clock pulses
         """
         self.output.write(1)
-        while True:
-            if self.read():
-                break
+        self.wait_for_one()
         self.output.write(0)
-        while True:
-            if not self.read():
-                break
+        self.wait_for_zero()
+
+    def wait_for_one(self):
+        for attempts in range(100):
+            if self.read():
+                return True
+        return False
+
+    def wait_for_zero(self):
+        for attempts in range(100):
+            if self.read():
+                return True
+        return False
 
     def timed_pulse(self, count=1):
         """

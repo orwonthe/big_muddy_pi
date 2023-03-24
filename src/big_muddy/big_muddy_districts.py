@@ -142,7 +142,7 @@ MORTON_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Morton", "turnout", [
     },
 ])
 BURLEIGH_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Burleigh", "turnout", [
-    { # Failing
+    { # Works on test jig 0
         "direction": "right",
         "name": "rejoin main",
         "color": "purple",
@@ -152,7 +152,7 @@ BURLEIGH_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Burleigh", "turnout",
         "servo_socket": 0,
         "servo_half": 1,
     },
-    { # Works
+    { # ???Works
         "direction": "right",
         "name": "depot west",
         "color": "green+orange",
@@ -162,7 +162,7 @@ BURLEIGH_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Burleigh", "turnout",
         "servo_socket": 0,
         "servo_half": 0,
     },
-    { # Failing
+    { # ???Failing
         "direction": "left",
         "name": "depot east",
         "color": "green+orange",
@@ -172,7 +172,7 @@ BURLEIGH_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Burleigh", "turnout",
         "servo_socket": 1,
         "servo_half": 0,
     },
-    { # Failing
+    { # Works on test jig 2
         "direction": "right",
         "name": "depot to yard",
         "color": "orange",
@@ -182,7 +182,7 @@ BURLEIGH_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Burleigh", "turnout",
         "servo_socket": 1,
         "servo_half": 1,
     },
-    { # Failing
+    { # ???Failing
         "direction": "right",
         "name": "yard to commerce",
         "color": "orange+yellow",
@@ -192,7 +192,7 @@ BURLEIGH_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Burleigh", "turnout",
         "servo_socket": 2,
         "servo_half": 0,
     },
-    { # Failing
+    { # ???Failing
         "direction": "right",
         "name": "yard to siding",
         "color": "orange",
@@ -202,7 +202,7 @@ BURLEIGH_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Burleigh", "turnout",
         "servo_socket": 3,
         "servo_half": 0,
     },
-    { # Works
+    { # Works on test jig 6
         "direction": "right",
         "name": "back yard",
         "color": "yellow",
@@ -213,7 +213,7 @@ BURLEIGH_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Burleigh", "turnout",
         "servo_socket": 3,
         "servo_half": 1,
     },
-    { # Works
+    { # Works on test jig 4
         "direction": "right",
         "name": "main to flat",
         "color": "blue+gray",

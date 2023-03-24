@@ -25,7 +25,7 @@ class TurnoutServoDaisySocket(DaisySocketOn8to16, TurnoutMixin, ServoMixin):
 
     @property
     def lower_category(self):
-        return f'{self.district}-{self.upper_name}'
+        return f'{self.district}-{self.lower_name}'
 
     @property
     def upper_category(self):

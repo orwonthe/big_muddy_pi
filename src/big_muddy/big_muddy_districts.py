@@ -142,7 +142,10 @@ MORTON_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Morton", "turnout", [
     },
 ])
 BURLEIGH_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Burleigh", "turnout", [
-    { # Works on test jig 0
+    {
+        # Correctly detects state
+        # Can divert
+        # ALIGN MAIN FAILS WEAK
         "direction": "right",
         "name": "rejoin main",
         "color": "purple",
@@ -152,27 +155,32 @@ BURLEIGH_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Burleigh", "turnout",
         "servo_socket": 0,
         "servo_half": 1,
     },
-    { # ???Works
+    {
+        # Correctly detected
+        # Direction is controlled.
         "direction": "right",
         "name": "depot west",
         "color": "green+orange",
+        "inverted": 1,
         "row": 0,
         "column": 3,
         "console_socket": 1,
         "servo_socket": 0,
         "servo_half": 0,
     },
-    { # ???Failing
+    {
+        # Correctly detected
+        # CONTROL TOO WEAK
         "direction": "left",
         "name": "depot east",
         "color": "green+orange",
         "row": 0,
         "column": 6,
         "console_socket": 2,
-        "servo_socket": 1,
+        "servo_socket": 3,
         "servo_half": 0,
     },
-    { # Works on test jig 2
+    { # No detection
         "direction": "right",
         "name": "depot to yard",
         "color": "orange",
@@ -180,29 +188,29 @@ BURLEIGH_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Burleigh", "turnout",
         "column": 4,
         "console_socket": 3,
         "servo_socket": 1,
-        "servo_half": 1,
+        "servo_half": 0,
     },
-    { # ???Failing
+    { # No detection
         "direction": "right",
         "name": "yard to commerce",
         "color": "orange+yellow",
         "row": 2,
         "column": 5,
         "console_socket": 4,
-        "servo_socket": 2,
-        "servo_half": 0,
+        "servo_socket": 1,
+        "servo_half": 1,
     },
-    { # ???Failing
+    { # No detection
         "direction": "right",
         "name": "yard to siding",
         "color": "orange",
         "row": 2,
         "column": 6,
         "console_socket": 5,
-        "servo_socket": 3,
+        "servo_socket": 2,
         "servo_half": 0,
     },
-    { # Works on test jig 6
+    { # Correctly detected
         "direction": "right",
         "name": "back yard",
         "color": "yellow",
@@ -213,7 +221,7 @@ BURLEIGH_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Burleigh", "turnout",
         "servo_socket": 3,
         "servo_half": 1,
     },
-    { # Works on test jig 4
+    { # Intermittent detection
         "direction": "right",
         "name": "main to flat",
         "color": "blue+gray",

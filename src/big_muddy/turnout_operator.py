@@ -42,8 +42,13 @@ class TurnoutOperator(Operator):
             self.direction = self.servo_client.direction
             if should_push_normal: # and self.direction:
                 self.push_normal = True
+                self. push_contrary = False
             elif should_push_contrary: # and not self.direction:
+                self.push_normal = False
                 self.push_contrary = True
+            else:
+                self.push_normal = False
+                self. push_contrary = False
         else:
             # If there is no servo yet, pretend wishes can come true.
             if should_push_normal:

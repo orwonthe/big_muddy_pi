@@ -144,8 +144,6 @@ MORTON_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Morton", "turnout", [
 BURLEIGH_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Burleigh", "turnout", [
     {
         # Correctly detects state
-        # Can divert
-        # ALIGN MAIN FAILS WEAK
         "direction": "right",
         "name": "rejoin main",
         "color": "purple",
@@ -156,8 +154,7 @@ BURLEIGH_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Burleigh", "turnout",
         "servo_half": 1,
     },
     {
-        # Correctly detected
-        # Direction is controlled.
+        # Correctly detects state
         "direction": "right",
         "name": "depot west",
         "color": "green+orange",
@@ -169,18 +166,17 @@ BURLEIGH_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Burleigh", "turnout",
         "servo_half": 0,
     },
     {
-        # Correctly detected
-        # CONTROL TOO WEAK
+        # ???
         "direction": "left",
         "name": "depot east",
         "color": "green+orange",
         "row": 0,
         "column": 6,
         "console_socket": 2,
-        "servo_socket": 3,
+        "servo_socket": 1,
         "servo_half": 0,
     },
-    { # No detection
+    {
         "direction": "right",
         "name": "depot to yard",
         "color": "orange",
@@ -188,19 +184,19 @@ BURLEIGH_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Burleigh", "turnout",
         "column": 4,
         "console_socket": 3,
         "servo_socket": 1,
-        "servo_half": 0,
+        "servo_half": 1,
     },
-    { # No detection
+    {
         "direction": "right",
         "name": "yard to commerce",
         "color": "orange+yellow",
         "row": 2,
         "column": 5,
         "console_socket": 4,
-        "servo_socket": 1,
-        "servo_half": 1,
+        "servo_socket": 2,
+        "servo_half": 0,
     },
-    { # No detection
+    {
         "direction": "right",
         "name": "yard to siding",
         "color": "orange",
@@ -208,9 +204,9 @@ BURLEIGH_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Burleigh", "turnout",
         "column": 6,
         "console_socket": 5,
         "servo_socket": 2,
-        "servo_half": 0,
+        "servo_half": 1,
     },
-    { # Correctly detected
+    {
         "direction": "right",
         "name": "back yard",
         "color": "yellow",
@@ -219,16 +215,16 @@ BURLEIGH_COUNTY_TURNOUTS = normalize_cube_dictionary_list("Burleigh", "turnout",
         "column": 6,
         "console_socket": 6,
         "servo_socket": 3,
-        "servo_half": 1,
+        "servo_half": 0,
     },
-    { # Intermittent detection
+    {
         "direction": "right",
         "name": "main to flat",
         "color": "blue+gray",
         "row": 5,
         "column": 5,
         "console_socket": 7,
-        "servo_socket": 2,
+        "servo_socket": 3,
         "servo_half": 1,
     },
 ])

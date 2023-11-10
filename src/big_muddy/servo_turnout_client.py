@@ -16,6 +16,7 @@ class ServoTurnoutClient(Domain):
         self.socket_index = description['servo_socket']
         self.servo_half = description['servo_half']
         self.inverted = 1 if description.get('inverted') else 0
+        self.ab_swap = 1 if description.get('ab_swap') else 0
 
     @property
     def name(self):
@@ -32,8 +33,12 @@ class LowerServoTurnoutClient(ServoTurnoutClient):
         return self.servo_socket.bit0 ^ self.inverted
 
     def set_push(self, normal, contrary):
-        self.servo_socket.send0(normal)
-        self.servo_socket.send1(contrary)
+        if self.ab_swap:
+            self.servo_socket.send1(normal)
+            self.servo_socket.send0(contrary)
+        else:
+            self.servo_socket.send0(normal)
+            self.servo_socket.send1(contrary)
 
 
 class UpperServoTurnoutClient(ServoTurnoutClient):
@@ -42,6 +47,10 @@ class UpperServoTurnoutClient(ServoTurnoutClient):
         return self.servo_socket.bit1 ^ self.inverted
 
     def set_push(self, normal, contrary):
-        self.servo_socket.send2(normal)
-        self.servo_socket.send3(contrary)
+        if self.ab_swap:
+            self.servo_socket.send3(normal)
+            self.servo_socket.send2(contrary)
+        else:
+            self.servo_socket.send2(normal)
+            self.servo_socket.send3(contrary)
 

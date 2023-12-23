@@ -1,4 +1,6 @@
 # Copyright 2022 WillyMillsLLC
+import click
+
 from block_operator import BlockOperator
 from burleigh_console import BurleighConsole
 from burleigh_turnout_servo import BurleighTurnoutServo
@@ -135,9 +137,16 @@ class OperationsMaster(DaisyMaster):
         self.push_data()
 
 
-if __name__ == '__main__':
-    master = OperationsMaster()
+@click.command()
+@click.option('--consoles', default=DEFAULT_CONSOLE_RECIPE, help='connection order of consoles such as MBMBMB')
+@click.option('--servos', default=DEFAULT_SERVO_RECIPE, help='connection order of servos such as mb')
+def operate_railroad(consoles, servos):
+    master = OperationsMaster(console_recipe=consoles, servo_recipe=servos)
     master.print_status()
     master.clear()
     while True:
         master.cycle()
+
+
+if __name__ == '__main__':
+    operate_railroad()

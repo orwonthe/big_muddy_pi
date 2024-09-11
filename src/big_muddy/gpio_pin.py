@@ -7,7 +7,7 @@ except ModuleNotFoundError:
 # Inverse of clocking frequency, default value.
 JUST_TESTING = False
 GOOD_TEST_FREQUENCY = 500.0  # hz
-GOOD_LIVE_FREQUENCY = 50 * 1000.0  # hz
+GOOD_LIVE_FREQUENCY = 30 * 1000.0  # hz
 DEFAULT_CLOCKING_CYCLE_SECONDS = (1.0 / GOOD_TEST_FREQUENCY) if JUST_TESTING else (1.0 / GOOD_LIVE_FREQUENCY)
 
 

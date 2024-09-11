@@ -83,7 +83,7 @@ class SerialDataSystem(SignalList):
     def check_cleared(self):
         for data_signal in self.data_signals:
             if data_signal.check_cleared():
-                print('Warning: ' + data_signal.signal_name + ' would not clear')
+                print('WARNING: ' + data_signal.signal_name + ' would not clear')
 
     def check_duration(self):
         for data_signal in self.data_signals:

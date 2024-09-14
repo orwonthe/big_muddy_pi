@@ -10,7 +10,7 @@ from data_probe import data_probe
 from duration_testing import duration_testing
 from flow_testing import flow_testing
 from load_testing import load_testing
-from shift_clock_testing import shift_clock_testing
+from shift_clock_testing import shift_clock_testing, shift_clock_tracing
 from wide_client_connector import wide_client_connector_test
 
 COMMAND_OPTIONS = [
@@ -76,6 +76,14 @@ def shifter(check):
     """Endless shift clocking"""
     ClockingChecker.set_raise_clock_exceptions(check)
     shift_clock_testing()
+
+@harness.command()
+@add_click_options(COMMAND_OPTIONS)
+def tracer(check):
+    """Endless shift clocking"""
+    ClockingChecker.set_raise_clock_exceptions(check)
+    while True:
+        shift_clock_tracing()
 
 
 @harness.command()
